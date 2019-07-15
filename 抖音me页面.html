@@ -24,7 +24,7 @@
 
         .wrapper {
             position: relative;
-            left: -70%;
+            /* left: -70%; */
             /*top: -350px;*/
             display: flex;
             width: 100%;
@@ -81,18 +81,18 @@
             left: 0;
             top: 0;
             position: absolute;
-            width: 50%;
+            width: 100%;
             background: red;
             overflow-y: scroll;
         }
 
         .tab:nth-child(2) {
-            left: 50%;
+            left: 100%;
             background: gold;
         }
 
         .tab:nth-child(3) {
-            left: 100%;
+            left: 200%;
             background: blue;
         }
     </style>
@@ -190,106 +190,96 @@
     </div>
 </body>
 <script>
-    let warpper = document.querySelector('.wrapper')
+    !function () {
+        let warpper = document.querySelector('.wrapper')
 
-    let startLocationY = 0
-    let startLocationX = 0
+        let startLocationX = 0
 
-    let lastLocationY = 0
-    let lastLocationX = 0
+        let lastLocationX = 0
 
-    let moveXDistance = 0
-    let moveYDistance = 0
+        let moveXDistance = 0
 
-    let judgeValue = 0
+        let startTime
+        let currentSwiperItemIndex
+        let isDrawRight
 
-    let startTime
-    let currentIndex
-    let currentSwiperItemIndex
-    let isDrawDown
-    let isDrawRight
+        let width = document.body.clientWidth
+        let rightWidth = width * 0.7
 
-    let isCanDownWiping = false
-    let isCanRightWiping = false
-    let isNeedCheck = true
+        warpper.addEventListener('touchstart', function (e) {
+            warpper.style.transition = 'none'
 
-    let width = document.body.clientWidth
-    let rightWidth = width * 0.7
-
-    warpper.addEventListener('touchstart', function (e) {
-        warpper.style.transition = 'none'
-
-        let left = getCss(warpper, 'left')
-        if (Math.abs(left) !== rightWidth) {
-            currentSwiperItemIndex = 0
-        } else {
-            currentSwiperItemIndex = 1
-        }
-        startLocationX = e.touches[0].pageX
-        startTime = Date.now()
-    })
-    warpper.addEventListener('touchmove', function (e) {
-        lastLocationX = e.touches[0].pageX
-        moveXDistance = lastLocationX - startLocationX
-        if (currentSwiperItemIndex === 0) {
-            if (moveXDistance > 0) {
-                moveXDistance = 0
-            }
-            if (Math.abs(moveXDistance) > rightWidth) {
-                moveXDistance = -rightWidth
-            }
-            isDrawRight = moveXDistance < 0
-            if (isDrawRight) {
-                warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + judgeValue + 'px'
+            let left = getCss(warpper, 'left')
+            if (Math.abs(left) !== rightWidth) {
+                currentSwiperItemIndex = 0
             } else {
-                warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance - judgeValue + 'px'
+                currentSwiperItemIndex = 1
             }
-        }
-        if (currentSwiperItemIndex === 1) {
-            if (moveXDistance < 0) {
-                moveXDistance = 0
+            startLocationX = e.touches[0].pageX
+            startTime = Date.now()
+        })
+        warpper.addEventListener('touchmove', function (e) {
+            lastLocationX = e.touches[0].pageX
+            moveXDistance = lastLocationX - startLocationX
+            if (currentSwiperItemIndex === 0) {
+                if (moveXDistance > 0) {
+                    moveXDistance = 0
+                }
+                if (Math.abs(moveXDistance) > rightWidth) {
+                    moveXDistance = -rightWidth
+                }
+                isDrawRight = moveXDistance < 0
+                if (isDrawRight) {
+                    warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
+                } else {
+                    warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
+                }
             }
-            isDrawRight = moveXDistance < 0
-            if (isDrawRight) {
-                warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance + judgeValue + 'px'
-            } else {
-                warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance - judgeValue + 'px'
-            }
-        }
-
-    })
-    warpper.addEventListener('touchend', function (e) {
-        if (!moveXDistance) return
-        warpper.style.transition = 'all .3s'
-        let endTime = Date.now()
-        let gapTime = endTime - startTime
-
-        // 如果
-        if (Math.abs(moveXDistance) < 20) {
-            gapTime = 1000
-        }
-        if (Math.abs(moveXDistance) > (width / 3)) {
-            gapTime = 100
-        }
-        // console.log('是否向左划',isDrawRight)
-        if (gapTime < 150) {
-            // console.log('小于500', currentIndex)
-            if (isDrawRight) {
-                console.log('往左划');
-                warpper.style.left = -rightWidth + 'px'
-            } else {
-                warpper.style.left = 0
-            }
-        } else {
             if (currentSwiperItemIndex === 1) {
-                warpper.style.left = -rightWidth + 'px'
-            } else {
-                warpper.style.left = 0
+                if (moveXDistance < 0) {
+                    moveXDistance = 0
+                }
+                isDrawRight = moveXDistance < 0
+                if (isDrawRight) {
+                    warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance + 'px'
+                } else {
+                    warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance + 'px'
+                }
             }
-        }
 
-    })
+        })
+        warpper.addEventListener('touchend', function (e) {
+            if (!moveXDistance) return
+            warpper.style.transition = 'all .3s'
+            let endTime = Date.now()
+            let gapTime = endTime - startTime
 
+            // 如果
+            if (Math.abs(moveXDistance) < 20) {
+                gapTime = 1000
+            }
+            if (Math.abs(moveXDistance) > (width / 3)) {
+                gapTime = 100
+            }
+            // console.log('是否向左划',isDrawRight)
+            if (gapTime < 150) {
+                // console.log('小于500', currentIndex)
+                if (isDrawRight) {
+                    console.log('往左划');
+                    warpper.style.left = -rightWidth + 'px'
+                } else {
+                    warpper.style.left = 0
+                }
+            } else {
+                if (currentSwiperItemIndex === 1) {
+                    warpper.style.left = -rightWidth + 'px'
+                } else {
+                    warpper.style.left = 0
+                }
+            }
+
+        })
+    }()
     function getCss(curEle, attr) {
         var val = null, reg = null;
         if ("getComputedStyle" in window) {
@@ -307,6 +297,90 @@
         reg = /^(-?\d+(\.\d)?)(px|pt|em|rem)?$/i;
         return reg.test(val) ? parseFloat(val) : val;
     }
+</script>
+<script>
+    !function () {
+        let tabs = document.querySelector('.tabs')
+
+        let startLocationX = 0
+
+        let lastLocationX = 0
+
+        let moveXDistance = 0
+
+        let startTime
+        let currentSwiperItemIndex
+        let isDrawRight
+
+        let width = document.body.clientWidth 
+
+        tabs.addEventListener('touchstart', function (e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation()
+            tabs.style.transition = 'none'
+
+            let left = getCss(tabs, 'left')
+            if (Math.abs(left) === 0) {
+                currentSwiperItemIndex = 0
+            } else if (Math.abs(left) === width) {
+                currentSwiperItemIndex = 1
+            } else {
+                currentSwiperItemIndex = 2
+            }
+            startLocationX = e.touches[0].pageX
+            startTime = Date.now()
+        })
+        tabs.addEventListener('touchmove', function (e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation()
+            lastLocationX = e.touches[0].pageX
+            moveXDistance = lastLocationX - startLocationX
+
+            isDrawRight = moveXDistance < 0
+            if (isDrawRight) {
+                tabs.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
+            } else {
+                tabs.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
+            }
+        })
+        tabs.addEventListener('touchend', function (e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation()
+            if (!moveXDistance) return
+            tabs.style.transition = 'all .3s'
+            let endTime = Date.now()
+            let gapTime = endTime - startTime
+
+            // 如果
+            if (Math.abs(moveXDistance) < 20) {
+                gapTime = 1000
+            }
+            if (Math.abs(moveXDistance) > (width / 3)) {
+                gapTime = 100
+            }
+            
+            if (gapTime < 150) {
+                // console.log('小于500', currentIndex)
+                if (isDrawRight) {
+                    console.log('往左划');
+                    if (currentSwiperItemIndex === tabs.children.length - 1) {
+                        tabs.style.left = -( tabs.children.length - 1) * width + 'px'
+                        return
+                    }
+                    tabs.style.left = -(currentSwiperItemIndex + 1) * width + 'px'
+                } else {
+                    console.log('往右划');
+                    if (currentSwiperItemIndex === 0) {
+                        return tabs.style.left = 0
+                    }
+                    tabs.style.left = -(currentSwiperItemIndex - 1) * width + 'px' 
+                }
+            } else {
+                tabs.style.left = -(currentSwiperItemIndex ) * width + 'px' 
+            }
+
+        })
+    }()
 </script>
 
 </html>
