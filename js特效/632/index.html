@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">  
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">  
+	<meta content="telephone=no,email=no" name="format-detection">	
+	<meta name="author" content="haibao"/>
+	<meta name="url" content="http://smwell.sinaapp.com/"/>
+	<meta name="keywords" content="jquery,css3,表单,弹出层,插件"/>
+	<meta name="description" content="jQuery+Css3 多功能表单弹出层插件"/>
+	<link rel="stylesheet" href="css/common.css"/><!-- 基本样式 -->
+	<link rel="stylesheet" href="css/animate.min.css"/> <!-- 动画效果 -->
+	<title>话框插件制作css3动画弹出表单提交代码_模板在线网</title>
+<meta name="keywords" content="jquery、css3" />
+<meta name="description" content="jquery对话框插件制作css3动画弹出表单提交代码。" />
+</head>
+<body>
+<div id="wrapper">
+	<header><h2>jQuery+Css3 多功能表单弹出层插件 - <small><a target="_blank" href="http://smwell.sinaapp.com/jquery-css3-plugin/">@haibao</a></small></h2></header>
+	<div class="box">
+		<div class="demo">
+			<h3>下列需要引入animate.min.css动画库：</h3>
+			<a href="javascript:;" class="bounceIn dialog">bounceIn动画</a>
+			<a href="javascript:;" class="bounceInDown dialog">bounceInDown动画</a>
+			<a href="javascript:;" class="bounceInLeft dialog">bounceInLeft动画</a>
+			<a href="javascript:;" class="bounceInRight dialog">bounceInRight动画</a>
+			<a href="javascript:;" class="bounceInUp dialog">bounceInUp动画</a>
+			<a href="javascript:;" class="rollIn dialog">rollIn动画</a>
+			<a href="javascript:;" class="fadeIn dialog">fadeIn动画</a>
+			<a href="javascript:;" class="fadeInUpBig dialog">fadeInUpBig动画</a>
+			<a href="javascript:;" class="lightSpeedIn dialog">lightSpeedIn动画</a>
+			<a href="javascript:;" class="flipInX dialog">flipInX动画</a>
+			<a href="javascript:;" class="rotateInDownLeft dialog">rotateInDownLeft动画</a>
+			<a href="javascript:;" class="rotateInDownRight dialog">rotateInDownRight动画</a>
+			<a href="javascript:;" class="rotateInUpLeft dialog">rotateInUpLeft动画</a>
+			<a href="javascript:;" class="rotateInUpRight dialog">rotateInUpRight动画</a>
+			<a href="javascript:;" class="rubberBand dialog">rubberBand动画</a>
+			<a href="javascript:;" class="zoomIn dialog">zoomIn动画</a>
+			<a href="javascript:;" class="zoomInDown dialog">zoomInDown动画</a>
+			<a href="javascript:;" class="zoomInLeft dialog">zoomInLeft动画</a>
+			<a href="javascript:;" class="zoomInRight dialog">zoomInRight动画</a>
+			<a href="javascript:;" class="zoomInUp dialog">zoomInUp动画</a>
+			
+			<h3>更多示例:</h3>
+			<a href="javascript:;" class="demo0">带标题的</a>
+			<a href="javascript:;" class="demo16">淡出关闭效果</a>
+			<a href="javascript:;" class="demo1">改变宽度</a>
+			<a href="javascript:;" class="demo2">改变高度</a>
+			<a href="javascript:;" class="demo3">改变宽和高</a>
+			<a href="javascript:;" class="demo4">改变位置</a>
+			<a href="javascript:;" class="demo14">显示前回调</a>
+			<a href="javascript:;" class="demo15">隐藏后回调</a>
+			<a href="javascript:;" class="demo5">不重置表单</a>
+			<a href="javascript:;" class="demo6">遮罩不可点击关闭</a>
+			<a href="javascript:;" class="demo7">改变弹框背景色</a>
+			<a href="javascript:;" class="demo8">改变遮罩背景色</a>
+			<a href="javascript:;" class="demo9">改变关闭按钮背景色</a>
+			<a href="javascript:;" class="demo18">不显示关闭按钮</a>
+			<a href="javascript:;" class="demo10">错误提示</a>
+			<a href="javascript:;" class="demo11">正确提示</a>
+			<a href="javascript:;" class="demo12">显示加载</a>
+			<a href="javascript:;" class="demo13">移除加载</a>
+			<a href="javascript:;" class="demo17 bounceIn">鼠标放这触发</a>
+			
+			<h3>使用说明：</h3>
+			<pre>
+/*
+ * 看了下面的调用示例，你就可以自定义弹框了哦。
+ *          - $(element).hDialog(); //默认调用弹框；
+ *          - $(element).hDialog({box: '#demo'}); //自定义弹框容器ID/Class；
+ *          - $(element).hDialog({boxBg: '#eeeeee'}); //自定义弹框容器背景；
+ *          - $(element).hDialog({modalBg: '#eeeeee'}); //自定义遮罩背景颜色；
+ *          - $(element).hDialog({closeBg: '#eeeeee'}); //自定义关闭按钮背景颜色；
+ *          - $(element).hDialog({width: 500}); //自定义弹框宽度；
+ *          - $(element).hDialog({height: 400}); //自定义弹框高度；
+ *          - $(element).hDialog({position: 'top'}); //top:弹框顶部居中,center:绝对居中,left:顶部居左；
+ *          - $(element).hDialog({triggerEvent: 'mouseenter'}); //弹框触发方式；
+ *          - $(element).hDialog({effect: 'fadeOut'}); //弹框关闭效果；
+ *          - $(element).hDialog({closeHide: false}); //是否隐藏关闭按钮(默认true：不隐藏，false：隐藏)
+ *          - $(element).hDialog({resetForm: false}); //false:不重置表单,反之重置；
+ *          - $(element).hDialog({modalHide: false}); //false:点击遮罩背景不关闭弹框,反之关闭；
+ *          - $(element).hDialog({escHide: false}); //false:按ESC不关闭弹框,反之关闭；
+ * 
+ * 也可以这样：  
+ *          - $(element).hDialog({
+ *                box: '#demo',
+ *                boxBg: '#eeeeee',
+ *                modalBg: '#eeeeee',
+ *                closeBg: 'rgba(0,0,0,0.6)',
+ *                width: 500,
+ *                height: 400,
+ *                positions: 'top',
+ *                triggerEvent: 'mouseenter',
+ *                effect: 'hide',
+ *                closeHide: false,
+ *                resetForm: false,
+ *                modalHide: false,
+ *                escHide: false,
+ *                beforeShow: function(){ alert('执行回调'); },
+ *                afterHide: function(){ alert('执行回调'); }
+ *            });
+ *
+ * 下面是简单的扩展方法(以后再慢慢补充吧)：
+ *          - $.tooltip('错误提示文字'); 或者  $.tooltip('正确提示文字',4000,true);  //内置2种提示风格(参数1为提示文字，参数2为自动关闭时间，参数3：true为正确，false为错误)
+ *          - $.showLoading('正在加载...',100,30); 或者  $.hideLoading(); //显示/移除加载(参数1为说明文字，参数2为宽度，参数3为高度，默认宽高为90*30，可不填写)
+ */
+
+		</pre>
+		</div><!-- demo end -->
+		<!-- 注意：请将要放入弹框的内容放在比如id="HBox"的容器中，然后将box的值换成该ID即可，比如：$(element).hDialog({'box':'#HBox'}); -->
+		<div id="HBox">
+			<form action="" method="post" onsubmit="return false;">
+				<ul class="list">
+					<li>
+						<strong>昵 称  <font color="#ff0000">*</font></strong>
+						<div class="fl"><input type="text" name="nickname" value="" class="ipt nickname" /></div>
+					</li>
+					<li>
+						<strong>手 机 <font color="#ff0000">*</font></strong>
+						<div class="fl"><input type="text" name="phone" value="" class="ipt phone" /></div>
+					</li>
+					<li>
+						<strong>邮 箱 <font color="#ff0000">*</font></strong>
+						<div class="fl"><input type="text" name="email" value="" class="ipt email" /></div>
+					</li>
+					<li>
+						<strong>性 别 <font color="#ff0000">&nbsp;</font></strong>
+						<div class="fl">
+							<label class="mr10"><input type="radio" name="sex" value="1"/>男</label>
+							<label class="mr10"><input type="radio" name="sex" value="2"/>女</label>
+							<label><input type="radio" name="sex" value="3"/>保密</label>
+						</div>
+					</li>
+					<li>
+						<strong>爱 好 <font color="#ff0000">&nbsp;</font></strong>
+						<div class="fl">
+							<label class="mr10"><input type="checkbox" name="like" value="男" />男</label>
+							<label class="mr10"><input type="checkbox" name="like" value="女"/>女</label>
+							<label><input type="checkbox" name="like" value="都喜欢"/>都喜欢</label>
+						</div>
+					</li>
+					<li><input type="submit" value="确认提交" class="submitBtn" /></li>
+				</ul>
+			</form>
+		</div><!-- HBox end -->	
+	</div><!-- box end -->
+</div><!-- wrapper end -->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.hDialog.min.js"></script>
+<script>
+$(function(){
+	var $el = $('.dialog');
+	$el.hDialog();
+	
+	//带标题的
+	$('.demo0').hDialog({title: '测试弹框标题',height: 300});
+	
+	//改变宽度
+	$('.demo1').hDialog({width: 500});
+	
+	//改变高度
+	$('.demo2').hDialog({height: 400});
+	
+	//改变宽和高
+	$('.demo3').hDialog({width:600,height: 500});
+	
+	//改变位置
+	$('.demo4').hDialog({positions: 'top'});
+	
+	//不清空表单
+	$('.demo5').hDialog({resetForm: false});
+	
+	//遮罩不可关闭
+	$('.demo6').hDialog({modalHide: false});
+	
+	//改变弹框背景色
+	$('.demo7').hDialog({boxBg: '#eeeeee'});
+	
+	//改变遮罩背景色
+	$('.demo8').hDialog({modalBg: 'rgba(255,255,255,0.7)'});
+	
+	//改变关闭背景色
+	$('.demo9').hDialog({closeBg: '#4A74B5'});
+	
+	//错误文字提示
+	$('.demo10').click(function(){
+		$.tooltip('My God, 出错啦！！！');
+	});
+	
+	//正确文字提示
+	$('.demo11').click(function(){
+		$.tooltip('OK, 操作成功！', 2500, true);
+	});
+	
+	//显示加载
+	$('.demo12').click(function(){
+		//自定义文字： $.showLoading('玩命加载中...');
+		//自定义宽高： $.showLoading('努力加载中...',140,40);
+		$.showLoading();
+	});
+	
+	//移除加载
+	$('.demo13').click(function(){
+		$.hideLoading();
+	});
+	
+	//显示前的回调方法
+	$('.demo14').hDialog({beforeShow: function(){
+		alert('显示前执行');
+	}});
+	
+	//隐藏后的回调方法
+	$('.demo15').hDialog({afterHide: function(){
+		alert('隐藏后执行');
+	}});
+	
+	//fadeOut淡出关闭效果
+	$('.demo16').hDialog({effect: 'fadeOut'});
+	
+	//悬浮触发
+	$('.demo17').hDialog({triggerEvent: 'mouseenter'});
+	
+	//不显示关闭按钮
+	$('.demo18').hDialog({closeHide: false});
+	
+	//提交并验证表单
+	$('.submitBtn').click(function() {
+		var EmailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/; //邮件正则
+		var PhoneReg = /^0{0,1}(13[0-9]|15[0-9]|153|156|18[7-9])[0-9]{8}$/ ; //手机正则
+		var $nickname = $('.nickname');
+		var $email = $('.email'); 
+		var $phone = $('.phone');
+		if($nickname.val() == ''){
+			$.tooltip('昵称还没填呢...'); $nickname.focus();
+		}else if($phone.val() == ''){
+			$.tooltip('手机还没填呢...'); $phone.focus();
+		}else if(!PhoneReg.test($phone.val())){
+			$.tooltip('手机格式错咯...'); $phone.focus();
+		}else if($email.val() == ''){
+			$.tooltip('邮箱还没填呢...'); $email.focus();
+		}else if(!EmailReg.test($email.val())){
+			$.tooltip('邮箱格式错咯...'); $email.focus();
+		}else{
+			$.tooltip('提交成功，2秒后自动关闭',2000,true);
+			setTimeout(function(){ 
+				//$el.hDialog('close',{box:'#HBox'},'http://smwell.sinaapp.com/');  //也可以加跳转链接哦~
+				$el.hDialog('close',{box:'#HBox'}); 
+			},2000);
+		}
+	});
+	
+	$('body').append('<footer style="width:100%;background-color:#eeeeee;border-top:1px solid #ccc;padding:12px 0;text-align:center;color:#999;">&copy;2014 <a target="_blank" href="http://smwell.sinaapp.com/">haibao</a>, All Rights Reserved.</footer>');
+});
+</script>
+</body>
+</html> 
+<!-- 本代码由模板在线网（http://www.htmldivcss.com）收集并编辑整理 -->

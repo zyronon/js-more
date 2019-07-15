@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery.caroufredsel按钮控制图片滚动点击标签商品分类筛选代码 - 模板在线网(www.htmldivcss.com)</title>
+<meta name="keywords" content="jquery特效、jquery图片滚动、jquery图片滚动插件、图片滚动" />
+<meta name="description" content="jquery.caroufredsel按钮控制图片滚动点击标签商品分类筛选代码。" />
+<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="js/jquery.carouFredSel-6.0.4-packed.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	var _visible = 5;
+	var $pagers = $('#pager a');
+	var _onBefore = function() {
+		$(this).find('img').stop().fadeTo( 300, 1 );
+		$pagers.removeClass( 'selected' );
+	};
+
+	$('#carousel').carouFredSel({
+		items: _visible,
+		width: '100%',
+		auto: false,
+		scroll: {
+			duration: 750
+		},
+		prev: {
+			button: '#prev',
+			items: 2,
+			onBefore: _onBefore
+		},
+		next: {
+			button: '#next',
+			items: 2,
+			onBefore: _onBefore
+		},
+	});
+
+	$pagers.click(function( e ) {
+		e.preventDefault();
+		
+		var group = $(this).attr( 'href' ).slice( 1 );
+		var slides = $('#carousel div.' + group);
+		var deviation = Math.floor( ( _visible - slides.length ) / 2 );
+		if ( deviation < 0 ) {
+			deviation = 0;
+		}
+
+		$('#carousel').trigger( 'slideTo', [ $('#' + group), -deviation ] );
+		$('#carousel div img').stop().fadeTo( 300, 0.3 );
+		slides.find('img').stop().fadeTo( 300, 1 );
+
+		$(this).addClass( 'selected' );
+	});
+});
+</script>
+
+<style type="text/css">
+html, body{height:100%;padding:0;margin:0;}
+body{background-color:#ccc;min-height:400px;}
+body *{font-family:Arial, Geneva, SunSans-Regular, sans-serif;font-size:14px;color:#333;line-height:22px;}
+body h3{font-size:20px;margin:30px 0 10px 0;}
+body a:hover{color:#000;}
+
+/* inner */
+#inner{height:300px;position:relative;overflow:hidden;margin:50px 0 0 0;}
+#carousel div{border:1px solid #999;background:#fff;width:140px;height:230px;float:left;padding:10px;margin:0 5px;}
+#pager{text-align:center;margin-top:20px;color:#666;}
+#pager a{color:#666;text-decoration:none;display:inline-block;padding:5px 10px;}
+#pager a:hover{color:#333;}
+#pager a.selected{background-color:#333;color:#ccc;}
+#prev, #next{display:block;width:50px;height:80px;margin-top:-40px;position:absolute;top:50%;z-index:2;}
+#prev{background:url( img/ui-prev.png ) no-repeat;left:50%;margin-left:-520px;}
+#next{background:url( img/ui-next.png ) no-repeat;right:50%;margin-right:-520px;}
+</style>
+
+</head>
+<body>
+
+
+	<div id="inner">
+		<div id="carousel">
+			<div class="jeans" id="jeans">
+				<img src="img/jeans1.jpg" width="140" height="200" />
+				<em>Jeans 1</em>
+			</div>
+			<div class="jeans">
+				<img src="img/jeans2.jpg" width="140" height="200" />
+				<em>Jeans 2</em>
+			</div>
+			<div class="jeans">
+				<img src="img/jeans3.jpg" width="140" height="200" />
+				<em>Jeans 3</em>
+			</div>
+			<div class="shirts" id="shirts">
+				<img src="img/shirt1.jpg" width="140" height="200" />
+				<em>Shirt 1</em>
+			</div>
+			<div class="shirts">
+				<img src="img/shirt2.jpg" width="140" height="200" />
+				<em>Shirt 2</em>
+			</div>
+			<div class="shirts">
+				<img src="img/shirt3.jpg" width="140" height="200" />
+				<em>Shirt 3</em>
+			</div>
+			<div class="shirts">
+				<img src="img/shirt4.jpg" width="140" height="200" />
+				<em>Shirt 4</em>
+			</div>
+			<div class="shirts">
+				<img src="img/shirt5.jpg" width="140" height="200" />
+				<em>Shirt 5</em>
+			</div>
+			<div class="shirts">
+				<img src="img/shirt6.jpg" width="140" height="200" />
+				<em>Shirt 6</em>
+			</div>
+			<div class="shoes" id="shoes">
+				<img src="img/shoes1.jpg" width="140" height="200" />
+				<em>Shoes 1</em>
+			</div>
+			<div class="shoes">
+				<img src="img/shoes2.jpg" width="140" height="200" />
+				<em>Shoes 2</em>
+			</div>
+			<div class="jackets" id="jackets">
+				<img src="img/jacket1.jpg" width="140" height="200" />
+				<em>Jacket 1</em>
+			</div>
+			<div class="jackets">
+				<img src="img/jacket2.jpg" width="140" height="200" />
+				<em>Jacket 2</em>
+			</div>
+			<div class="jackets">
+				<img src="img/jacket3.jpg" width="140" height="200" />
+				<em>Jacket 3</em>
+			</div>
+		</div>
+		<div id="pager">
+			<strong>选择分类:</strong> &nbsp;
+			<a href="#jeans">Jeans</a> &bull;
+			<a href="#shirts">Shirts</a> &bull;
+			<a href="#shoes">Shoes</a> &bull;
+			<a href="#jackets">Jackets</a>
+		</div>
+		<a href="#" id="prev"></a>
+		<a href="#" id="next"></a>
+	</div>
+<!-- 本代码由模板在线网（http://www.htmldivcss.com）收集并编辑整理 -->
+</body>
+</html>

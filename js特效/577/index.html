@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>图片放大镜效果制作变焦镜头图片放大查看代码_模板在线</title>
+<meta name="keywords" content="图片放大,图片放大镜,滑动,鼠标,jquery,放大" />
+<meta name="description" content="jquery图片放大镜效果制作变焦镜头图片放大查看代码。" />
+<style type="text/css">
+.content{width:960px;margin:0 auto;}
+.content li{width:450px;height:350px;float:left;list-style:none;}
+.zoom{display:inline-block;}
+.zoom:after{content:'';display:block;width:33px;height:33px;position:absolute;top:0;right:0;}
+.zoom img{display:block;}
+.zoom img::selection{background-color:transparent;}
+#image3 img:hover{cursor:url(images/grab.cur), default;}
+#image3 img:active{cursor:url(images/grabbed.cur), default;}
+</style>
+
+<script type="text/javascript" src='js/jquery-1.7.2.min.js'></script>
+<script type="text/javascript" src='js/jquery.zoombie.js'></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('#image1').zoombie();
+	
+	$('#image2').zoombie({on: 'click' });
+	
+	$('#image3').zoombie({ on:'grab' });
+	
+	$('#image4').zoombie({ on:'toggle' });
+	
+});
+</script>
+
+<script type="text/javascript" language="javascript">
+$(function () {
+	$("#img_01").zoombieLens();
+	
+	$("#img_02").zoombieLens({ Size: 200 });
+	
+	$("#img_03").zoombieLens({ imageSrc: "images/bike_blue.jpg" });
+	
+	$("#img_04").zoombieLens({ borderSize: 8, borderColor: "#06f" });
+	
+});	
+</script>
+
+</head>
+<body>
+
+<ul class="content">
+	<li>
+		<span class='zoom' id='image1'>
+			<img src='images/bike_blue.jpg' id='img1' width='426' height='241' style="border: 2px solid #666666;" alt='Daisy on the Ohoopee'/>
+		</span>
+		<pre>$('#image1').zoombie();</pre>
+		<pre>鼠标经过放大细节</pre>
+	</li>
+
+	<li>
+		<span id='image2' class='zoom'>
+			<img src='images/bike_blue.jpg' id='img2' width='426' height='241' style="border: 2px solid #666666;" alt='Daisy on the Ohoopee'/>		
+		</span>
+		<pre>$('#image2').zoombie({ on: 'click' });</pre>
+		<pre>鼠标单击放大细节</pre>
+	</li>
+	<li>
+		<span class='zoom' id='image3'>
+			<img src='images/bike_blue.jpg' id='img3' width='426' height='241' style="border: 2px solid #666666;" alt='Daisy on the Ohoopee'/>
+		</span>
+		<pre>$('#image3').zoombie({ on: 'grab' });</pre>
+		<pre>鼠标单击放大细节</pre>
+	</li>
+	<li>
+		<span class='zoom' id='image4'>
+			<img src='images/bike_blue.jpg' id='img4' width='426' height='241' style="border: 2px solid #666666;" alt='Daisy on the Ohoopee'/>
+		</span>
+		<pre>$('#image4').zoombie({ on:'toggle' });</pre>
+		<pre>鼠标单击放大细节</pre>
+	</li>
+	<li>
+		<img id="img_01" src="images/bike_blue.jpg" width='426' height='241' style="border: 2px solid #666666;"  />
+		<pre>$("#img_01").zoombieLens();</pre>
+		<pre>鼠标经过放大细节</pre>
+	</li>
+	<li>
+		<img id="img_02" src="images/bike_blue.jpg" width='426' height='241'style="border: 2px solid #666666;" />
+		<pre>$("#img_02").zoombieLens({ Size: 200 });</pre>
+		<pre>鼠标经过放大细节</pre>
+	</li>
+	<li>
+		<img id="img_03" src="images/bike_blue_bw.jpg" width='426' height='241' style="border: 2px solid #666666;" />
+		<pre>$("#img_03").zoombieLens({ imageSrc: "bike_blue.jpg" });</pre>
+		<pre>鼠标经过放大细节</pre>
+	</li>
+	<li>
+		<img id="img_04" src="images/bike_blue.jpg" width='426' height='241' style="border: 2px solid #666666;" />
+		<pre>$("#img_04").zoombieLens({ borderSize: 8, borderColor: "#06f" });</pre>
+		<pre>鼠标经过放大细节</pre>
+	</li>
+</ul>
+
+</body>
+</html>
+<!--模板在线收集整理 www.htmldivcss.com-->

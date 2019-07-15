@@ -1,0 +1,8 @@
+手机端右侧响应式弹出菜单，点击右上角弹出菜单，也可以调用代码弹出菜单，兼容主流浏览器，模板在线推荐下载！
+
+使用方法：
+1、head区域引用文件cooker.css，docs.css，drawer.min.css及jquery.min.js，iscroll.js，jquery.drawer.min.js
+2、在文件中加入<!-- 代码 开始 --><!-- 代码 结束 -->区域代码
+3、body标签添加类drawer drawer-right
+
+*更多代码请访问：模板在线 www.htmldivcss.com/js/

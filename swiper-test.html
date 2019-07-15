@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link crossorigin="anonymous" integrity="sha384-K6LrEaceM4QP87RzJ7R4CDXcFN4cFW/A5Q7/fEp/92c2WV+woVw9S9zKDO23sNS+"
+        href="https://lib.baomitu.com/Swiper/4.5.0/css/swiper.min.css" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-fOtis9P3S4B2asdoye1/YBpXMaRmuXu925gZhfQA/gnU3dLnftD8zvpk/lhP0YSG"
+        src="https://lib.baomitu.com/Swiper/4.5.0/js/swiper.min.js"></script>
+    <!-- Demo styles -->
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+        }
+
+        .swiper-container-v {
+            background: #eee;
+        }
+        header{
+            height: 200px;
+            width: 100%;
+            background: red;
+        }
+        .test1{
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Swiper -->
+    <div class="swiper-container swiper-container-h">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <header></header>
+                <div class="swiper-container swiper-container-h">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide test1">
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                            <p>1</p>
+                        </div>
+                        <div class="swiper-slide">Vertical Slide 2</div>
+                        <div class="swiper-slide">Vertical Slide 3</div> 
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">Horizontal Slide 1</div>
+        </div>
+  
+    </div>
+ 
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiperH = new Swiper('.swiper-container-h', {
+            spaceBetween: 50,
+            pagination: {
+                el: '.swiper-pagination-h',
+                clickable: true,
+            },
+        });
+    
+    </script>
+</body>
+
+</html>

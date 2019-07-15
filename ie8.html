@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.bootcss.com/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-ajaxtransport-xdomainrequest/1.0.4/jQuery.XDomainRequest.js"></script>
+
+    <script>
+        var url = 'https://tlpservice.sunlightlease.com/api/v1/Config/getDictList'
+        var Ajax = {
+            get: function (url, fn) {
+                // XMLHttpRequest对象用于在后台与服务器交换数据
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.onreadystatechange = function () {
+                    // readyState == 4说明请求已完成
+                    if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
+                        // 从服务器获得数据
+                        fn.call(this, xhr.responseText);
+                    }
+                };
+                xhr.send();
+            },
+            // datat应为'a=a1&b=b1'这种字符串格式，在jq里如果data为对象会自动将对象转成这种字符串格式
+            post: function (url, data, fn) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url, true);
+                // 添加http头，发送信息至服务器时内容编码类型
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+                        fn.call(this, xhr.responseText);
+                    }
+                };
+                xhr.send(data);
+            }
+        }
+
+        // Ajax.post(url);
+
+        function ajax(url) {
+            var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : ActiveXObject("microsoft.XMLHttp")
+            xhr.open("get", url, true);
+            xhr.send();
+            xhr.onreadysattechange = function () {
+                if (xhr.readystate == 4) {
+                    if (xhr.status == 200) {
+                        var data = xhr.responseTEXT;
+                        return data;
+                    }
+                }
+            }
+        }
+
+        ajax(url)
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

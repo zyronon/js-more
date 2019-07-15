@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>基于jquery.slider的多种过渡效果的图片轮播Jquery幻灯片 - 模板在线网(www.htmldivcss.com)</title>
+<meta http-equiv="Content-Type" content="text/html;charset=gb2312" />>
+<link rel="stylesheet" type="text/css" href="./css/jquery.slider.css" />
+<style>
+body , ul , ol , h2 , h3 , h4, h5 , p , dl , dt , dd , form { padding: 0; margin: 0; }
+img { border: none; }
+li { list-style: none; }
+a{text-decoration:none;outline:none; color:#666666;}
+a:hover{text-decoration:none}
+img{border:0}
+ul{list-style:none;margin:0;}
+.slider2{margin-top:50px}
+.slider3{margin-top:50px}
+.slider4{margin-top:50px}
+.slider1{margin-top:50px}
+
+</style>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.slider.min.js"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    $(".slider").slideshow({
+      width      : 900,//图片宽度
+      height     : 325,//图片高度
+      transition : 'bar'//可选过度效果：'explode'，'square'，'squareRandom'，'fountain'，'rain'
+    });
+  });
+</script>
+</head>
+<body>
+<center>
+<div class="slider">
+  <div><a href="http://www.sucaishijie.cn"><img src="images/slide_1.jpg" alt=""/></a> </div>
+  <div> <a href="http://www.sucaishijie.cn"><img src="images/slide_2.jpg" alt=""/> </a></div>
+  <div> <a href="http://www.sucaishijie.cn"><img src="images/slide_3.jpg" alt=""/></a> </div>
+  <div> <a href="http://www.sucaishijie.cn"><img src="images/slide_4.jpg" alt=""/></a> </div>
+</div>
+</center>
+</body>
+</html>

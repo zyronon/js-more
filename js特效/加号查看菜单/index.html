@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="keywords" content="JS代码,菜单导航,JS广告代码,JS特效代码" />
+<meta name="description" content="此代码内容为jQuery和CSS3饼状菜单效果，属于站长常用代码，更多菜单导航代码请访问模板在线JS代码频道。" />
+<title>jQuery和CSS3饼状菜单效果_模板在线</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/piemenu.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.menu.js"></script>
+<script src="js/jquery-ui-1.8.20.custom.min.js"></script>	
+</head>
+<body>
+<!-- 代码 开始 -->
+<div class='content'>
+
+<div class='demo-container'>
+<div class='input-form'>
+    <h2>Pie Menu (like Path menu ) using jquery and CSS3 <br /><br />点击右侧加号查看菜单效果
+</h2>
+</div>
+
+<div class='demo'>
+    <p id='info'>Updated..</p>
+    <div id='outer_container' class="outer_container" >
+        <a class="menu_button" href="#" title="Toggle"><span>Menu Toggle</span></a>
+        <ul class="menu_option">
+          <li><a href="http://www.htmldivcss.com/" target="_blank"><span>Item</span></a></li>
+          <li><a href="http://www.htmldivcss.com/" target="_blank"><span>Item</span></a></li>
+          <li><a href="http://www.htmldivcss.com/" target="_blank"><span>Item</span></a></li>
+          <li><a href="http://www.htmldivcss.com/" target="_blank"><span>Item</span></a></li>
+          <li><a href="http://www.htmldivcss.com/" target="_blank"><span>Item</span></a></li>
+        </ul>
+    </div>				
+</div>
+<div class='clearfix'></div>
+</div>
+</div></div>
+
+<!-- 代码 结束 -->
+<script>
+function PieMenuInit(){		
+	$('#outer_container').PieMenu({
+		'starting_angel':0, //起始角度
+		'angel_difference' : 90, //散开角度
+		'radius':100, //圆形弧度
+	});			
+}
+$(function() {          
+	PieMenuInit();			
+});
+</script>
+<div style="text-align:center;margin:30px 0">
+<p>来源：<a href="https://github.com/Nikesh/Pie-Menu" target="_blank">Pie Menu</a>　代码整理：<a href="http://www.htmldivcss.com/" target="_blank">模板在线</a>　感谢：<a href="http://blog.hexccc.com/service/" target="_blank">wordpress Xcoder</a></p>
+<p>＊尊重他人劳动成果，转载请自觉注明出处！注：此代码仅供学习交流，请勿用于商业用途。</p>
+<p></p>
+<p><p>jQuery和CSS3饼状菜单效果，点击加号展开菜单，点击关闭按钮关闭菜单，兼容主流浏览器，模板在线推荐下载！</p><p><br /></p><p>使用方法：</p><p>1、head区域引用文件htmldivcss.css及js库</p><p>2、在文件中加入&lt;!-- 代码 开始 --&gt;&lt;!-- 代码 结束 --&gt;区域代码</p><p>3、复制images文件夹里的图片到相应的路径</p><p>4、调用时根据配置界面的参数分配填写，详见注释。</p></p>
+<p style="margin:20px 0"></p>
+</div>
+</body>
+</html>

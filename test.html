@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>testq</title>
+    <script crossorigin="anonymous" integrity="sha384-PSpr1/lqNtmADNHmm6srV4Jp7HFHX7UbGfb04LuEufDQP/R/bOPhAUAZvVPY/9PX"
+        src="https://lib.baomitu.com/dayjs/1.8.13/dayjs.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-2HWZ0KJxkQ3nhRpHPzk4AO2iIy1S8rSGwN5MpMS/xf34mqOahLqEbqwvdk48EnEv"
+        src="https://lib.baomitu.com/lodash.js/4.17.12-pre/lodash.min.js"></script>
+
+</head>
+
+<body>
+
+    <script>
+        let ac = {
+            "alarmClocks": [
+                {
+                    "id": "65f65c17-4182-4528-8fe7-065578c5d688",
+                    "time": "1546297200000",
+                    "drugId": "06edb197-6770-4a3f-9f77-a8ead8bed3d2",
+                    "name": "drug1",
+                    "boDongZhi": "30",
+                    "dose": "30",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "7f37ec5f-831c-497a-8299-752c989f20f7",
+                    "time": "1546315200000",
+                    "drugId": "06edb197-6770-4a3f-9f77-a8ead8bed3d2",
+                    "name": "drug1",
+                    "boDongZhi": "30",
+                    "dose": "30",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "d0fc5599-5241-4e2b-b652-f62ac3546a36",
+                    "time": "1546333200000",
+                    "drugId": "06edb197-6770-4a3f-9f77-a8ead8bed3d2",
+                    "name": "drug1",
+                    "boDongZhi": "30",
+                    "dose": "30",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "2e03351a-9ddb-4d5a-9d2e-58edbf3bf913",
+                    "time": "1546351200000",
+                    "drugId": "06edb197-6770-4a3f-9f77-a8ead8bed3d2",
+                    "name": "drug1",
+                    "boDongZhi": "30",
+                    "dose": "30",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "672a5f66-0d0d-4006-b2eb-1151aa65d688",
+                    "time": "1546297200000",
+                    "drugId": "23d3344a-f534-4e08-822c-11706b88db7b",
+                    "name": "drug2",
+                    "boDongZhi": "30",
+                    "dose": "30",
+                    "qd": "0",
+                    "numberOfDay": "3",
+                    "takePlan": "TID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "f77efeb9-08d7-4cc6-9633-a0e327807362",
+                    "time": "1546315200000",
+                    "drugId": "23d3344a-f534-4e08-822c-11706b88db7b",
+                    "name": "drug2",
+                    "boDongZhi": "30",
+                    "dose": "30",
+                    "qd": "0",
+                    "numberOfDay": "3",
+                    "takePlan": "TID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "74cd9245-1bef-45c0-9677-e873a2b87f58",
+                    "time": "1546333200000",
+                    "drugId": "23d3344a-f534-4e08-822c-11706b88db7b",
+                    "name": "drug2",
+                    "boDongZhi": "30",
+                    "dose": "30",
+                    "qd": "0",
+                    "numberOfDay": "3",
+                    "takePlan": "TID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "a9df2cb6-c7bd-41ba-b32b-3a44c85531ff",
+                    "time": "1546297200000",
+                    "drugId": "f2addb95-b73e-4c2d-9cd9-20e3766f4a6d",
+                    "name": "drug3",
+                    "boDongZhi": "40",
+                    "dose": "40",
+                    "qd": "1",
+                    "numberOfDay": "2",
+                    "takePlan": "BID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "8c10ce59-6b64-4260-9599-76fd1321c6c5",
+                    "time": "1546315200000",
+                    "drugId": "f2addb95-b73e-4c2d-9cd9-20e3766f4a6d",
+                    "name": "drug3",
+                    "boDongZhi": "40",
+                    "dose": "40",
+                    "qd": "0",
+                    "numberOfDay": "2",
+                    "takePlan": "BID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "1312d6d0-aac5-4c7f-8007-36e294d3b289",
+                    "time": "1546297200000",
+                    "drugId": "31b1d36c-9548-485d-a779-716bfbe04834",
+                    "name": "drug4",
+                    "boDongZhi": "40",
+                    "dose": "40",
+                    "qd": "0",
+                    "numberOfDay": "2",
+                    "takePlan": "BID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "493c82ca-9f86-4363-91c6-11489c679cbc",
+                    "time": "1546315200000",
+                    "drugId": "31b1d36c-9548-485d-a779-716bfbe04834",
+                    "name": "drug4",
+                    "boDongZhi": "40",
+                    "dose": "40",
+                    "qd": "0",
+                    "numberOfDay": "2",
+                    "takePlan": "BID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "d7789757-c9db-4bf1-bfe1-318cd7a3204e",
+                    "time": "1546297200000",
+                    "drugId": "1961a457-2260-4c6c-a459-22d9a742817c",
+                    "name": "drug5",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "9da428cb-8cb5-4216-85b9-f30c982e0165",
+                    "time": "1546315200000",
+                    "drugId": "1961a457-2260-4c6c-a459-22d9a742817c",
+                    "name": "drug5",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "1",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "8e5c8d9c-d8c7-41c1-b258-d1197c8ca54a",
+                    "time": "1546333200000",
+                    "drugId": "1961a457-2260-4c6c-a459-22d9a742817c",
+                    "name": "drug5",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "9dc4ebf1-f19a-4d54-8931-190559b51820",
+                    "time": "1546351200000",
+                    "drugId": "1961a457-2260-4c6c-a459-22d9a742817c",
+                    "name": "drug5",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "3",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "4ac42e04-f46e-42e9-91f5-6e2f5f8e102a",
+                    "time": "1546297200000",
+                    "drugId": "636619c4-af9a-4ed3-b16f-b0d9e4b45722",
+                    "name": "drug6",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "04f609d9-e119-44e8-a762-f29ea797c582",
+                    "time": "1546315200000",
+                    "drugId": "636619c4-af9a-4ed3-b16f-b0d9e4b45722",
+                    "name": "drug6",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "2",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "0a5d1ce5-b05a-48df-a7d5-a5b9a9ca0b2f",
+                    "time": "1546333200000",
+                    "drugId": "636619c4-af9a-4ed3-b16f-b0d9e4b45722",
+                    "name": "drug6",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "0",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                },
+                {
+                    "id": "71e5d3eb-bdaf-4095-8cd4-42902ed42eda",
+                    "time": "1546351200000",
+                    "drugId": "636619c4-af9a-4ed3-b16f-b0d9e4b45722",
+                    "name": "drug6",
+                    "boDongZhi": "45",
+                    "dose": "50",
+                    "qd": "1",
+                    "numberOfDay": "4",
+                    "takePlan": "QID",
+                    "createTime": 1561150249,
+                    "updateTime": 1561150249
+                }
+            ]
+        }
+        let patient = {
+            "id": "5287c902-df0b-4f9d-b987-9dff3a425c69",
+            "name": "patient1",
+            "number": "patient1",
+            "idCard": "510322199606258731",
+            "age": "18",
+            "sex": "男",
+            "phone": "15928584225",
+            "password": "670b14728ad9902aecba32e22fa4f6bd",
+            "firstTreatmentTime": "1561219200000",
+            "joinPartyTime": "1561219200000",
+            "endTime": "99",
+            "createTime": 1561139885,
+            "updateTime": 1561139885,
+            "status": 1,
+        }
+
+        let list = [
+            {
+                "id": "57d15f6d-07bf-43b6-9da4-96785b5af495",
+                "recordDate": "2019-06-24",
+                "recordTime": "1561309412305",
+                "clockTime": "1546297200000",
+                "backVideo": "",
+                "frontVideo": "videos\\20190624\\patient-app_2019-06-24-01-03-27_1561309407487_id-xxxxxxxxxxxxxxxxxxxxxxxxxxx.mp4",
+                "audio": "",
+                "historyLogId": "a00186ad-ad01-494a-9a60-fd54a9812eb4",
+                "patientId": "4e2790b1-fc20-4870-b6b3-34230965175c",
+                "createTime": 1561309412,
+                "updateTime": 1561309412
+            }
+        ]
+
+        let alarmClocks = ac.alarmClocks
+        let selectDateAlarmClocks = []
+        alarmClocks.map(v => {
+            generateOnedayAlarm(v, new Date(), selectDateAlarmClocks)
+        })
+
+        let uniqArr = _.uniqBy(selectDateAlarmClocks, 'time');
+        console.log(uniqArr)
+        // let groupArr = _.groupBy(selectDateAlarmClocks, 'time');
+        // // console.log(groupArr);
+
+        // let groupArr2 = _.groupBy(list, 'clockTime')
+        // // console.log(groupArr2);
+
+        // uniqArr = _.sortBy(uniqArr, 'time')
+        // // console.log(uniqArr);
+        // let curentTime = this.findRecentlyTime(uniqArr);
+        // // console.log(curentTime);
+        // // console.log(groupArr2[curentTime.time]);
+        // // if(groupArr2[curentTime.time])
+        // // console.log(groupArr[list[0].clockTime]);
+
+        // function findRecentlyTime(uniqArr) {
+        //     let now = dayjs()
+
+        //     let count = -1;
+        //     for (let i = 0; i < uniqArr.length; i++) {
+        //         let item = uniqArr[i]
+        //         let vDate = dayjs(parseInt(item.time)).year(now.year()).month(now.month()).date(now.date());
+        //         // console.log(vDate.format('YYYY MM-DD HH:mm:ss'))
+        //         if (now.isBefore(vDate)) {
+        //             count = i;
+        //             break;
+        //         }
+        //     }
+        //     if (count == 0) {
+        //         return uniqArr[count];
+        //     } else if (count == -1) {
+        //         return uniqArr[uniqArr.length - 1];
+        //     } else {
+        //         let preClock = dayjs(parseInt(uniqArr[count - 1].time)).year(now.year()).month(now.month()).date(now.date());
+        //         let nextClock = dayjs(parseInt(uniqArr[count].time)).year(now.year()).month(now.month()).date(now.date());
+
+
+        //         let spaceSeconds = nextClock.diff(preClock)
+        //         let centerClock = dayjs(preClock.valueOf() + spaceSeconds / 2);
+        //         if (now.isBefore(centerClock)) {
+        //             return uniqArr[count - 1];
+        //             // return preClock.format('YYYY MM-DD HH:mm:ss');
+        //         } else {
+        //             return uniqArr[count];
+        //             // return nextClock.format('YYYY MM-DD HH:mm:ss');
+        //         }
+        //     }
+        // }
+
+        function generateOnedayAlarm(value, selectDate, selectDateAlarmClocks) {
+            let startDate = dayjs(parseInt(patient.firstTreatmentTime)).toDate();
+            // let endDate = dayjs(patient.firstTreatmentTime).add(patient.endTime, 'day').toDate();
+            let times = Number(value.qd) + 1;
+            let currentDate = selectDate;
+            currentDate.setHours(0, 0, 0, 0);
+
+            while (currentDate > startDate) {
+                startDate.setDate(startDate.getDate() + times);
+            }
+            if (startDate.getDate() == currentDate.getDate()) {
+                selectDateAlarmClocks.push(value);
+            }
+        }
+
+        // let startDate = dayjs(parseInt(patient.firstTreatmentTime)).toDate();
+        // let now = dayjs('2019-06-30');
+        // let intervalDay = now.diff(startDate, 'day');
+
+        // let allAlarmClocks = {}
+        // let groupTakeDrugList = _.groupBy(list, 'recordDate')
+        // for (const key in groupTakeDrugList) {
+        //     groupTakeDrugList[key] = _.groupBy(groupTakeDrugList[key], 'clockTime')
+        // }
+        // console.log(groupTakeDrugList);
+        // for (let i = 1; i <= intervalDay; i++) {
+        //     let currentDate = now.subtract(i, 'day')
+        //     let currentDay = currentDate.format('YYYY-MM-DD')
+        //     allAlarmClocks[currentDay] = []
+        //     alarmClocks.map(v => {
+        //         generateOnedayAlarm(v, currentDate.toDate(), allAlarmClocks[currentDay])
+        //     })
+        //     let temp = _.groupBy(allAlarmClocks[currentDay], 'time');
+        //     if (groupTakeDrugList[currentDay]) {
+        //         for (const key in temp) {
+        //             if (groupTakeDrugList[currentDay][key]) {
+        //                 temp[key] = { isTake: true, list: temp[key] }
+        //             } else {
+        //                 temp[key] = { isTake: false, list: temp[key] }
+        //             }
+        //         }
+        //     } else {
+        //         for (const key in temp) {
+        //             temp[key] = { isTake: false, list: temp[key] }
+        //         }
+        //     }
+
+        //     allAlarmClocks[currentDay] = temp
+        // }
+
+
+
+
+
+        console.log(allAlarmClocks);
+
+        function formatDay(date) {
+            console.log(date.format('YYYY-MM-DD HH:mm:ss'));
+        }
+
+    </script>
+</body>
+
+</html>

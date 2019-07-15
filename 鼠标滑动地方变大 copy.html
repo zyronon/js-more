@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            background: #3f3f3f;
+            position: relative;
+        }
+
+
+        .content {
+            margin-top: 110px;
+            display: flex;
+            height: calc(100% - 110px);
+            width: 100%;
+        }
+
+        .left {
+            width: 95%; 
+        }
+
+        .right {
+            position: fixed;
+            right: 0;bottom: 0;
+            top: 0;
+            z-index: 999;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .indicator-ctn2 {
+            padding: 0;
+            margin: 0;
+            height: 468px;
+            position: relative;
+            text-align: center;
+            list-style: none;
+        }
+
+        li {
+            position: absolute;
+            transition: all .3s;
+            height: 18px;
+            font-size: 14px;
+            line-height: 14px;
+        }
+
+        header {
+            background: red;
+            height: 110px;
+            width: 100%;
+            position: fixed;
+            top: 0; 
+        }
+
+        .b {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="b">
+        <header> </header>
+        <div class="content">
+            <div class="left">
+                <p>1111212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+                <p>1212</p>
+            </div>
+            <div class="right">
+                <ul class="indicator-ctn2">
+                    <li>A</li>
+                    <li>B</li>
+                    <li>C</li>
+                    <li>D</li>
+                    <li>E</li>
+                    <li>F</li>
+                    <li>G</li>
+                    <li>H</li>
+                    <li>I</li>
+                    <li>J</li>
+                    <li>K</li>
+                    <li>L</li>
+                    <li>M</li>
+                    <li>N</li>
+                    <li>O</li>
+                    <li>P</li>
+                    <li>Q</li>
+                    <li>R</li>
+                    <li>S</li>
+                    <li>T</li>
+                    <li>U</li>
+                    <li>V</li>
+                    <li>W</li>
+                    <li>X</li>
+                    <li>Y</li>
+                    <li>Z</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        let ul = document.querySelector('.indicator-ctn2')
+        let ulOffsetTop = ul.offsetTop
+        let itemHeight = 18
+        let fontSize = '14px'
+        let liEl = document.querySelectorAll('.indicator-ctn2 li')
+        liEl.forEach((el, index) => {
+            el.style.top = index * itemHeight + 'px'
+            el.style.width = itemHeight + 'px'
+            el.style.height = itemHeight + 'px'
+        })
+        ul.addEventListener('touchstart', function ($e) {
+            let pageY = $e.touches[0].pageY - ulOffsetTop
+            let currentIndex = pageY / itemHeight
+            currentIndex = Math.floor(currentIndex)
+            render(currentIndex)
+        })
+        ul.addEventListener('touchend', function ($e) {
+            liEl.forEach((el, index) => {
+                el.style.left = 0
+                el.style.fontSize = '10px'
+                el.style.color = '#fff'
+            })
+        })
+        ul.addEventListener('touchmove', function ($e) {
+            liEl.forEach((el, index) => {
+                el.style.left = 0
+                el.style.fontSize = '10px'
+                el.style.color = '#fff'
+            })
+            let pageY = $e.touches[0].pageY - ulOffsetTop
+            let currentIndex = pageY / itemHeight
+            currentIndex = Math.floor(currentIndex)
+            render(currentIndex)
+            console.log(currentIndex);
+        })
+        function render(currentIndex) {
+            liEl[currentIndex].style.left = -itemHeight * 4 + 10 + 'px'
+            liEl[currentIndex].style.fontSize = fontSize
+            liEl[currentIndex].style.color = '#fff'
+            if (currentIndex === 0) {
+                liEl[currentIndex + 1].style.left = -itemHeight * 3 + 'px'
+                liEl[currentIndex + 1].style.fontSize = fontSize
+                liEl[currentIndex + 1].style.color = '#ffffff22'
+
+                liEl[currentIndex + 2].style.left = -itemHeight * 2 + 'px'
+                liEl[currentIndex + 2].style.fontSize = fontSize
+                liEl[currentIndex + 2].style.color = '#ffffff44'
+
+                liEl[currentIndex + 3].style.left = -itemHeight * 1 + 'px'
+                liEl[currentIndex + 3].style.fontSize = fontSize
+                liEl[currentIndex + 3].style.color = '#ffffff66'
+            }
+            if (currentIndex === 1) {
+                liEl[currentIndex - 1].style.left = -itemHeight * 3 + 'px'
+                liEl[currentIndex - 1].style.fontSize = fontSize
+                liEl[currentIndex - 1].style.color = '#ffffff22'
+
+                liEl[currentIndex + 1].style.left = -itemHeight * 3 + 'px'
+                liEl[currentIndex + 1].style.fontSize = fontSize
+                liEl[currentIndex + 1].style.color = '#ffffff22'
+
+                liEl[currentIndex + 2].style.left = -itemHeight * 2 + 'px'
+                liEl[currentIndex + 2].style.fontSize = fontSize
+                liEl[currentIndex + 2].style.color = '#ffffff44'
+
+                liEl[currentIndex + 3].style.left = -itemHeight * 1 + 'px'
+                liEl[currentIndex + 3].style.fontSize = fontSize
+                liEl[currentIndex + 3].style.color = '#ffffff66'
+            } else if (currentIndex === 2) {
+                liEl[currentIndex - 2].style.left = -itemHeight * 2 + 'px'
+                liEl[currentIndex - 2].style.fontSize = fontSize
+                liEl[currentIndex - 2].style.color = '#ffffff44'
+
+                liEl[currentIndex - 1].style.left = -itemHeight * 3 + 'px'
+                liEl[currentIndex - 1].style.fontSize = fontSize
+                liEl[currentIndex - 1].style.color = '#ffffff22'
+                liEl[currentIndex + 1].style.left = -itemHeight * 3 + 'px'
+                liEl[currentIndex + 1].style.fontSize = fontSize
+                liEl[currentIndex + 1].style.color = '#ffffff22'
+
+                liEl[currentIndex + 2].style.left = -itemHeight * 2 + 'px'
+                liEl[currentIndex + 2].style.fontSize = fontSize
+                liEl[currentIndex + 2].style.color = '#ffffff44'
+
+                liEl[currentIndex + 3].style.left = -itemHeight * 1 + 'px'
+                liEl[currentIndex + 3].style.fontSize = fontSize
+                liEl[currentIndex + 3].style.color = '#ffffff66'
+            } else {
+                liEl[currentIndex - 1].style.left = -itemHeight * 3 + 'px'
+                liEl[currentIndex - 1].style.fontSize = fontSize
+                liEl[currentIndex - 1].style.color = '#ffffff22'
+
+                liEl[currentIndex - 2].style.left = -itemHeight * 2 + 'px'
+                liEl[currentIndex - 2].style.fontSize = fontSize
+                liEl[currentIndex - 2].style.color = '#ffffff44'
+
+                liEl[currentIndex - 3].style.left = -itemHeight * 1 + 'px'
+                liEl[currentIndex - 3].style.fontSize = fontSize
+                liEl[currentIndex - 3].style.color = '#ffffff66'
+
+
+                liEl[currentIndex + 1].style.left = -itemHeight * 3 + 'px'
+                liEl[currentIndex + 1].style.fontSize = fontSize
+                liEl[currentIndex + 1].style.color = '#ffffff22'
+
+
+                liEl[currentIndex + 2].style.left = -itemHeight * 2 + 'px'
+                liEl[currentIndex + 2].style.fontSize = fontSize
+                liEl[currentIndex + 2].style.color = '#ffffff44'
+
+
+                liEl[currentIndex + 3].style.left = -itemHeight * 1 + 'px'
+                liEl[currentIndex + 3].style.fontSize = fontSize
+                liEl[currentIndex + 3].style.color = '#ffffff66'
+            }
+        }
+    </script>
+</body>
+
+</html>

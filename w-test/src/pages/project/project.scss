@@ -1,0 +1,279 @@
+@import "../../assets/scss/index";
+
+.body-ctn {
+    $main-color: red;
+
+    .img-ctn {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        text-align: center;
+
+        img {
+            margin: 0 auto;
+            width: 1260px;
+            height: 570px;
+        }
+
+        .navbar {
+            width: 100%;
+            position: absolute;
+            z-index: 100;
+            bottom: 0;
+
+            &.fixed {
+                position: fixed;
+                height: 55px;
+                top: 0;
+                z-index: 110;
+
+                nav {
+                    width: 100%;
+                    background: #ffffff;
+                    border-bottom: 2px solid red;
+                    box-shadow: 0px 5px 20px 1px #999999;
+                }
+
+                ul {
+                    border-top: none;
+                }
+            }
+
+            nav {
+                transition: all .5s;
+                width: 990px;
+                margin: 0 auto;
+
+                & > ul {
+                    border-top: 2px solid red;
+                    background: #ffffff;
+                    margin: 0 auto;
+                    width: 990px;
+                    display: flex;
+                    height: 55px;
+                    position: relative;
+
+                    & > li {
+                        width: 20%;
+                        cursor: pointer;
+
+                        &:nth-last-child(1) {
+                            a {
+                                &:after {
+                                    display: none;
+                                }
+                            }
+                        }
+
+                        & > a {
+                            height: 100%;
+                            width: 100%;
+                            display: inline-block;
+                            position: relative;
+                            line-height: 55px;
+                            text-align: center;
+
+                            &:hover {
+                                color: red;
+                            }
+
+
+                            &:after {
+                                content: "";
+                                position: absolute;
+                                top: 14px;
+                                right: 0;
+                                height: 28px;
+                                width: 1px;
+                                background-color: #aaa;
+                            }
+                        }
+
+                        &:hover {
+                            .detail {
+                                height: 375px;
+                            }
+                        }
+
+
+                        .detail {
+                            overflow: hidden;
+                            transition: all .6s;
+                            left: 0;
+                            top: 55px;
+                            width: 990px;
+                            height: 0px;
+                            position: absolute;
+
+                            img {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 990px;
+                                height: 375px;
+                            }
+
+                            .list-ctn {
+                                color: white;
+                                width: 100%;
+                                height: 100%;
+                                position: absolute;
+
+                                .title {
+                                    font-style: italic;
+
+                                    margin: 30px 100px;
+                                    padding: 20px 0;
+                                    font-size: 30px;
+                                    font-weight: lighter;
+                                    border-bottom: 1px solid #cccccc;
+                                }
+
+                                ul {
+                                    li {
+                                        margin: 10px 100px;
+                                        //margin-left: 100px;
+                                        display: flex;
+                                        align-items: center;
+
+                                        &:hover {
+                                            .arrow {
+                                                color: red;
+                                            }
+
+                                            a {
+                                                color: red;
+                                            }
+                                        }
+
+                                        .arrow {
+                                            transition: all .3s;
+                                            height: 9px;
+                                            width: 9px;
+                                            border-top: 1px solid;
+                                            border-right: 1px solid;
+                                            transform: rotate(45deg);
+                                            margin-right: 20px;
+                                            color: #cccccc;
+                                        }
+
+                                        a {
+                                            transition: all .3s;
+                                            color: #cccccc;
+                                            font-size: 16px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    section {
+        margin: 0 auto;
+        width: 1260px;
+
+        .project-cnt {
+            padding: 50px 0;
+            background: #ffffff;
+            position: relative;
+
+
+            .project-summary {
+                overflow: auto;
+                margin: 0 auto;
+                width: 990px;
+                height: 800px;
+                display: flex;
+                position: relative;
+
+                $width: 320px;
+                $height: 250px;
+
+                .project {
+                    z-index: 99;
+                    width: $width;
+                    height: $height;
+                    background: #fff;
+                    position: absolute;
+                    overflow: hidden;
+
+                    .bg-mark {
+                        position: absolute;
+                        top: -$height;
+                        left: -$width;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(235, 46, 44, 0.8);;
+                    }
+
+                    img {
+                        height: 100%;
+                        width: 100%;
+                    }
+
+                    .description {
+                        z-index: 9;
+                        color: white;
+                        position: absolute;
+                        top: 0;
+                        left: -$width;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        flex-direction: column;
+                        align-items: center;
+                        padding: 40px 0;
+                        box-sizing: border-box;
+                    }
+
+                }
+
+                .project1 {
+                    top: 0;
+                    left: 0;
+                    height: $height * 2 + 15px;
+                }
+
+                .project2 {
+                    top: 0;
+                    left: $width + 15px;
+                }
+
+                .project3 {
+                    top: 0;
+                    left: $width * 2 + 30px;
+                }
+
+                .project4 {
+                    top: $height + 15px;
+                    left: $width + 15px;
+
+                }
+
+                .project5 {
+                    top: $height + 15px;
+                    left: $width * 2 + 30px;
+                    height: $height * 2 + 15px;
+                }
+
+                .project6 {
+                    top: $height * 2 + 30px;
+                    left: 0;
+                }
+
+                .project7 {
+                    top: $height * 2 + 30px;
+                    left: $width + 15px;
+                }
+            }
+
+        }
+
+    }
+}

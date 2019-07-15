@@ -1,0 +1,8 @@
+3D切换效果slicebox焦点图，对于不支持css3 3D变换的旧式浏览器依然可以优雅降级运行，兼容主流浏览器，使用chrome，firefox浏览可查看3D效果，模板在线推荐下载！
+
+使用方法：
+1、head区域引用文件demo.css， slicebox.css， custom.css及modernizr.custom.46884.js
+2、在文件中加入<!-- 代码 开始 --><!-- 代码 结束 -->区域代码
+3、复制images文件夹里的图片到相应的路径
+
+*更多代码请访问：模板在线 www.htmldivcss.com/js/

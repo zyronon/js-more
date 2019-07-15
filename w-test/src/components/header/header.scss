@@ -1,0 +1,79 @@
+@import "../../assets/scss/index";
+
+header {
+    height: 80px;
+    background: #ffffff;
+
+    .header-ctn {
+        height: 100%;
+        margin: 0 auto;
+        width: 1260px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .blog {
+            display: flex;
+            align-items: flex-end;
+
+            .name {
+                margin-right: 10px;
+                font-size: 26px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all .3s;
+
+                &:hover {
+                    transform: scale(1.25);
+                    color: $hover-color;
+                }
+            }
+
+            .signature {
+                span {
+                    float: left;
+                    display: inline-block;
+                }
+
+                font-size: 10px;
+            }
+        }
+
+        nav {
+            ul {
+                display: flex;
+
+                li {
+                    width: 100px;
+                    text-align: right;
+                    cursor: pointer;
+                    overflow: hidden;
+
+                    &:hover {
+                        a {
+                            color: $hover-color;
+                            transform: translateY(-20px);
+                        }
+
+                    }
+
+                    a {
+                        font-size: 1.8rem;
+                        color: #2d374b;
+                        position: relative;
+                        display: inline-block;
+                        transition: all .5s;
+
+
+                        &::before {
+                            content: attr(data-hover);
+                            position: absolute;
+                            top: 100%;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

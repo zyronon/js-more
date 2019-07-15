@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="keywords" content="JS代码,时钟效果,JS广告代码,JS特效代码" />
+<meta name="description" content="此代码内容为复古翻牌时钟效果，属于站长常用代码，更多{keyword}代码请访问模板在线JS代码频道。" />
+<title>复古翻牌时钟效果_模板在线</title>
+<link href="css/fliptimer.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- 代码 开始 -->
+<p>共三种效果请点击查看：</p>
+<h1><a href="index.html">1、时钟效果</a>  <a href="index2.html">2、倒计时</a>  <a href="index3.html">3、10秒倒计时（回调函数）</a></h1>
+<p>10秒倒计时：</p>
+<div class="dowebok">
+	<div class="hours"></div>
+	<div class="minutes"></div>
+	<div class="seconds"></div>
+</div>
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/jquery.fliptimer.js"></script>
+<script>
+$(function(){
+	var d = new Date();
+	var myDate = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + (d.getSeconds() + 10);
+	
+	$('.dowebok').flipTimer({
+		direction: 'down',
+		date: myDate,
+		callback: function(){
+			alert('倒计时结束！');
+		}
+	});
+});
+</script>
+<!-- 代码 结束 -->
+
+<div style="text-align:center;margin:50px 0">
+<p>来源：<a href="http://www.htmldivcss.com/" target="_blank">模板在线</a>　代码整理：<a href="http://www.htmldivcss.com/" target="_blank">模板在线</a>　感谢：<a href="http://zheye.cc/" target="_blank">折页网</a></p>
+<p>＊尊重他人劳动成果，转载请自觉注明出处！注：此代码仅供学习交流，请勿用于商业用途。</p>
+</div>
+</body>
+</html>

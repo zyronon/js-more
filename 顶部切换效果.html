@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul {
+            overflow: hidden;
+            width: 400px;
+            background: red;
+            transition: all .3s;
+        }
+
+        li {
+            padding: 20px;
+            list-style: none;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>item1</li>
+        <li>item2</li>
+        <li>item3</li>
+        <li>item4</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+        <li>item1</li>
+    </ul>
+    <div class="toggle">toggle</div>
+</body>
+<script>
+    let toggleEl = document.querySelector('.toggle')
+    let ulEl = document.querySelector('ul')
+    let height = ulEl.clientHeight
+    ulEl.style.height = height + 'px'
+    toggleEl.addEventListener('click', function () {
+        console.log(ulEl.clientHeight);
+        if (ulEl.clientHeight) {
+            ulEl.style.height = 0
+        } else {
+            ulEl.style.height = height + 'px'
+        }
+
+    })
+</script>
+
+</html>

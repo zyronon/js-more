@@ -1,0 +1,9 @@
+jQuery卡片式图片轮换代码，点击后可左右任意切换图片，顶部彩虹导航效果也不错，兼容主流浏览器，模板在线推荐下载！
+
+使用方法：
+1、在head区域引入reset.css，style.css
+2、在head区域引入jquery-1.4.2.min.js，roundabout.js，roundabout_shapes.js，gallery_init.js
+3、在body区域加入代码注释部分
+4、当前导航用class="current"标记。
+
+*更多代码请访问：模板在线 www.htmldivcss.com/js/

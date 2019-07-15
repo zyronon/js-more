@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="keywords" content="JS代码,焦点图,JS广告代码,JS特效代码" />
+<meta name="description" content="此代码内容为3D切换效果slicebox焦点图，属于站长常用代码，更多焦点图代码请访问模板在线JS代码频道。" />
+<title>3D切换效果slicebox焦点图_模板在线</title>
+<link rel="stylesheet" type="text/css" href="css/demo.css" />
+<link rel="stylesheet" type="text/css" href="css/slicebox.css" />
+<link rel="stylesheet" type="text/css" href="css/custom.css" />
+<script type="text/javascript" src="js/modernizr.custom.46884.js"></script>
+</head>
+<body>
+<!-- 代码 开始 -->
+<div class="container">
+    <h1>Slicebox <span>A fresh 3D image slider with graceful fallback</span></h1>
+    
+    <div class="more">
+        <ul id="sb-examples">
+            <li>More examples:</li>
+            <li class="selected"><a href="index.html">Example 1</a></li>
+            <li><a href="index2.html">Example 2</a></li>
+            <li><a href="index3.html">Example 3</a></li>
+            <li><a href="index4.html">Example 4</a></li>
+        </ul>
+    </div>
+
+    <div class="wrapper">
+
+        <ul id="sb-slider" class="sb-slider">
+            <li>
+                <a href="http://www.htmldivcss.com" target="_blank"><img src="images/1.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Creative Lifesaver</h3>
+                </div>
+            </li>
+            <li>
+                <a href="http://www.htmldivcss.com" target="_blank"><img src="images/2.jpg" alt="image2"/></a>
+                <div class="sb-description">
+                    <h3>Honest Entertainer</h3>
+                </div>
+            </li>
+            <li>
+                <a href="http://www.htmldivcss.com" target="_blank"><img src="images/3.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Brave Astronaut</h3>
+                </div>
+            </li>
+            <li>
+                <a href="http://www.htmldivcss.com" target="_blank"><img src="images/4.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Affectionate Decision Maker</h3>
+                </div>
+            </li>
+            <li>
+                <a href="http://www.htmldivcss.com" target="_blank"><img src="images/5.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Faithful Investor</h3>
+                </div>
+            </li>
+            <li>
+                <a href="http://www.htmldivcss.com" target="_blank"><img src="images/6.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Groundbreaking Artist</h3>
+                </div>
+            </li>
+            <li>
+                <a href="http://www.htmldivcss.com" target="_blank"><img src="images/7.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Selfless Philantropist</h3>
+                </div>
+            </li>
+        </ul>
+
+        <div id="shadow" class="shadow"></div>
+
+        <div id="nav-arrows" class="nav-arrows">
+            <a href="#">Next</a>
+            <a href="#">Previous</a>
+        </div>
+
+        <div id="nav-dots" class="nav-dots">
+            <span class="nav-dot-current"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </div><!-- /wrapper -->
+
+
+
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.slicebox.js"></script>
+<script type="text/javascript">
+    $(function() {
+
+        var Page = (function() {
+
+            var $navArrows = $( '#nav-arrows' ).hide(),
+                $navDots = $( '#nav-dots' ).hide(),
+                $nav = $navDots.children( 'span' ),
+                $shadow = $( '#shadow' ).hide(),
+                slicebox = $( '#sb-slider' ).slicebox( {
+                    onReady : function() {
+
+                        $navArrows.show();
+                        $navDots.show();
+                        $shadow.show();
+
+                    },
+                    onBeforeChange : function( pos ) {
+
+                        $nav.removeClass( 'nav-dot-current' );
+                        $nav.eq( pos ).addClass( 'nav-dot-current' );
+
+                    }
+                } ),
+                
+                init = function() {
+
+                    initEvents();
+                    
+                },
+                initEvents = function() {
+
+                    // add navigation events
+                    $navArrows.children( ':first' ).on( 'click', function() {
+
+                        slicebox.next();
+                        return false;
+
+                    } );
+
+                    $navArrows.children( ':last' ).on( 'click', function() {
+                        
+                        slicebox.previous();
+                        return false;
+
+                    } );
+
+                    $nav.each( function( i ) {
+                    
+                        $( this ).on( 'click', function( event ) {
+                            
+                            var $dot = $( this );
+                            
+                            if( !slicebox.isActive() ) {
+
+                                $nav.removeClass( 'nav-dot-current' );
+                                $dot.addClass( 'nav-dot-current' );
+                            
+                            }
+                            
+                            slicebox.jump( i + 1 );
+                            return false;
+                        
+                        } );
+                        
+                    } );
+
+                };
+
+                return { init : init };
+
+        })();
+
+        Page.init();
+
+    });
+</script>
+<!-- 代码 结束 -->
+<div style="text-align:center;margin:50px 0">
+<p>来源：<a href="http://tympanus.net/codrops/2011/09/05/slicebox-3d-image-slider/" target="_blank">tympanus</a>　代码整理：<a href="http://www.htmldivcss.com/" target="_blank">模板在线</a>　感谢：<a href="http://blog.hexccc.com/service/" target="_blank">wordpress Xcoder</a></p>
+<p>＊尊重他人劳动成果，转载请自觉注明出处！注：此代码仅供学习交流，请勿用于商业用途。</p>
+<p></p>
+<p><p>3D切换效果slicebox焦点图，对于不支持css3 3D变换的旧式浏览器依然可以优雅降级运行，兼容主流浏览器，使用chrome，firefox浏览可查看3D效果，模板在线推荐下载！</p><p><br /></p><p>使用方法：</p><p>1、head区域引用文件demo.css， slicebox.css， custom.css及modernizr.custom.46884.js</p><p>2、在文件中加入&lt;!-- 代码 开始 --&gt;&lt;!-- 代码 结束 --&gt;区域代码</p><p>3、复制images文件夹里的图片到相应的路径。</p></p>
+<p style="margin:20px 0"></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+可全屏浏览的baguettebox相册代码，简单易用，不依赖jquery等第三方库,支持一个页面多个相册。兼容主流浏览器，模板在线推荐下载！
+
+使用方法：
+1、head区域引用文件htmldivcss.css及baguettebox.min.css，baguettebox.min.js
+2、在文件中加入<!-- 代码 开始 --><!-- 代码 结束 -->区域代码
+3、复制images文件夹里的图片到相应的路径
+
+*更多代码请访问：模板在线 www.htmldivcss.com/js/

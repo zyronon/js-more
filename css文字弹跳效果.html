@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link crossorigin="anonymous" integrity="sha384-7/Tl0k65OTvDSvtuq7aPR7aa0aCz7ZKqHsbMRLxhzueldW+9MZpCe9LB1c5UBuNS"
+        href="https://lib.baomitu.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+    <style>
+        div {
+            margin-top: 100px;
+        }
+
+        span {
+            float: left;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <span class="signature animated">我</span>
+        <span class="signature animated">爱</span>
+        <span class="signature animated">前</span>
+        <span class="signature animated">端</span>
+        <span>，</span>
+        <span class="signature animated">我</span>
+        <span class="signature animated">怕</span>
+        <span class="signature animated">他</span>
+        <span class="signature animated">完</span>
+        <span class="signature animated">了</span>
+        <span>，</span>
+        <span class="signature animated">可</span>
+        <span class="signature animated">谁</span>
+        <span class="signature animated">爱</span>
+        <span class="signature animated">呀</span>
+        <span>？</span>
+
+    </div>
+</body>
+<script>
+    let spans = document.querySelectorAll('.signature')
+    spans.forEach(v => {
+        v.addEventListener('mouseenter', function () {
+            v.classList.add('bounce')
+            v.addEventListener('animationend', function () {
+                v.classList.remove('bounce');
+            })
+        })
+    })
+
+</script>
+
+</html>

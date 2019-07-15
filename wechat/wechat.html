@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+            let type = $('.time').attr('attr-type')
+            if (type === 'full') {
+                $('.name').css('max-width','60%')
+            }
+        })
+    </script>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .list{}
+
+        .item {
+            width: 100%;
+            display: flex;
+
+        }
+
+        .avatar {
+            height: 75px;
+            width: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .avatar img {
+            border-radius: 5px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .dot {
+            top: 9px;
+            right: 9px;
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            border-radius: 50%;
+        }
+
+
+        .content {
+            width:calc(100% - 75px);
+            border-bottom: 1px solid gainsboro;
+        }
+
+        .top {
+            margin-top: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+        }
+
+        .name {
+            font-size: 16px;
+            /*min-width: 60%;*/
+            max-width: 80%;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+
+        .time {
+            margin-right: 10px;
+            font-size: 12px;
+            max-width: 40%;
+        }
+        .bottom{
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .last-msg{
+            font-size: 14px;
+            color: #999;
+            /*min-width: 60%;*/
+            max-width: 85%;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+        .bottom img{
+            margin-right: 10px;
+            width: 15px;
+            height: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="list">
+    <div class="item">
+        <div class="avatar">
+            <img src="avatar2.jpg" alt="">
+            <div class="dot"></div>
+        </div>
+        <div class="content">
+            <div class="top">
+                <div class="name">
+                    ****阳光租赁开发交流阳光租赁开发交流阳光租赁开发交流
+                </div>
+                <div class="time" attr-type="full">
+                    2018年12月5日
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="last-msg">
+                    <span class="user-name">张振国</span>:
+                    <span class="msg">这是一个bug，我现在在修复</span>
+                </div>
+                <img src="mute.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

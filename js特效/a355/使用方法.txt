@@ -1,0 +1,8 @@
+iPresenter相册3D插件，带导航和缩略图，右上角有倒计时。兼容主流浏览器，模板在线推荐下载！
+
+使用方法：
+1、head区域引用文件styles.css, demos.css及jquery-1.7.1.min.js, ipresenter.packed.js
+2、在文件中加入<!-- 代码 开始 --><!-- 代码 结束 -->区域代码
+3、复制images文件夹里的图片到相应的路径
+
+*更多代码请访问：模板在线 www.htmldivcss.com/js/

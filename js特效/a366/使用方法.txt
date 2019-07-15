@@ -1,0 +1,9 @@
+图片滚动展示单击放大代码，使用prettyPhoto插件，代码兼容：IE6，IE7，IE8，Firefox，chrome，模板在线推荐下载！
+
+使用方法：
+1.head区域引用样式文件prettyphoto.css，htmldivcss.css
+2.head区域引用JS文件jquery.js，jquery.prettyPhoto.js，htmldivcss.js
+3.在你的文件中加入<!-- 代码 开始 --><!-- 代码 结束 -->区域代码
+4.点击单个图片有放大效果
+
+*更多代码请访问：模板在线 www.htmldivcss.com/js/

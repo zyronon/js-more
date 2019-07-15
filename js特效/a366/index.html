@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=gb2312" http-equiv="Content-Type" />
+<meta name="keywords" content="JS代码,图片特效,JS广告代码,JS特效代码" />
+<meta name="description" content="此代码内容为图片滚动展示单击放大代码（prettyPhoto），属于站长常用代码，更多图片特效代码请访问模板在线JS代码频道。" />
+<title>图片滚动展示单击放大代码（prettyPhoto）_模板在线</title>
+<link type="text/css" href="css/htmldivcss.css" rel="stylesheet" />
+<link type="text/css" href="css/prettyPhoto.css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="js/htmldivcss.js"></script>
+
+
+<style type="text/css">
+body,td,th {
+	font-family: "Microsoft YaHei", Arial;
+}
+</style>
+</head>
+
+<body>
+<!-- 代码开始 -->
+<div class="infopic">
+	<div class="picbox">
+		<ul class="gallery piclist">
+			<li><a href="images/pic_1.jpg" rel="prettyPhoto[]"><img src="images/pic_1.jpg" /></a></li>
+			<li><a href="images/pic_2.jpg" rel="prettyPhoto[]"><img src="images/pic_2.jpg" /></a></li>
+			<li><a href="images/pic_3.jpg" rel="prettyPhoto[]"><img src="images/pic_3.jpg" /></a></li>
+			<li><a href="images/pic_4.png" rel="prettyPhoto[]"><img src="images/pic_4.png" /></a></li>
+			<li><a href="images/pic_5.jpg" rel="prettyPhoto[]"><img src="images/pic_5.jpg" /></a></li>
+			<li><a href="images/pic_6.png" rel="prettyPhoto[]"><img src="images/pic_6.png" /></a></li>
+			<li><a href="images/pic_7.jpg" rel="prettyPhoto[]"><img src="images/pic_7.jpg" /></a></li>
+			<li><a href="images/pic_8.jpg" rel="prettyPhoto[]"><img src="images/pic_8.jpg" /></a></li>
+			<li><a href="images/pic_9.jpg" rel="prettyPhoto[]"><img src="images/pic_9.jpg" /></a></li>
+		</ul>
+	</div>
+	<div class="pic_prev"></div>
+	<div class="pic_next"></div>
+</div>				
+
+<script type="text/javascript">
+$(document).ready(function(){	
+	$("area[rel^='prettyPhoto']").prettyPhoto();
+	$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
+})
+</script>
+<!-- 代码结束 -->
+<div style="margin:30px 0;">
+  <p>来源：<a href="http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/" target="_blank" style="color:#0099FF">prettyPhoto</a>　代码整理：<a href="http://www.htmldivcss.com/" target="_blank" style="color:#0099FF">模板在线</a>　感谢：<a href="http://zheye.cc/" target="_blank" style="color:#0099FF">折页网</a></p>
+  <p>＊尊重他人劳动成果，转载请自觉注明出处！注：此代码仅供学习交流，请勿用于商业用途。</p>
+  <p></p>
+  <p><p>图片滚动展示单击放大代码，使用prettyPhoto插件，代码兼容：IE6，IE7，IE8，Firefox，chrome，模板在线推荐下载！</p><p><br /></p><p>使用方法：</p><p>1.head区域引用样式文件prettyphoto.css，htmldivcss.css</p><p>2.head区域引用JS文件jquery.js，jquery.prettyPhoto.js，htmldivcss.js</p><p>3.在你的文件中加入&lt;!-- 代码 开始 --&gt;&lt;!-- 代码 结束 --&gt;区域代码</p><p>4.点击单个图片有放大效果</p></p>
+  <p></p>
+</div>
+</body>
+</html>

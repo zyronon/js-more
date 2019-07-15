@@ -1,0 +1,7 @@
+CSS3底部半圆形导航菜单代码，点击底部加号，会弹出一个半圆形的导航栏，不支持IE浏览器，支持chorme,firefox浏览器，模板在线推荐下载！
+
+使用方法：
+1、head区域引用文件 htmldivcss.css, normalize.css, modernizr-2.6.2.min.js
+2、在文件中加入<!-- 代码 开始 --><!-- 代码 结束 -->区域代码
+
+*更多代码请访问：模板在线 www.htmldivcss.com/js/

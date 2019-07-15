@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link href="https://cdn.bootcss.com/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link crossorigin="anonymous" integrity="sha384-7/Tl0k65OTvDSvtuq7aPR7aa0aCz7ZKqHsbMRLxhzueldW+9MZpCe9LB1c5UBuNS"
+          href="https://lib.baomitu.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh"
+            src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="body-ctn">
+    ${require('html-loader!../../components/header/header.html')}
+    <section>
+        <aside class="left">
+            <div class="card">
+                <h3>AUTHOR CARD</h3>
+                <ul class="list-msg">
+                    <li>职业：前端页面仔</li>
+                    <li>网名：TTentau</li>
+                    <li>城市：上海</li>
+                </ul>
+                <ul class="contact">
+                    <!-- Github -->
+                    <li class="item">
+                        <a href="https://github.com/ttentau" title="@imWildCat 的 Github" target="_blank">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </li>
+                    <!-- Weixin -->
+                    <li class="item">
+                        <a title="Contact me" class="winxin">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                    </li>
+                    <!-- Email -->
+                    <li class="item">
+                        <a href="mailto:ttetnau@163.com" title="Contact me">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="oth-blog-btn">
+                    <a href="https://blog.csdn.net/ttetnau">个人掘金地址</a>
+                </div>
+            </div>
+            <div class="card category-card" style="margin-top: 20px;">
+                <h3>详细分类</h3>
+                <ul class="category-list">
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/1.html">JavaScript之路</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">0篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/2.html">js面试基础</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">1篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/3.html">更新/模块新增</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">2篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/4.html">php入门基础</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">0篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/5.html">算法</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">1篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/6.html">那些年踩过的坑</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">2篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/7.html">了解操作系统</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">0篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/8.html">必知的计算机网络</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">0篇</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <a href="/public/index/lst/tagindex/tagid/9.html">计算机组成原理素养</a>
+                        </div>
+                        <div>
+                            <span class="base-tag tag-primary sm">1篇</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <div class="right">
+            <div class="border-decorate-a">
+                <div class="border-decorate-b">
+                    <div class="border-decorate-c">
+                        <h2 class="art_title">博客文章</h2>
+                        <div class="post-wrapper">
+                            <ul class="post-list" id="post-list">
+                                <li class="post-list-item">
+                                    <article id="post-你不需要jQuery" class="">
+                                        <h3 class="post-title">
+                                            <a href="/blog/posts/2cc67dc7/">你不需要jQuery</a>
+                                        </h3>
+                                        <div class="post-meta">
+                                            <time class="post-time" title="2019-04-01 18:54:01" datetime="2019-04-01T10:54:01.000Z">2019-04-01</time>
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="">前端发展很快，现代浏览器原生 API 已经足够好用。</a>
+                                        </div>
+                                        <div class="post-footer">
+                                            <ul class="article-tag-list">
+                                                <li class="article-tag-list-item" style="background: rgb(236, 209, 137);">
+                                                    <a class="article-tag-list-link" href="/blog/tags/JavaScript/">JavaScript</a>
+                                                </li>
+                                                <li class="article-tag-list-item" style="background: rgb(212, 236, 160);">
+                                                    <a class="article-tag-list-link" href="/blog/tags/jQuery/">jQuery</a>
+                                                </li>
+                                                <li class="article-tag-list-item" style="background: rgb(236, 209, 137);">
+                                                    <a class="article-tag-list-link" href="/blog/tags/前端/">前端</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </li>
+
+                                <li class="post-list-item">
+                                    <article id="post-你不需要jQuery" class="">
+                                        <h3 class="post-title">
+                                            <a href="/blog/posts/2cc67dc7/">你不需要jQuery</a>
+                                        </h3>
+                                        <div class="post-meta">
+                                            <time class="post-time" title="2019-04-01 18:54:01" datetime="2019-04-01T10:54:01.000Z">2019-04-01</time>
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="">前端发展很快，现代浏览器原生 API 已经足够好用。</a>
+                                        </div>
+                                        <div class="post-footer">
+                                            <ul class="article-tag-list">
+                                                <li class="article-tag-list-item" style="background: rgb(236, 209, 137);"><a class="article-tag-list-link"
+                                                                                                                             href="/blog/tags/JavaScript/">JavaScript</a></li>
+                                                <li class="article-tag-list-item" style="background: rgb(220, 226, 238);"><a class="article-tag-list-link"
+                                                                                                                             href="/blog/tags/jQuery/">jQuery</a>
+                                                </li>
+                                                <li class="article-tag-list-item" style="background: rgb(212, 236, 160);"><a class="article-tag-list-link"
+                                                                                                                             href="/blog/tags/前端/">前端</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="winxin-dialog">
+    <i class="fa fa-close winxin"></i>
+    <img src="${require('../../assets/img/winxin1.jpg')}" alt="">
+</div>
+<div class="mask"></div>
+
+</body>
+</html>

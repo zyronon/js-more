@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script crossorigin="anonymous" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh"
+            src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        .container {
+            margin: 50px auto;
+            position: relative;
+            height: 400px;
+            width: 400px;
+            padding: 20px;
+            background: gray;
+        }
+
+        .top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 100%;
+            background: #ccc;
+        }
+
+        .bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 20px;
+            width: 100%;
+            background: #ccc;
+        }
+
+        .left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 20px;
+            background: #ccc;
+        }
+
+        .right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 20px;
+            background: #ccc;
+        }
+
+        .left-top {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #333;
+        }
+
+        .left-bottom {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background: #333;
+        }
+
+        .right-top {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: #333;
+        }
+
+        .right-bottom {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    撒旦撒发生大手动阀手动阀手动阀手动阀手动阀手动阀撒旦撒发生大手动阀手动阀手动阀手动阀手动阀手动阀撒旦撒发生大手动阀手动阀手动阀手动阀手动阀手动阀
+    <div class="top"></div>
+    <div class="bottom"></div>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="left-top"></div>
+    <div class="left-bottom"></div>
+    <div class="right-top"></div>
+    <div class="right-bottom"></div>
+</div>
+</body>
+
+<script>
+    let container = $('.container')
+
+    let top1 = $('.top')
+    let bottom = $('.bottom')
+    let left = $('.left')
+    let right = $('.right')
+    let leftTop = $('.left-top')
+    let leftBottom = $('.left-bottom')
+    let rightTop = $('.right-top')
+    let rightBottom = $('.right-bottom')
+
+    right.on('mousedown', function (e) {
+        console.log(e)
+        $('body').on('mousemove', function (e) {
+            let pageX = e.pageX
+            console.log('pageX', e.pageX)
+            // console.log('元素top',container.offset().top)
+            // console.log('元素left',container.offset().left)
+            console.log('元素left', container.offset().left + 400)
+            let emLeft = container.offset().left + 400
+
+            // debouce(function () {
+            //     // container.css({ height: offsetY, width: offsetX })
+            //     container.css({ width: offsetX })
+            // }(), 1000)
+            container.css({width: 370 + pageX - emLeft})
+        })
+    })
+    rightBottom.on('mousedown', function (e) {
+        $('body').on('mousemove', function (e) {
+            let pageX = e.pageX
+            let pageY = e.pageY
+            console.log('pageX', e.pageX)
+            // console.log('元素top',container.offset().top)
+            // console.log('元素left',container.offset().left)
+            console.log('元素left', container.offset().left + 400)
+            let emLeft = container.offset().left + 400
+            let emTop = container.offset().top + 400
+
+            // debouce(function () {
+            //     // container.css({ height: offsetY, width: offsetX })
+            //     container.css({ width: offsetX })
+            // }(), 1000)
+            container.css({width: 370 + pageX - emLeft})
+            container.css({height: 370 + pageY - emTop})
+        })
+    })
+
+
+    $('body').on('mouseup', function (e) {
+        $('body').off('mousemove')
+    })
+
+    function debouce(callback, time) {
+        var timer
+        return function () {
+            clearTimeout(timer)
+            timer = setTimeout(callback, time || 300)
+        }
+    }
+
+
+</script>
+
+</html>

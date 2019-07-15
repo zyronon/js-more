@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="keywords" content="JS代码,菜单导航,JS广告代码,JS特效代码" />
+<meta name="description" content="此代码内容为手机端右侧响应式弹出菜单，属于站长常用代码，更多菜单导航代码请访问模板在线JS代码频道。" />
+<title>手机端右侧响应式弹出菜单_模板在线</title>
+<link rel="stylesheet" href="css/cooker.css">
+<link rel="stylesheet" href="css/docs.css">
+<link rel="stylesheet" href="css/drawer.min.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/iscroll.js"></script>
+<script src="js/jquery.drawer.min.js"></script>
+<base target="_blank" />
+</head>
+<body class="drawer drawer-right">
+<!-- 代码 开始 -->
+<div class="drawer-toggle drawer-hamberger"><span></span></div>
+<div class="drawer-main drawer-default">
+  <nav class="drawer-nav" role="navigation">
+    <div class="drawer-brand">
+      <a href="http://www.htmldivcss.com">Drawer</a>
+    </div>
+    <p class="drawer-nav-title">Demo</p>
+    <ul class="drawer-nav-list">
+      <li><a href="http://www.htmldivcss.com">Left</a></li>
+      <li><a href="http://www.htmldivcss.com">Right</a></li>
+      <li><a href="http://www.htmldivcss.com">Responsive Left</a></li>
+      <li><a href="http://www.htmldivcss.com">Responsive Right</a></li>
+    </ul>
+    <p class="drawer-nav-title">Other Projects</p>
+    <ul class="drawer-nav-list">
+      <li><a href="http://www.htmldivcss.com">Animsition</a></li>
+      <li><a href="http://www.htmldivcss.com">Chaffle</a></li>
+      <li><a href="http://www.htmldivcss.com">Drawer</a></li>
+      <li><a href="http://www.htmldivcss.com">Oblurlay</a></li>
+      <li><a href="http://www.htmldivcss.com">Ripller</a></li>
+    </ul>
+    <p class="drawer-nav-title">Authtor</p>
+    <ul class="drawer-nav-list">
+      <li><a href="http://www.htmldivcss.com">blivesta.com</a></li>
+      <li><a href="http://www.htmldivcss.com">Twitter</a></li>
+      <li><a href="http://www.htmldivcss.com">GitHub</a></li>
+      <li><a href="http://www.htmldivcss.com">Dribbble</a></li>
+    </ul>
+  </nav>
+</div>
+
+<div class="drawer-overlay">
+    <main class="masthead" role="main">
+        <div class="container">
+            <h1>手机端右侧响应式弹出菜单</h1>
+            <p class="lead">A small CSS3 and jQuery plugin for app style drawer menu.</p>
+            <p class="center-block form-inline" style="max-width:480px"><a class="button button-border button-lg js-trigger"><span class="oi oi-menu"></span>打开</a></p>
+        </div>
+    </main>
+    <div class="site-body">
+      <div class="site-body-inner container">
+            <div style="text-align:center;margin:50px 0">
+            <p>来源：<a href="http://git.blivesta.com/drawer/right/" target="_blank">git.blivesta.com</a>　代码整理：<a href="http://www.htmldivcss.com/" target="_blank">模板在线</a>　感谢：<a href="http://blog.hexccc.com/service/" target="_blank">wordpress Xcoder</a></p>
+            <p>＊尊重他人劳动成果，转载请自觉注明出处！注：此代码仅供学习交流，请勿用于商业用途。</p>
+            <p></p>
+            <p><p>手机端右侧响应式弹出菜单，点击右上角弹出菜单，也可以调用代码弹出菜单，兼容主流浏览器，模板在线推荐下载！</p><p><br /></p><p>使用方法：</p><p>1、head区域引用文件cooker.css，docs.css，drawer.min.css及jquery.min.js，iscroll.js，jquery.drawer.min.js</p><p>2、在文件中加入&lt;!-- 代码 开始 --&gt;&lt;!-- 代码 结束 --&gt;区域代码</p><p>3、body标签添加类drawer drawer-right</p></p>
+            <p style="margin:20px 0"></p>
+            </div>
+      </div>
+    </div>
+</div><!-- /.drawer-overlay --> 
+
+<script>
+	$(document).ready(function(){
+	$('.drawer').drawer();
+	$('.js-trigger').click(function(){
+	  $('.drawer').drawer("open");
+	});
+	});
+</script> 
+<!-- 代码 结束 -->
+
+</body>
+</html>
