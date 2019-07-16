@@ -56,8 +56,10 @@
 
         header {
             height: 200px;
-            /* background-image: url('./imgs/header.jpg'); */
-            background: no-repeat center/100% url('./imgs/header2.jpg');
+            background-image: url('./imgs/header2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .detail {
@@ -97,7 +99,15 @@
         }
 
         .indicator-ctn {
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
             background: #333;
+        }
+
+        .indicator-ctn.fixed {
+            position: fixed;
         }
 
         .indicator {
@@ -106,6 +116,18 @@
             width: 30%;
             margin-left: 1.5%;
             transition: all .3s;
+        }
+
+        .tabs-text-ctn {
+            height: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: gray;
+        }
+
+        .tab-text.active {
+            color: white;
         }
     </style>
 </head>
@@ -118,7 +140,7 @@
                 <div class="detail"></div>
                 <div class="indicator-ctn">
                     <div class="tabs-text-ctn">
-                        <div class="tab-text">作品1</div>
+                        <div class="tab-text active">作品1</div>
                         <div class="tab-text">作品1</div>
                         <div class="tab-text">作品1</div>
                     </div>
@@ -127,6 +149,16 @@
                 <div class="tabs-ctn">
                     <div class="tabs">
                         <div class="tab tab1">
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
+                            <p>12</p>
                             <p>12</p>
                             <p>12</p>
                             <p>12</p>
@@ -213,7 +245,11 @@
     !function () {
         let warpper = document.querySelector('.wrapper')
         let leftEl = document.querySelector('.left')
+        let header = document.querySelector('header')
+        let headerHeight = getCss(header, 'height')
+        let indicatorCtn = document.querySelector('.indicator-ctn')
 
+        let indicatorCtnOffsetTop = indicatorCtn.offsetTop
         let startLocationX = 0
         let startLocationY = 0
 
@@ -236,12 +272,14 @@
 
         warpper.addEventListener('touchstart', function (e) {
             warpper.style.transition = 'none'
+            header.style.transition = 'none'
 
             let left = getCss(warpper, 'left')
-            if (Math.abs(left) !== rightWidth) {
-                currentSwiperItemIndex = 0
-            } else {
+
+            if (left !== 0) {
                 currentSwiperItemIndex = 1
+            } else {
+                currentSwiperItemIndex = 0
             }
             startLocationX = e.touches[0].pageX
             startLocationY = e.touches[0].pageY
@@ -254,83 +292,100 @@
             moveXDistance = lastLocationX - startLocationX
             moveYDistance = lastLocationY - startLocationY
             checkDirection()
-            if (!isCanRightWiping) return
-            if (currentSwiperItemIndex === 0) {
-                if (moveXDistance > 0) {
-                    moveXDistance = 0
+            if (isCanRightWiping) {
+                if (currentSwiperItemIndex === 0) {
+                    if (moveXDistance > 0) {
+                        moveXDistance = 0
+                    }
+                    if (Math.abs(moveXDistance) > rightWidth) {
+                        moveXDistance = -rightWidth
+                    }
+                    isDrawRight = moveXDistance < 0
+                    if (isDrawRight) {
+                        warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
+                    } else {
+                        warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
+                    }
                 }
-                if (Math.abs(moveXDistance) > rightWidth) {
-                    moveXDistance = -rightWidth
-                }
-                isDrawRight = moveXDistance < 0
-                if (isDrawRight) {
-                    warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
-                } else {
-                    warpper.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
-                }
-            }
-            if (currentSwiperItemIndex === 1) {
-                if (moveXDistance < 0) {
-                    moveXDistance = 0
-                }
-                isDrawRight = moveXDistance < 0
-                if (isDrawRight) {
-                    warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance + 'px'
-                } else {
-                    warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance + 'px'
-                }
-            }
-
-        })
-        warpper.addEventListener('touchend', function (e) {
-            // console.log(moveXDistance);
-            if (!isCanRightWiping) {
-                isNeedCheck = true
-                return
-            }
-            if (!moveXDistance) return
-            warpper.style.transition = 'all .3s'
-            let endTime = Date.now()
-            let gapTime = endTime - startTime
-
-            // 如果
-            if (Math.abs(moveXDistance) < 20) {
-                gapTime = 1000
-            }
-            if (Math.abs(moveXDistance) > (width / 3)) {
-                gapTime = 100
-            }
-            // console.log('是否向左划',isDrawRight)
-            if (gapTime < 150) {
-                // console.log('小于500', currentIndex)
-                if (isDrawRight) {
-                    // console.log('往左划');
-                    warpper.style.left = -rightWidth + 'px'
-                    leftEl.style.opacity = 0.5
-                } else {
-                    warpper.style.left = 0
-                    leftEl.style.opacity = 1
+                if (currentSwiperItemIndex === 1) {
+                    if (moveXDistance < 0) {
+                        moveXDistance = 0
+                    }
+                    isDrawRight = moveXDistance < 0
+                    if (isDrawRight) {
+                        warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance + 'px'
+                    } else {
+                        warpper.style.left = -(currentSwiperItemIndex + 0) * rightWidth + moveXDistance + 'px'
+                    }
                 }
             } else {
-                if (currentSwiperItemIndex === 1) {
-                    warpper.style.left = -rightWidth + 'px'
+                if (moveYDistance > 0) {
+                    console.log('往下划')
+                    header.style.height = headerHeight + moveYDistance / 5 + 'px'
                 } else {
-                    warpper.style.left = 0
+                    console.log('往上划')
                 }
+                // console.log('y', moveYDistance)
             }
-            resetConfig()
         })
-
-        leftEl.addEventListener('touchstart', function (e) {
+        warpper.addEventListener('touchend', function (e) {
+            //点击的是左边，并且是菜单展开状态，并且移动距离等于 0，那么就收起来
             let left = getCss(warpper, 'left')
-            if (left !== 0) {
+            if (e.path.includes(leftEl) && left !== 0 && moveXDistance === 0) {
+                warpper.style.transition = 'all .3s'
                 warpper.style.left = 0
                 leftEl.style.opacity = 1
-                // currentSwiperItemIndex = 0
-                moveXDistance = 0
+                resetConfig()
                 e.stopImmediatePropagation()
                 e.stopPropagation()
                 return false
+            }
+            if (isCanRightWiping) {
+                if (!moveXDistance) return
+                warpper.style.transition = 'all .3s'
+                let endTime = Date.now()
+                let gapTime = endTime - startTime
+
+                // 如果
+                if (Math.abs(moveXDistance) < 20) {
+                    gapTime = 1000
+                }
+                if (Math.abs(moveXDistance) > (width / 3)) {
+                    gapTime = 100
+                }
+                // console.log('是否向左划',isDrawRight)
+                if (gapTime < 150) {
+                    // console.log('小于500', currentIndex)
+                    if (isDrawRight) {
+                        // console.log('往左划');
+                        warpper.style.left = -rightWidth + 'px'
+                        leftEl.style.opacity = 0.5
+                    } else {
+                        warpper.style.left = 0
+                        leftEl.style.opacity = 1
+                    }
+                } else {
+                    if (currentSwiperItemIndex === 1) {
+                        warpper.style.left = -rightWidth + 'px'
+                    } else {
+                        warpper.style.left = 0
+                    }
+                }
+                resetConfig()
+                isNeedCheck = true
+                return
+            } else {
+                header.style.transition = 'all .3s'
+                header.style.height = headerHeight + 'px'
+                resetConfig()
+            }
+        })
+
+        leftEl.addEventListener('scroll', function () {
+            if (leftEl.scrollTop > indicatorCtnOffsetTop) {
+                indicatorCtn.classList.add('fixed')
+            } else {
+                indicatorCtn.classList.remove('fixed')
             }
         })
 
@@ -343,7 +398,7 @@
         }
         function checkDirection() {
             if (!isNeedCheck) {
-                console.log('不需要检测了')
+                // console.log('不需要检测了')
                 return
             }
 
@@ -360,15 +415,13 @@
                 // console.log('角度------------', angle)
 
                 if (angle < 0.6) {
-                    //上下划
-                    isCanDownWiping = true
+                    //上下划 
                     isCanRightWiping = false
                     isNeedCheck = false
                     return
                 }
                 if (angle > 5) {
-                    //左右划
-                    isCanDownWiping = false
+                    //左右划 
                     isCanRightWiping = true
                     isNeedCheck = false
                     return
@@ -400,6 +453,7 @@
         let tabsCtn = document.querySelector('.tabs-ctn')
         let tabs = document.querySelector('.tabs')
         let indicator = document.querySelector('.indicator')
+        let tabsTextCtn = document.querySelector('.tabs-text-ctn')
 
         let startLocationX = 0
         let startLocationY = 0
@@ -444,87 +498,105 @@
 
             isDrawRight = moveXDistance < 0
 
-            if (currentSwiperItemIndex === tabs.children.length - 1 && isDrawRight) {
-                return
-            }
-            e.stopImmediatePropagation();
-            e.stopPropagation()
-
-            checkDirection() 
-            if (!isCanRightWiping) return
-
-
-            if (isDrawRight) {
-                indicator.style.marginLeft = (1.5 + (currentSwiperItemIndex + 0) * 33 + Math.abs(moveXDistance) / width / 3 * 100) + '%'
-                tabs.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
-            } else {
-                let marginLeft = (1.5 + (currentSwiperItemIndex + 0) * 33 - Math.abs(moveXDistance) / width / 3 * 100)
-                if (marginLeft > 1.5) {
-                    indicator.style.marginLeft = marginLeft + '%'
-                } else {
-                    indicator.style.marginLeft = '1.5%'
+            checkDirection()
+            if (isCanRightWiping) {
+                if (currentSwiperItemIndex === tabs.children.length - 1 && isDrawRight) {
+                    return
                 }
-                tabs.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
-            }
-        })
-        tabs.addEventListener('touchend', function (e) {
-            if (currentSwiperItemIndex === tabs.children.length - 1 && isDrawRight) {
-                return
-            }
-            e.stopImmediatePropagation();
-            e.stopPropagation()
-
-            if (!isCanRightWiping) {
-                isNeedCheck = true
-                return
-            }
-
-            if (!moveXDistance) return
-            tabs.style.transition = 'all .3s'
-            indicator.style.transition = 'all .3s'
-
-            let endTime = Date.now()
-            let gapTime = endTime - startTime
-
-            // 如果
-            if (Math.abs(moveXDistance) < 20) {
-                gapTime = 1000
-            }
-            if (Math.abs(moveXDistance) > (width / 3)) {
-                gapTime = 100
-            }
-
-            if (gapTime < 150) {
-                // console.log('小于500', currentIndex)
+                e.stopImmediatePropagation();
+                e.stopPropagation()
                 if (isDrawRight) {
-                    indicator.style.marginLeft = 1.5 + (currentSwiperItemIndex + 1) * 33 + '%'
-                    console.log('往左划');
-                    if (currentSwiperItemIndex === tabs.children.length - 1) {
-                        tabs.style.left = -(tabs.children.length - 1) * width + 'px'
-                        return
-                    }
-                    tabs.style.left = -(currentSwiperItemIndex + 1) * width + 'px'
-                    tabsCtn.style.height = getCss(tabs.children[currentSwiperItemIndex + 1], 'height') + 'px'
+                    indicator.style.marginLeft = (1.5 + (currentSwiperItemIndex + 0) * 33 + Math.abs(moveXDistance) / width / 3 * 100) + '%'
+                    tabs.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
                 } else {
-                    let marginLeft = 1.5 + (currentSwiperItemIndex - 1) * 33
+                    let marginLeft = (1.5 + (currentSwiperItemIndex + 0) * 33 - Math.abs(moveXDistance) / width / 3 * 100)
                     if (marginLeft > 1.5) {
                         indicator.style.marginLeft = marginLeft + '%'
                     } else {
                         indicator.style.marginLeft = '1.5%'
                     }
-                    console.log('往右划');
-                    if (currentSwiperItemIndex === 0) {
-                        return tabs.style.left = 0
+                    tabs.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
+                }
+            }
+        })
+        tabs.addEventListener('touchend', function (e) {
+            if (isCanRightWiping) {
+                if (currentSwiperItemIndex === tabs.children.length - 1 && isDrawRight) {
+                    return
+                }
+                e.stopImmediatePropagation();
+                e.stopPropagation()
+                if (!moveXDistance) return
+                tabs.style.transition = 'all .3s'
+                indicator.style.transition = 'all .3s'
+
+                let endTime = Date.now()
+                let gapTime = endTime - startTime
+
+                // 如果
+                if (Math.abs(moveXDistance) < 20) {
+                    gapTime = 1000
+                }
+                if (Math.abs(moveXDistance) > (width / 3)) {
+                    gapTime = 100
+                }
+
+                if (gapTime < 150) {
+                    // console.log('小于500', currentIndex)
+                    if (isDrawRight) {
+                        indicator.style.marginLeft = 1.5 + (currentSwiperItemIndex + 1) * 33 + '%'
+                        console.log('往左划');
+                        if (currentSwiperItemIndex === tabs.children.length - 1) {
+                            tabs.style.left = -(tabs.children.length - 1) * width + 'px'
+                            return
+                        }
+                        for (let item of tabsTextCtn.children) {
+                            item.classList.remove('active')
+                        }
+                        tabsTextCtn.children[currentSwiperItemIndex + 1].classList.add('active')
+                        tabs.style.left = -(currentSwiperItemIndex + 1) * width + 'px'
+                        tabsCtn.style.height = getCss(tabs.children[currentSwiperItemIndex + 1], 'height') + 'px'
+
+                    } else {
+
+                        let marginLeft = 1.5 + (currentSwiperItemIndex - 1) * 33
+                        if (marginLeft > 1.5) {
+                            indicator.style.marginLeft = marginLeft + '%'
+                        } else {
+                            indicator.style.marginLeft = '1.5%'
+                        }
+                        console.log('往右划');
+                        if (currentSwiperItemIndex === 0) {
+                            return tabs.style.left = 0
+                        }
+                        for (let item of tabsTextCtn.children) {
+                            item.classList.remove('active')
+                        }
+                        tabsTextCtn.children[currentSwiperItemIndex - 1].classList.add('active')
+                        tabs.style.left = -(currentSwiperItemIndex - 1) * width + 'px'
+                        tabsCtn.style.height = getCss(tabs.children[currentSwiperItemIndex - 1], 'height') + 'px'
                     }
-                    tabs.style.left = -(currentSwiperItemIndex - 1) * width + 'px'
-                    tabsCtn.style.height = getCss(tabs.children[currentSwiperItemIndex - 1], 'height') + 'px'
+                } else {
+                    tabs.style.left = -(currentSwiperItemIndex) * width + 'px'
                 }
             } else {
-                tabs.style.left = -(currentSwiperItemIndex) * width + 'px'
+                isNeedCheck = true
             }
             resetConfig()
         })
 
+        for (let textEl of tabsTextCtn.children) {
+            textEl.addEventListener('click', function () {
+                for (let item of tabsTextCtn.children) {
+                    item.classList.remove('active')
+                }
+                textEl.classList.add('active')
+
+                let tabsLeft = getCss(tabs, 'left')
+                
+                // console.log(Math.abs(tabsLeft)/width)
+            })
+        }
         function resetConfig() {
             isCanDownWiping = false
             isCanRightWiping = false
@@ -568,6 +640,9 @@
             }
         }
     }()
+</script>
+<script>
+
 </script>
 
 </html>
