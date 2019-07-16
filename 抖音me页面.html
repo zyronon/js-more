@@ -514,6 +514,9 @@
                     indicator.style.marginLeft = (1.5 + (currentSwiperItemIndex + 0) * 33 + Math.abs(moveXDistance) / width / 3 * 100) + '%'
                     tabs.style.left = -(currentSwiperItemIndex + 0) * width + moveXDistance + 'px'
                 } else {
+                    if (currentSwiperItemIndex === 0) {
+                        return tabs.style.left = 0
+                    }
                     let marginLeft = (1.5 + (currentSwiperItemIndex + 0) * 33 - Math.abs(moveXDistance) / width / 3 * 100)
                     if (marginLeft > 1.5) {
                         indicator.style.marginLeft = marginLeft + '%'
