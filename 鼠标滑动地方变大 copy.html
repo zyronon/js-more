@@ -17,30 +17,44 @@
             position: relative;
         }
 
+        .countryChoose {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        header {
+            background: red;
+            height: 110px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+        }
 
         .content {
             margin-top: 110px;
             display: flex;
-            height: calc(100% - 110px);
+            height: 100%;
             width: 100%;
         }
 
         .left {
-            width: 95%; 
+            width: 95%;
+            height: calc(100% - 110px); 
+            overflow-y: scroll;
         }
 
         .right {
-            position: fixed;
-            right: 0;bottom: 0;
-            top: 0;
-            z-index: 999;
-            width: 50px;
+            width: 5%;
+            height: calc(100% - 110px); 
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        .indicator-ctn2 {
+        .indicator-ctn2 { 
+            width: 20px;
             padding: 0;
             margin: 0;
             height: 468px;
@@ -56,24 +70,11 @@
             font-size: 14px;
             line-height: 14px;
         }
-
-        header {
-            background: red;
-            height: 110px;
-            width: 100%;
-            position: fixed;
-            top: 0; 
-        }
-
-        .b {
-            height: 100%;
-            width: 100%;
-        }
     </style>
 </head>
 
 <body>
-    <div class="b">
+    <div class="countryChoose">
         <header> </header>
         <div class="content">
             <div class="left">
