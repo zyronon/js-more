@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function spawn(generatorFunc) {
+            function continuer(verb, arg) {
+                var result;
+                try {
+                    result = generator[verb](arg);
+                } catch (err) {
+                    return Promise.reject(err);
+                }
+                if (result.done) {
+                    return result.value;
+                } else {
+                    return Promise.resolve(result.value).then(onFulfilled, onRejected);
+                }
+            }
+            var generator = generatorFunc();
+            var onFulfilled = continuer.bind(continuer, "next");
+            var onRejected = continuer.bind(continuer, "throw");
+            return onFulfilled();
+        }
+
+        spawn(function* () {
+            try {
+                // 'yield' effectively does an async wait,
+                // returning the result of the promise
+                let story = yield getJSON('story.json');
+                addHtmlToPage(story.heading);
+
+                // Map our array of chapter urls to
+                // an array of chapter json promises.
+                // This makes sure they all download in parallel.
+                let chapterPromises = story.chapterUrls.map(getJSON);
+
+                for (let chapterPromise of chapterPromises) {
+                    // Wait for each chapter to be ready, then add it to the page
+                    let chapter = yield chapterPromise;
+                    addHtmlToPage(chapter.html);
+                }
+
+                addTextToPage("All done");
+            }
+            catch (err) {
+                // try/catch just works, rejected promises are thrown here
+                addTextToPage("Argh, broken: " + err.message);
+            }
+            document.querySelector('.spinner').style.display = 'none';
+        })
+    </script>
+</body>
+
+</html>
