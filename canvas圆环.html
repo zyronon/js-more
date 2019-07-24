@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas</title>
+    <style>
+        .ring {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        #tutorial {
+            transform: rotate(-135deg);
+            width: 150px;
+            height: 150px;
+        }
+
+        .fraction {
+            position: absolute;
+            font-size: 30px;
+            font-weight: bold;
+            color: red;
+        }
+
+        .small {
+            font-size: 12px;
+            font-weight: lighter;
+        }
+
+        .title {
+            color: red;
+            bottom: 0;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ring">
+        <canvas id="tutorial" width="150" height="150"></canvas>
+        <span class="fraction">100 <span class="small">分</span> </span>
+        <span class="title">服务分</span>
+    </div>
+
+    <script>
+        let radius = 75
+        let thickness = 10
+        let innerRadius = radius - thickness
+        let x = 75
+        let y = 75
+        var canvas = document.getElementById('tutorial');
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = "#f2d7d7";
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, Math.PI * 1.5, Math.PI)
+        ctx.quadraticCurveTo((x - innerRadius) - thickness/2 , y - thickness, x - innerRadius, y)
+        ctx.arc(x, y, innerRadius, Math.PI, Math.PI * 1.5, true)
+        ctx.quadraticCurveTo(y - thickness, (x - innerRadius) - thickness / 2, x, y - innerRadius - thickness)
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = "#e87c7c";
+        ctx.arc(x, y, radius, Math.PI * 1.5, Math.PI * 2)
+        ctx.quadraticCurveTo((x + innerRadius) + thickness / 2, y + thickness, x + innerRadius, y)
+        ctx.arc(x, y, innerRadius, Math.PI * 2, Math.PI * 1.5, true)
+        ctx.quadraticCurveTo(y - thickness, (x - innerRadius) - thickness / 2, x, y - innerRadius - thickness)
+
+        ctx.fill();
+
+
+    </script>
+</body>
+
+</html>
