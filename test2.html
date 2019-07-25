@@ -1,82 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
+    <style type="text/css">
         html,
         body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            /* overflow: hidden; */
-        }
-
-        .ctn {
-            height: 100%;
-            width: 100%;
-            /* overflow-y: scroll; */
-            overflow: hidden;
-        }
-
-        .test {}
-
-        header {
-            height: 200px;
-            width: 100%;
-            background: red;
-        }
-        .test{
-            height: 100%;
-            overflow-y: scroll;
+            height: 2000px;
         }
     </style>
 </head>
 
 <body>
-    <div class="ctn">
-        <header></header>
-        <div class="test">
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-                <p>11</p>
-            </div>
 
-    </div>
+    <script type="text/javascript">
+        function throttle(fn, gapTime) {
+            let _lastTime = null;
+
+            return function () {
+                let _nowTime = + new Date()
+                if (_nowTime - _lastTime > gapTime || !_lastTime) {
+                    fn();
+                    _lastTime = _nowTime
+                }
+            }
+        }
+
+        let fn = () => {
+            console.log('boom')
+        }
+        throttle(fn, 1000)()
+
+    </script>
 </body>
 
 </html>
