@@ -41,7 +41,7 @@
 <body>
     <div class="ring">
         <canvas id="tutorial"></canvas>
-        <span class="fraction">100 <span class="small">分</span> </span>
+        <span class="fraction"><span class="number">0</span> <span class="small">分</span> </span>
         <span class="title">服务分</span>
     </div>
 
@@ -67,11 +67,17 @@
         //进度条动画
         ctx.fillStyle = "#e87c7c";
         let tempAngle = startAngle
+        let twoEndAngle = 0
+        let step = (twoEndAngle - startAngle) / 100
+        let numberSpan = document.querySelector('.number')
+        let count = 0
         let inter = setInterval(() => {
-            if (tempAngle > endAngle) {
+            if (tempAngle > twoEndAngle) {
                 clearInterval(inter)
             } else {
-                tempAngle += 4
+                count++
+                numberSpan.innerText = count
+                tempAngle += step
             }
             renderRing(startAngle, tempAngle)
         }, 16.7)
@@ -85,19 +91,19 @@
             ctx.arc(x, y, radius, angle2Radian(startAngle), angle2Radian(endAngle))
 
             //计算外环与内环第一个连接处的中心坐标
-            let oneEndPoint = calcRingPoint(x, y, innerRadius + thickness / 2, endAngle)
+            let oneCtrlPoint = calcRingPoint(x, y, innerRadius + thickness / 2, endAngle)
 
             //绘制外环与内环第一个连接处的圆环
-            ctx.arc(oneEndPoint.x, oneEndPoint.y, thickness / 2, angle2Radian(-90), angle2Radian(270))
+            ctx.arc(oneCtrlPoint.x, oneCtrlPoint.y, thickness / 2, angle2Radian(-90), angle2Radian(270))
 
-            //绘制内环
+            // //绘制内环
             ctx.arc(x, y, innerRadius, angle2Radian(endAngle), angle2Radian(startAngle), true)
 
             //计算外环与内环第二个连接处的中心坐标
-            let twoEndPoint = calcRingPoint(x, y, innerRadius + thickness / 2, startAngle)
+            let twoCtrlPoint = calcRingPoint(x, y, innerRadius + thickness / 2, startAngle)
 
             //绘制外环与内环第二个连接处的圆环
-            ctx.arc(twoEndPoint.x, twoEndPoint.y, thickness / 2, angle2Radian(-90), angle2Radian(270))
+            ctx.arc(twoCtrlPoint.x, twoCtrlPoint.y, thickness / 2, angle2Radian(-90), angle2Radian(270))
 
             ctx.fill()
             // ctx.stroke()
