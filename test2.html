@@ -14,22 +14,16 @@
 <body>
 
     <script type="text/javascript">
-        function throttle(fn, gapTime) {
-            let _lastTime = null;
+        let s = `/*@import './color.wxss';*/
+                /*sdfsdfs*/
+        `
+        // let r = /\/\*(@import.+;)/g.test(s)
 
-            return function () {
-                let _nowTime = + new Date()
-                if (_nowTime - _lastTime > gapTime || !_lastTime) {
-                    fn();
-                    _lastTime = _nowTime
-                }
-            }
-        }
 
-        let fn = () => {
-            console.log('boom')
-        }
-        throttle(fn, 1000)()
+        s = s.replace(/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg, ($1, $2, $3) => {
+            return ''
+        })
+        console.log('end', s);
 
     </script>
 </body>
