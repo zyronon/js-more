@@ -1,31 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
     <style type="text/css">
         html,
         body {
-            height: 2000px;
+            background: #f1f1f1;
+        }
+
+        .list {
+            padding: 10px;
+        }
+
+
+        .item {
+            border-radius: 5px;
+            background: white;
+            overflow: hidden;
+        }
+
+        .wrapper {
+            position: relative;
+            left: -50%;
+            width: 150%;
+            display: flex;  
+        }
+
+        .content {
+            box-sizing: border-box;
+            width: 100%;
+          
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .left {}
+
+        .name,
+        .number {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+
+        .info {
+            margin-top: 10px;
+        }
+
+        .status {
+            margin-left: 80px;
+        }
+
+        .date {
+            margin-top: 10px;
+        }
+
+        .right {
+            width: 50px;
+            justify-content: space-around;
+            display: flex;
+            flex-direction: column;
+        }
+
+        img {
+            height: 20px;
+            width: 20px;
+        }
+
+        .option {
+
+            background: red;
+            width: 50%;
         }
     </style>
+    <script>
+        let test = {
+            a:1,
+            b:2
+        }
+        console.log(Object.keys(test));
+    </script>
 </head>
 
 <body>
-
-    <script type="text/javascript">
-        let s = `/*@import './color.wxss';*/
-                /*sdfsdfs*/
-        `
-        // let r = /\/\*(@import.+;)/g.test(s)
-
-
-        s = s.replace(/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg, ($1, $2, $3) => {
-            return ''
-        })
-        console.log('end', s);
-
-    </script>
+    <div class="list">
+        <div class="item">
+            <div class="wrapper">
+                <div class="content">
+                    <view class="left">
+                        <view class="name">名称:{{item.name}}</view>
+                        <view class="number">编号:{{item.number}}</view>
+                        <view class="info">
+                            <text class="time-cycle">周期:1</text>
+                            <text class="status">状态:进行中</text>
+                        </view>
+                        <view class="date">创建日期:20190909090909</view>
+                    </view>
+                    <view class="right">
+                        <img src="~@/assets/icon/arrow.png" alt="">
+                    </view>
+                </div>
+                <div class="option">
+                    <button class="cu-btn bg-blue ">受试者用药情况</button>
+                    <button class="cu-btn bg-blue ">受试者用药情况</button>
+                    </view>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
