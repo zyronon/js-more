@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+</head>
+<body>
+111231
+</body>
+</html>
+
+<script type="text/javascript">
+
+    function MyPromise(exec) {
+        this.value = undefined
+        this.reson = undefined
+        this.status = 'pending'
+        this.error = undefined
+        let that = this
+        // 存放成功/失败的队列
+        this.onFulfilledCallbacks = []
+        this.onRejectedCallbacks = []
+
+        function resolve(r) {
+            // 如果value是一个Promise 递归解析
+            if (r instanceof MyPromise) {
+                return r.then(resolve, reject)
+            }
+            if (that.status === 'pending') {
+                that.value = r
+                that.status = 'fulfilled'
+                that.onFulfilledCallbacks.forEach(fn => fn())
+            }
+        }
+
+        function reject(r) {
+            if (that.status === 'pending') {
+                that.reson = r
+                that.status = 'rejected'
+                that.onRejectedCallbacks.forEach(fn => fn())
+            }
+        }
+
+        try {
+            exec(resolve, reject)
+        } catch (e) {
+            reject(e)
+        }
+    }
+
+    MyPromise.prototype.then = function (onFulfilled, onRejected) {
+        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value
+        onRejected = typeof onRejected === 'function' ? onRejected : reason => {
+            throw reason
+        }
+        return new MyPromise((resolve, reject) => {
+            try {
+                switch (this.status) {
+                    case "fulfilled":
+                        resolve(onFulfilled(this.value))
+                        break;
+                    case "rejected":
+                        resolve(onRejected(this.reson))
+                        break;
+                    case "pending":
+                        this.onFulfilledCallbacks.push(() => {
+                            resolve(onFulfilled(this.value))
+                        })
+                        this.onRejectedCallbacks.push(() => {
+                            resolve(onRejected(this.reson))
+                        })
+                }
+            } catch (e) {
+                reject(e)
+            }
+        })
+    }
+    MyPromise.prototype.finally = function (callback) {
+        return this.then(resolve => {
+            callback()
+        })
+    }
+    MyPromise.prototype.catch = function (callback) {
+        return this.then(null, callback)
+    }
+
+
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('promise1')
+        }, 500)
+    }).then(r => {
+        console.log(r);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('promise2')
+            }, 500)
+        })
+    }).then(r => {
+        console.log(r);
+        return new Promise((resolve, reject) => {
+            resolve('promise3')
+        })
+    }).then(r => {
+        console.log(r);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log(asd);
+                resolve('promise4')
+            }, 500)
+        })
+    }).then(r => {
+        console.log(r);
+        return new Promise((resolve, reject) => {
+            resolve('promise5')
+        })
+    }).then(r => {
+        console.log(r);
+    }).catch(e=>{
+        console.log(e);
+    })
+
+    // new MyPromise((resolve, reject) => {
+    //     setTimeout(() => {
+    //         resolve('Promise1')
+    //     }, 500)
+    // }).then(resolve => {
+    //     console.log(resolve);
+    //     return new MyPromise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve('Promise2')
+    //         }, 500)
+    //     })
+    // }).then(resolve => {
+    //     console.log(resolve);
+    //     return new MyPromise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve('Promise3')
+    //         }, 500)
+    //     })
+    // }).then().then(resolve => {
+    //     console.log(resolve);
+    //     return new MyPromise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve('Promise5')
+    //         }, 500)
+    //     })
+    // }).finally(() => {
+    //     console.log('finally');
+    // })
+    //
+    console.log('-----------');
+
+    // new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //         resolve('Promise1')
+    //     }, 500)
+    // }).then(resolve => {
+    //     console.log(resolve);
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve('Promise2')
+    //         }, 500)
+    //     })
+    // }).then(resolve => {
+    //     console.log(resolve);
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve('Promise3')
+    //         }, 500)
+    //     })
+    // }).then().then(resolve => {
+    //     console.log(resolve);
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve('Promise5')
+    //         }, 500)
+    //     })
+    // }).finally(()=>{
+    //     console.log('finally');
+    // })
+
+</script>

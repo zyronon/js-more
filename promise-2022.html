@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+  function MyPromise(cb) {
+    this.resolveValue = []
+    this.resolveFn = []
+    let resolve = (val) => {
+      if (this.resolveFn.length) {
+        this.resolveFn.map(v => {
+          v(val)
+        })
+      } else {
+        this.resolveValue.push(val)
+      }
+    }
+    let reject = function () {
+
+    }
+    cb(resolve, reject)
+    // return this
+  }
+
+  MyPromise.prototype.then = function (onFulfilled, onRejected) {
+    if (this.resolveValue.length) {
+      let r = onFulfilled(this.resolveValue)
+      if (r) {
+        return new MyPromise((resolve, reject) => {
+          resolve(r)
+        })
+      }
+    } else {
+      this.resolveFn.push(onFulfilled)
+    }
+    return new MyPromise((resolve, reject) => {
+      resolve(onFulfilled(this.resolveValue))
+    })
+  };
+  new MyPromise((resolve, reject) => {
+    // resolve(12)
+    setTimeout(() => {
+      resolve('setTimeout')
+    }, 1000)
+  })
+    .then(
+      value => {
+        console.log(value)
+        return 1
+      },
+      reason => {
+
+      }
+    )
+    .then(
+      value => {
+        console.log(value)
+      },
+      reason => {
+
+      }
+    )
+
+
+</script>
