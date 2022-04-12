@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script crossorigin="anonymous" integrity="sha384-AQhQSZGQWTMJhb/TdS7NWpCmOM/8lIEsaevSU5oZtt8pQKoa+uJL4A2WnQ0O5Zj2"
+            src="https://lib.baomitu.com/jquery/3.5.0/jquery.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-t2aKYdynkWHMROdwTbuJjhBYimtXMvVTLTU447q2xA+TLgj9JMb3LBthTn+UCGez"
+            src="https://lib.baomitu.com/jquery-mousewheel/3.1.13/jquery.mousewheel.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="app">
+    <input type="text" id="input" :value="data.num" @input="data.num = $event.target.value">
+    <div class="show">{{data.num}}</div>
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+
+        let data = {
+            num: 1123
+        };
+
+        let vNodes = []
+
+        let html = $('.app').html()
+        let regex = /\<.+{{.+\}\}.+\>/g;
+        let useKuo = html.match(regex)
+        let regex2 = /\<.+\:value.+\>/g;
+        let useBing = html.match(regex2)
+        useBing.map(value => {
+            let vueClass = 'vue' + Date.now()
+
+            let node = $(value)
+            node.addClass(vueClass)
+
+            let nodeHtml = node[0].outerHTML
+
+            let useDataStr = node.attr(':value')
+            let useDatas = useDataStr.split('.')
+            let parentData = eval(useDatas[0])
+            let key = parentData[useDatas[1]]
+
+            // $('.' + vueClass).val(eval(useDataStr))
+            Object.defineProperty(parentData, useDatas[1], {
+                set(v) {
+                    $('.' + vueClass).val(v)
+                }
+            })
+
+            html = html.replace(value, nodeHtml)
+        })
+        useKuo.map(value => {
+
+            let vueClass = 'vue' + Date.now()
+
+            let node = $(value)
+            node.addClass(vueClass)
+
+            let nodeHtml = node[0].outerHTML
+
+
+            let useDataStr = node.text()
+            useDataStr = useDataStr.substring(2, useDataStr.length - 2)
+            let useDatas = useDataStr.split('.')
+            console.log(useDatas);
+            let parentData = eval(useDatas[0])
+            let key = parentData[useDatas[1]]
+
+            $('.' + vueClass).val(eval(useDataStr))
+            Object.defineProperty(parentData, useDatas[1], {
+                set(v) {
+                    $('.' + vueClass).text(v)
+                }
+            })
+
+            html = html.replace(value, nodeHtml)
+        })
+        $('.app').html(html)
+        console.log(html);
+        data.num = 112
+
+
+        // for (const item in data) {
+        //     let key = data[item]
+        //     Object.defineProperty(data, item, {
+        //         get() {
+        //             console.log(1);
+        //             return key
+        //         },
+        //         set(v) {
+        //             $($('.show')[0]).text(v)
+        //         }
+        //     })
+        // }
+        // $($('#input')[0]).val(data.num)
+        // $($('.show')[0]).text(data.num)
+        // $($('#input')[0]).on('input', function (e) {
+        //     data.num = e.target.value;
+        // });
+
+
+    })
+
+
+</script>
