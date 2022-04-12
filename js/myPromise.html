@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<script>
+  function MyPromise(exec) {
+    let that = this
+    this.status = 'pending'
+    this.data = undefined
+    this.resloveCb = []
+    this.rejectCb = []
+
+    function reslove(v) {
+      if (that.status === 'pending') {
+        that.data = v
+        that.status = 'reslove'
+        for (let i = 0; i < that.resloveCb.length; i++) {
+          that.resloveCb[i](v)
+        }
+      }
+    }
+
+    function reject(v) {
+      if (that.status === 'pending') {
+        that.data = v
+        that.status = 'reject'
+        for (let i = 0; i < that.rejectCb.length; i++) {
+          that.rejectCb[i](v)
+        }
+      }
+    }
+
+    try {
+      exec(reslove, reslove)
+    } catch (e) {
+      reject(e)
+    }
+  }
+
+  MyPromise.prototype.then = function (onReslov, onReject) {
+    onReslov = typeof onReslov === 'function' ? onReslov : r => r
+    onReject = typeof onReject === 'function' ? onReject : r => r
+    let that = this
+
+    if (this.status === 'reslove') {
+      return new MyPromise((reslove, reject) => {
+        let x = onReslov(this.data)
+        if (typeof x === MyPromise) {
+          x.then(onReslov, onReject)
+        } else {
+          reslove(x)
+        }
+      })
+    }
+
+    if (this.status === 'reject') {
+      return new MyPromise((reslove, reject) => {
+        let x = onReslov(this.data)
+        if (typeof x === MyPromise) {
+          x.then(onReslov, onReject)
+        } else {
+          reject(x)
+        }
+      })
+    }
+
+    if (this.status === 'pending') {
+      return new MyPromise((reslove, reject) => {
+        this.resloveCb.push(function (v) {
+          let x = onReslov(that.data)
+          if (typeof x === MyPromise) {
+            x.then(onReslov, onReject)
+          } else {
+            reslove(x)
+          }
+        })
+      })
+      return new MyPromise((reslove, reject) => {
+        this.rejectCb.push(function (v) {
+          let x = onReject(that.data)
+          if (typeof x === MyPromise) {
+            x.then(onReslov, onReject)
+          } else {
+            reject(x)
+          }
+        })
+      })
+    }
+  }
+
+  new MyPromise((reslove, reject) => {
+    setTimeout(() => {
+      reject(10)
+    }, 500)
+  }).then(r => {
+    console.log(r)
+    return r
+  }).then(r => console.log(r))
+</script>
+</body>
+
+</html>

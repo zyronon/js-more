@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<button class="add">加</button>
+<button class="min">减</button>
+</body>
+</html>
+<script>
+  function counterReducer(state = {value: 0}, action) {
+    switch (action.type) {
+      case 'counter/incremented':
+        return {value: state.value + 1}
+      case 'counter/decremented':
+        return {value: state.value - 1}
+      default:
+        return state
+    }
+  }
+
+  function createStore(reducer) {
+    this.state = reducer(undefined, {})
+    this.cbs = []
+
+    this.subscribe = (cb) => {
+      this.cbs.push(cb)
+    }
+
+    this.dispatch = (type) => {
+      this.state = reducer(this.state, type)
+      this.cbs.map(v => {
+        v()
+      })
+    }
+
+    this.getState = () => {
+      return this.state
+    }
+
+    return this
+  }
+
+  let s = createStore(counterReducer)
+  s.subscribe(() => console.log(s.getState()))
+
+
+  $('.add').on('click', () => {
+    s.dispatch({type: 'counter/incremented'})
+  })
+  $('.min').on('click', () => {
+    s.dispatch({type: 'counter/decremented'})
+  })
+</script>

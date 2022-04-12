@@ -3,6 +3,7 @@
 
 <head>
     <title>testq</title>
+<<<<<<< HEAD
 
 
 </head>
@@ -13,4 +14,59 @@
 </html>
 
 <script>
+=======
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+        }
+
+        .left {
+            width: 100px;
+            background: red;
+        }
+
+        .right {
+            width: 100px;
+            background: blue;
+        }
+
+        .box {
+            background: gold;
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="left"></div>
+    <div class="box"></div>
+    <div class="right"></div>
+</div>
+</body>
+
+</html>
+<script>
+  const object1 = {
+    a: 2
+  };
+
+  Object.defineProperty(object1, 'a', {
+    get() {
+      console.log('get')
+      return object1
+    },
+    set(value) {
+      console.log('set', value)
+    }
+  });
+
+  object1.a = 77;
+
+  console.log(object1.a);
+
+
+>>>>>>> d860871e3c76e9a0c2c0c0ec2e1f6d84e4bc2389
 </script>

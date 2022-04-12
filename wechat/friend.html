@@ -9,14 +9,14 @@
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
-        $(function () {
-            $('.avatar').on('click', function () {
-                window.android.goMyFriend()
-            })
-            $('.list').on('click','.item #reply_img',function () {
-                $(this).prev().fadeToggle()
-            })
-            let a = ` <div class="item">
+      $(function () {
+        $('.avatar').on('click', function () {
+          window.android.goMyFriend()
+        })
+        $('.list').on('click', '.item #reply_img', function () {
+          $(this).prev().fadeToggle()
+        })
+        let a = ` <div class="item">
             <div class="avatar">
                 <img src="avatar2.jpg" alt="">
             </div>
@@ -86,185 +86,185 @@
                 </div>
             </div>
         </div>`
-            for (let i = 0; i < 50; i++) {
-               $('.list').append(a)
-            }
-        })
+        for (let i = 0; i < 50; i++) {
+          $('.list').append(a)
+        }
+      })
     </script>
 
     <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+      }
 
-        html, body {
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-        }
+      html, body {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
 
-        .scroll {
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden; /*主要*/
-            overflow-y: scroll; /*主要*/
-        }
+      .scroll {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden; /*主要*/
+        overflow-y: scroll; /*主要*/
+      }
 
-        .scroll::-webkit-scrollbar {
-            width: 0;
-        }
+      .scroll::-webkit-scrollbar {
+        width: 0;
+      }
 
-        .header {
-            background: url("bg.jpg");
-            height: 40%;
-            position: relative;
-        }
+      .header {
+        background: url("bg.jpg");
+        height: 40%;
+        position: relative;
+      }
 
-        .header .avatar {
-            position: absolute;
-            bottom: 0;
-            right: 20px;
-            display: flex;
-            z-index: 9;
-        }
+      .header .avatar {
+        position: absolute;
+        bottom: 0;
+        right: 20px;
+        display: flex;
+        z-index: 9;
+      }
 
-        .header .avatar img {
-            border-radius: 8px;
-            width: 80px;
-            height: 80px;
-        }
+      .header .avatar img {
+        border-radius: 8px;
+        width: 80px;
+        height: 80px;
+      }
 
-        .header .avatar .name {
-            color: white;
-            margin-right: 10px;
-            margin-top: 15px;
-        }
+      .header .avatar .name {
+        color: white;
+        margin-right: 10px;
+        margin-top: 15px;
+      }
 
-        .header .mask {
-            height: 10%;
-            width: 100%;
-            background: white;
-            position: absolute;
-            bottom: 0;
-        }
-
-
-        .list {
-        }
-
-        .list .item {
-            display: flex;
-            padding: 10px 0;
-            border-bottom: 1px solid gainsboro;
-
-        }
-
-        .list .item .avatar img {
-            margin: 0px 0 10px 10px;
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-        }
-
-        .list .item .container {
+      .header .mask {
+        height: 10%;
+        width: 100%;
+        background: white;
+        position: absolute;
+        bottom: 0;
+      }
 
 
-        }
+      .list {
+      }
 
-        .list .item .container > .name {
-            margin-left: 10px;
-            font-weight: bold;
-            color: #2b66c3;
-        }
+      .list .item {
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid gainsboro;
 
-        .list .item .container > .content {
-            padding: 0 10px;
-        }
+      }
 
-        .list .item .container > .content .photos {
-            margin-top: 10px;
-            width: 90%;
-            /*display: flex;*/
-        }
+      .list .item .avatar img {
+        margin: 0px 0 10px 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+      }
 
-        .list .item .container > .content .photos img {
-            width: 31%;
-        }
+      .list .item .container {
 
-        .list .item .container .info {
-            padding: 0 10px;
-            height: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
-        .list .item .container .info .time {
-            font-size: 12px;
-        }
+      }
 
-        .list .item .container .info .reply {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            height: 100%;
-        }
+      .list .item .container > .name {
+        margin-left: 10px;
+        font-weight: bold;
+        color: #2b66c3;
+      }
 
-        .list .item .container .info .reply > img {
-            width: 20px;
-            height: 15px;
-        }
+      .list .item .container > .content {
+        padding: 0 10px;
+      }
 
-        .list .item .container .info .reply .options {
-            width: 100%;
-            border-radius: 4px;
-            margin-right: 10px;
-            background: rgba(0, 0, 0, 0.76);
-            color: white;
-            display: flex;
-            height: 100%;
-            align-items: center;
-        }
+      .list .item .container > .content .photos {
+        margin-top: 10px;
+        width: 90%;
+        /*display: flex;*/
+      }
 
-        .list .item .container .info .reply .options .option {
-            margin: 0 20px;
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
+      .list .item .container > .content .photos img {
+        width: 31%;
+      }
 
-        .list .item .container .info .reply .options .option img {
+      .list .item .container .info {
+        padding: 0 10px;
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        }
+      .list .item .container .info .time {
+        font-size: 12px;
+      }
 
-        .list .item .container .info .reply .options .option span {
-            font-size: 14px;
-        }
+      .list .item .container .info .reply {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+      }
 
-        .list .item .container .comments {
-            background: #f2f2f2;
-            padding: 10px;
-        }
+      .list .item .container .info .reply > img {
+        width: 20px;
+        height: 15px;
+      }
 
-        .list .item .container .comments .comment {
-            margin-bottom: 5px;
-            /*display: flex;*/
-        }
+      .list .item .container .info .reply .options {
+        width: 100%;
+        border-radius: 4px;
+        margin-right: 10px;
+        background: rgba(0, 0, 0, 0.76);
+        color: white;
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
 
-        .list .item .container .comments .comment .name {
-            font-weight: bold;
-            color: #2b66c3;
-        }
+      .list .item .container .info .reply .options .option {
+        margin: 0 20px;
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
 
-        .list .item .container .comments .reply {
-            margin-bottom: 5px;
-        }
+      .list .item .container .info .reply .options .option img {
 
-        .list .item .container .comments .reply .name {
-            font-weight: bold;
-            color: #2b66c3;
-        }
+      }
+
+      .list .item .container .info .reply .options .option span {
+        font-size: 14px;
+      }
+
+      .list .item .container .comments {
+        background: #f2f2f2;
+        padding: 10px;
+      }
+
+      .list .item .container .comments .comment {
+        margin-bottom: 5px;
+        /*display: flex;*/
+      }
+
+      .list .item .container .comments .comment .name {
+        font-weight: bold;
+        color: #2b66c3;
+      }
+
+      .list .item .container .comments .reply {
+        margin-bottom: 5px;
+      }
+
+      .list .item .container .comments .reply .name {
+        font-weight: bold;
+        color: #2b66c3;
+      }
 
     </style>
 </head>
