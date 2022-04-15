@@ -2,28 +2,9 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>testq</title>
     <style>
-      .container {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-      }
-
-      .left {
-        width: 100px;
-        background: red;
-      }
-
-      .right {
-        width: 100px;
-        background: blue;
-      }
-
-      .box {
-        background: gold;
-        flex: 1;
-      }
     </style>
 </head>
 
@@ -38,10 +19,10 @@
 </html>
 <script>
   function deepCopy(obj, map = new Map()) {
-    console.log('obj',obj)
+    console.log('obj', obj)
     if (typeof obj === 'object') {
       let res = Array.isArray(obj) ? [] : {};
-      console.log('res',res)
+      console.log('res', res)
       if (map.get(obj)) {
         return map.get(obj);
       }
@@ -57,9 +38,28 @@
     }
   }
 
-  let A = {a: 1, b: [1, 2, 3]};
-  let B = deepCopy(A);
-  console.log(B); //{a:1,b:[1,2,3]}
+  // let A = {a: 1, b: [1, 2, 3]};
+  // let B = deepCopy(A);
+  // console.log(B); //{a:1,b:[1,2,3]}
+
+
+  function A(name) {
+    this.name = name
+    this.b = () => {
+      console.log('b', this.name)
+      return this
+    }
+    this.c = () => {
+      console.log('c', this.name)
+      // return this
+      return new A()
+    }
+    return 1
+  }
+
+  let a = new A('第一个a')
+  console.log(a)
+  console.log(a.b().c().b())
 
 
 </script>

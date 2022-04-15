@@ -4,26 +4,26 @@
 <head>
     <title>testq</title>
     <style>
-        .container {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-        }
+      .container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+      }
 
-        .left {
-            width: 100px;
-            background: red;
-        }
+      .left {
+        width: 100px;
+        background: red;
+      }
 
-        .right {
-            width: 100px;
-            background: blue;
-        }
+      .right {
+        width: 100px;
+        background: blue;
+      }
 
-        .box {
-            background: gold;
-            flex: 1;
-        }
+      .box {
+        background: gold;
+        flex: 1;
+      }
     </style>
 </head>
 
@@ -37,23 +37,29 @@
 
 </html>
 <script>
-  const object1 = {
-    a: 2
-  };
+  function deepCopy(obj, map = new Map()) {
+    console.log('obj',obj)
+    if (typeof obj === 'object') {
+      let res = Array.isArray(obj) ? [] : {};
+      console.log('res',res)
+      if (map.get(obj)) {
+        return map.get(obj);
+      }
+      map.set(obj, res);
+      console.log("map", map);
 
-  Object.defineProperty(object1, 'a', {
-    get() {
-      console.log('get')
-      return object1
-    },
-    set(value) {
-      console.log('set', value)
+      for (let i in obj) {
+        res[i] = deepCopy(obj[i], map);
+      }
+      return map.get(obj);
+    } else {
+      return obj;
     }
-  });
+  }
 
-  object1.a = 77;
-
-  console.log(object1.a);
+  let A = {a: 1, b: [1, 2, 3]};
+  let B = deepCopy(A);
+  console.log(B); //{a:1,b:[1,2,3]}
 
 
 </script>
