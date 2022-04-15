@@ -1,71 +1,65 @@
-// ==UserScript==
-// @name 91porn去广告+支持弹幕
-// @version 0.1
-// @description 91porn去广告+支持弹幕,自动生效！
-// @author Panda1337
-// @match */view_video.php?viewkey**
-// @icon https://www.google.com/s2/favicons?domain=workarea2.live
-// @grant none
-// @namespace https://greasyfork.org/users/730524
-// ==/UserScript==
-
-// ==UserScript==
-// @name 91porn去广告+支持弹幕
-// @version 0.1
-// @description 91porn去广告+支持弹幕,自动生效！
-// @author Panda1337
-// @match */view_video.php?viewkey**
-// @icon https://www.google.com/s2/favicons?domain=workarea2.live
-// @grant none
-// @namespace https://greasyfork.org/users/730524
-// ==/UserScript==
-var htmls = `
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 
-<body style="background: rgb(32,33,36);">
-    <meta name="referrer" content="never">
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <!-- <link rel="stylesheet" href="DPlayer.min.css" /> -->
-    <div id="dplayer" class="dplayer" style="height: 70vh;"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dplayer@1.26.0/dist/DPlayer.min.js"></script>
-    <script>
-        const dp = new DPlayer({
-            container: document.getElementById('dplayer'),
-            autoplay: true,
-            video: {
-                quality: [
-                    {
-                        name: '色',
-                        url: 'urlhere',
-                        type: 'hls',
-                    },
-                ],
-                defaultQuality: 0,
-                // pic: 'demo.png',
-                // thumbnails: 'thumbnails.jpg',
-            },
-        });
-        dp.seek(10);
-    </script>
-    <h2 style="color: gray;">title</h2>
+<head>
+    <title>testq</title>
+    <style>
+      .container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+      }
 
-    <h2 style="color: gray;">urlhere</h2>
+      .left {
+        width: 100px;
+        background: red;
+      }
+
+      .right {
+        width: 100px;
+        background: blue;
+      }
+
+      .box {
+        background: gold;
+        flex: 1;
+      }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="left"></div>
+    <div class="box"></div>
+    <div class="right"></div>
+</div>
 </body>
 
-</html>`;
+</html>
+<script>
+  function deepCopy(obj, map = new Map()) {
+    console.log('obj',obj)
+    if (typeof obj === 'object') {
+      let res = Array.isArray(obj) ? [] : {};
+      console.log('res',res)
+      if (map.get(obj)) {
+        return map.get(obj);
+      }
+      map.set(obj, res);
+      console.log("map", map);
 
-function strencode2(f) {
-var a = {
-'Anfny': function b(c, d) {
-return c(d);
-}
-};
-return a['Anfny'](unescape, f);
-}
+      for (let i in obj) {
+        res[i] = deepCopy(obj[i], map);
+      }
+      return map.get(obj);
+    } else {
+      return obj;
+    }
+  }
 
-var jm = strencode2(document.documentElement.outerHTML.split("document.write(strencode2(\"")[1].split("\"")[0]);
-var u = jm.split("
-<source src='")[1].split("'")[0];
-console.log(u)
-document.write(htmls.replace(" urlhere", u).replace("urlhere", u).replace("title", document.title))
+  let A = {a: 1, b: [1, 2, 3]};
+  let B = deepCopy(A);
+  console.log(B); //{a:1,b:[1,2,3]}
+
+
+</script>

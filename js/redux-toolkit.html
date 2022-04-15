@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<button class="add">加</button>
+<button class="min">减</button>
+</body>
+</html>
+<script>
+
+  const counterSlice = createSlice({
+    name: 'counter',
+    initialState: {
+      value: 0
+    },
+    reducers: {
+      incremented: state => {
+        state.value += 1
+      },
+      decremented: state => {
+        state.value -= 1
+      }
+    }
+  })
+
+  function createSlice(config) {
+    this.state = config.initialState
+    let key = Object.keys(config.reducers)
+    let reducers = {}
+    let that = this
+    key.map(f => {
+      reducers[f] = function () {
+        console.log(that.state)
+        // config.reducers[f](this.state)
+      }
+    })
+    this.actions = {...reducers}
+    this.reducer = {reducers, that: this}
+    return this
+  }
+
+  let {incremented, decremented} = counterSlice.actions
+
+  incremented()
+
+  const s = configureStore({
+    reducer: counterSlice.reducer
+  })
+
+  function configureStore(config) {
+    this.state = undefined
+    this.cbs = []
+    this.subscribe = (cb) => {
+      this.cbs.push(cb)
+    }
+
+    this.dispatch = (fn) => {
+      this.cbs.map(v => {
+        v()
+      })
+    }
+
+    this.getState = () => {
+      return config.reducer.that.state
+    }
+    return this
+  }
+
+  s.subscribe(() => console.log(s.getState()))
+  $('.add').on('click', () => {
+    s.dispatch(incremented())
+  })
+  $('.min').on('click', () => {
+    s.dispatch(decremented())
+  })
+</script>
