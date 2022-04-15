@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script>
+  class B {
+      static bss(){}
+
+      bff(){
+
+      }
+  }
+  class A extends B {
+    constructor() {
+        super()
+    //   this.a = 1;
+    }
+    static ss() {
+      console.log("ss");
+    }
+    ff() {
+      console.log("ff");
+    }
+  }
+ 
+  let a = new A();
+  a.bff()
+  console.log("类的__proto__", A.__proto__);
+  console.log("类的prototype", A.prototype);
+  console.log("类的prototype的__proto__", A.prototype.__proto__);
+  console.log("类的constructor", A.constructor);
+  console.log("------");
+  console.log("实例的__proto__", a.__proto__);
+  console.log("实例的__proto__的__proto__", a.__proto__.__proto__);
+  console.log("实例的prototype", a.prototype);
+  console.log("实例的constructor", a.constructor);
+</script>
