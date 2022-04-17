@@ -1,33 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <style></style>
-  </head>
 
-  <body></body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <style></style>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+</head>
+
+<body></body>
+
 </html>
 <script>
-  Function.prototype.myCall = function (context) {
-    if (typeof this !== "function") {
-      throw new TypeError("Error");
+  let url = 'http://blogapi.ttentau.top/v1/article/select?limit=100000&offset=1'
+
+  $.ajax({
+    url,
+    success(e){
+      console.log(e);
     }
-    context = context || window;
-    context.fn = this;
-    const args = [...arguments].slice(1);
-    const result = context.fn(...args);
-    delete context.fn;
-    return result;
-  };
+  })
 
-  var b = 111;
-  function a() {
-    console.log(this.b);
-  }
-
-  a.myCall();
-  // a()
+  window.addEventListener('fetch',()=>{
+    console.log('fetch');
+  }) 
 </script>

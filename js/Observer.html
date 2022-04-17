@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <body>
-<button>111</button>
+    <button>111</button>
 </body>
+
 </html>
 <script>
     class Observer {
         static events = new Map()
 
         static on(name, fn) {
-            this.events.set(name, {isOnce: false, fn})
+            this.events.set(name, { isOnce: false, fn })
         }
 
         static once(name, fn) {
-            this.events.set(name, {isOnce: true, fn})
+            this.events.set(name, { isOnce: true, fn })
         }
 
         static off(name) {
