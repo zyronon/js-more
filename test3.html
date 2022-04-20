@@ -2,64 +2,30 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>testq</title>
-    <style>
-    </style>
+  <meta charset="utf-8">
+  <title>testq</title>
+  <style>
+  </style>
 </head>
 
 <body>
-<div class="container">
+  <div class="container">
     <div class="left"></div>
     <div class="box"></div>
     <div class="right"></div>
-</div>
+  </div>
 </body>
 
 </html>
 <script>
-  function deepCopy(obj, map = new Map()) {
-    console.log('obj', obj)
-    if (typeof obj === 'object') {
-      let res = Array.isArray(obj) ? [] : {};
-      console.log('res', res)
-      if (map.get(obj)) {
-        return map.get(obj);
-      }
-      map.set(obj, res);
-      console.log("map", map);
-
-      for (let i in obj) {
-        res[i] = deepCopy(obj[i], map);
-      }
-      return map.get(obj);
-    } else {
-      return obj;
-    }
+  let obj = {
+    name: 2
+  }
+  let name = 1
+  function a() {
+    console.log(this.name);
   }
 
-  // let A = {a: 1, b: [1, 2, 3]};
-  // let B = deepCopy(A);
-  // console.log(B); //{a:1,b:[1,2,3]}
-
-
-  function A(name) {
-    this.name = name
-    this.b = () => {
-      console.log('b', this.name)
-      return this
-    }
-    this.c = () => {
-      console.log('c', this.name)
-      // return this
-      return new A()
-    }
-    return 1
-  }
-
-  let a = new A('第一个a')
-  console.log(a)
-  console.log(a.b().c().b())
-
+  a.bind(obj).bind()()
 
 </script>
