@@ -1,271 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style></style>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Document</title>
-  <style>
-    #s1 {
-      background: red;
-      width: 400px;
-      height: 400px;
-      display: grid;
-      place-content: center;
-    }
-
-    #s2 {
-      width: 300px;
-      height: 300px;
-      background: beige;
-      display: grid;
-      place-content: center;
-    }
-
-    #s3 {
-      width: 200px;
-      height: 200px;
-      background: gold;
-      display: grid;
-      place-content: center;
-    }
-
-    #s4 {
-      width: 100px;
-      height: 100px;
-      background: gray;
-      display: grid;
-      place-content: center;
-    }
-
-    #s5 {
-      width: 50px;
-      height: 50px;
-      background: yellow;
-      display: grid;
-      place-content: center;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="s1">
-    s1
-    <div id="s2">
-      s2
-      <div id="s3">
-        s3
-        <div id="s4">
-          s4
-          <div id="s5">s5</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-
+  <body></body>
 </html>
 <script>
-  let tree = [
-    {
-      id: 1,
-      name: 'a',
-      children: [
-        {
-          id: 2,
-          name: 'b',
-          children: [
-            {
-              id: 3,
-              name: 'c',
-              children: [
-                {
-                  id: 4,
-                  name: 'd',
-                  children: [
-                    {
-                      id: 5,
-                      name: 'e',
-                      children: [
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-
-  let treeObject = {
-    id: 1,
-    name: 'a',
-    children: [
-      {
-        id: 2,
-        name: 'b',
-        children: [
-          {
-            id: 3,
-            name: 'c',
-            children: [
-              {
-                id: 4,
-                name: 'd',
-                children: [
-                  {
-                    id: 5,
-                    name: 'e',
-                    children: [
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
+  let arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
+  console.time("bubble");
+  function bubble() {
+    console.log(arr);
   }
-  // {
-  //   id: 9,
-  //   name: 9,
-  //   pid: null
-  // },
-  // {
-  //   id: 10,
-  //   name: 10,
-  //   pid: 9
-  // },
+  // bubble();
 
-
-
-  let flat = [
-    {
-      id: 1,
-      name: 1,
-      pid: null
-    },
-    {
-      id: 2,
-      name: 2,
-      pid: 1
-    },
-    // {
-    //   id: 3,
-    //   name: 3,
-    //   pid: 2
-    // },
-    // {
-    //   id: 4,
-    //   name: 4,
-    //   pid: 3
-    // },
-    // {
-    //   id: 5,
-    //   name: 5,
-    //   pid: 4
-    // },
-    // {
-    //   id: 6,
-    //   name: 6,
-    //   pid: 5
-    // },
-    // {
-    //   id: 7,
-    //   name: 7,
-    //   pid: 6
-    // },
-    // {
-    //   id: 8,
-    //   name: 8,
-    //   pid: 7
-    // },
-  ]
-
-  //打印出比较好观看的log
-  function con(val) {
-    console.log(JSON.stringify(val, null, 2));
+  function sleep() {
+    return new Promise((resolve) =>
+      setTimeout(() => {
+        resolve();
+        console.log(1);
+      }, 10)
+    );
   }
 
-  //把一个扁平的数据，递归成树状结构的数据
-  function digui(pid) {
-    let temp = []
-    flat.map(v => {
-      if (v.pid === pid) {
-        v.children = digui(v.id)
-        temp.push(v)
-      }
-    })
-    return temp
+  async function bubble2() {
+    console.log(arr);
   }
+  // bubble2();
 
-  // let res = digui(null)
+  async function select() {
+   
 
-  let r = []
-  //正常递归树形数据
-  function digui2(list) {
-    list.map(v => {
-      digui2(v.children)
-      r.push({ id: v.id, name: (v.name + '').toUpperCase() })
-    })
+    console.log(arr);
   }
-  // digui2([treeObject])
-  // digui2(treeObject)
+  // select();
+  
 
-  //特殊处理，一个对象的方式
-  function digui2Obj(obj, list) {
-    if (obj) {
-      digui2Obj(null, obj.children)
-      r.push({ id: obj.id, name: (obj.name + '').toUpperCase() })
-    } else {
-      list.map(v => {
-        digui2Obj(null, v.children)
-        r.push({ id: v.id, name: (v.name + '').toUpperCase() })
-      })
-    }
-  }
-  // digui2Obj(treeObject, null)
 
-  // con(r)
 
-  let randomList = [23, 2, 5, 45, 73, 3, 224, 22, 48, 10, 1, 9, 444, 2, 3451, 6723]
 
-  //简写排序
-  // randomList.sort((a, b) => a - b)
-  //不简写排序
-  let compareFunction = function (a, b) {
-    if (a > b) {
-      return 1
-    }
-    if (a < b) {
-      return -1
-    }
-    return 0
-  }
-  // randomList.sort(compareFunction)
-  // randomList.sort()
 
-  let count = 0
 
-  //冒泡排序的标准写法
-  for (let i = 0; i < randomList.length; i++) {
-    //这里减去i,是因为每次循环都会把最大的值落到后面,所以没有必要再比较后面的值
-    for (let j = 0; j < randomList.length - i; j++) {
-      //这里不减去i,那么就会完整循环(length的平方)次
-      // for (let j = 0; j < randomList.length ; j++) {
-      count++
-      console.log(count)
-      if (randomList[j] > randomList[j + 1]) {
-        let temp = randomList[j]
-        randomList[j] = randomList[j + 1]
-        randomList[j + 1] = temp
-      }
-    }
-  }
 
-  con(randomList)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  console.timeEnd("bubble");
 </script>
