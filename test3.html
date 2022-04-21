@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>testq</title>
+    <style></style>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>testq</title>
-  <style>
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="left"></div>
-    <div class="box"></div>
-    <div class="right"></div>
-  </div>
-</body>
-
+  <body>
+    <div class="container">
+      <div class="left"></div>
+      <div class="box"></div>
+      <div class="right"></div>
+    </div>
+  </body>
 </html>
 <script>
-  let obj = {
-    name: 2
-  }
-  let name = 1
-  function a() {
-    console.log(this.name);
-  }
+  let a = () => {
+    setTimeout(() => {
+      console.log("任务队列函数1");
+    }, 0);
+    for (let i = 0; i < 5; i++) {
+      console.log("a的for循环");
+    }
+    console.log("a事件执行完");
+  };
 
-  a.bind(obj).bind()()
+  let b = () => {
+    setTimeout(() => {
+      console.log("任务队列函数2");
+    }, 0);
+    for (let i = 0; i < 5; i++) {
+      console.log("b的for循环");
+    }
+    console.log("b事件执行完");
+  };
 
+  let c = () => {
+    setTimeout(() => {
+      console.log("任务队列函数3");
+    }, 0);
+    for (let i = 0; i < 5; i++) {
+      console.log("c的for循环");
+    }
+    console.log("c事件执行完");
+  };
+
+  a();
+  b();
+  c();
+  // 输出最后的结果
 </script>
