@@ -14,8 +14,15 @@
     </div>
   </body>
 </html>
-<script> 
-let a = null
-console.log(a.b);
+<script>
+  function a() {
+    console.log(1);
+  }
+  console.log(a.prototype);
+  console.log(a.prototype.__proto__);
 
+  let a = {
+    val: "111",
+    next: a,
+  };
 </script>
