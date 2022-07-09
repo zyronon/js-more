@@ -1,69 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-    <style></style>
-  </head>
 
-  <body></body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <style></style>
+</head>
+
+<body></body>
+
 </html>
 <script>
-  let arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
-  console.time("bubble");
-  function bubble() {
-    console.log(arr);
+
+  var strs = "http://test.com?foo=active&key=123@wang&key=78@li&key=3";
+  var strs1 = "http://test.com?too=last&key=555@wangtao&value=test";
+  function changes(str) {
+    let r = str.split('?')
+    let r2 = r[1].split('&')
+    let obj = {}
+    console.log(r2);
+
+    r2.map(v => {
+      let vSplit = v.split('=')
+
+      if (vSplit[1].split('@').length === 2) {
+        vSplit[1] = vSplit[1].split('@')[0]
+      }
+
+      console.log(vSplit);
+      if (obj[vSplit[0]]) {
+        let oldValue = obj[vSplit[0]]
+        console.log('老值', oldValue);
+        console.log('新值', vSplit[1]);
+
+        // obj[vSplit[0]] = [oldValue, vSplit[1]]
+        if (oldValue instanceof Array) {
+          obj[vSplit[0]].push(vSplit[1])
+        } else {
+          obj[vSplit[0]] = [oldValue, vSplit[1]]
+        }
+      } else {
+        obj[vSplit[0]] = vSplit[1]
+      }
+    })
+
+    console.log('obj', obj);
+
   }
-  // bubble();
-
-  function sleep() {
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        resolve();
-        console.log(1);
-      }, 10)
-    );
-  }
-
-  async function bubble2() {
-    console.log(arr);
-  }
-  // bubble2();
-
-  async function select() {
-   
-
-    console.log(arr);
-  }
-  // select();
-  
+  changes(strs);  //返回结果  {foo:'active',key:[123,78]}
+  changes(strs1); //返回结果 {too:'last',key:555,value:'test'}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  console.timeEnd("bubble");
 </script>
