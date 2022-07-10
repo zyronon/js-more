@@ -1,104 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Canvas缩放和拖拽</title>
-  <script crossorigin="anonymous" integrity="sha512-eV9ExyTa3b+YHr99IBTYpwk4wbgDMDlfW8uTxhywO8dWb810fGUSKDgHhEv1fAqmJT4jyYnt1iWWMW4FRxeQOQ==" src="https://lib.baomitu.com/gl-matrix/3.4.2/gl-matrix-min.js"></script>
-  <style>
-    body {
-      position: relative;
-      background-color: black;
-      min-height: 1000px;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas缩放和拖拽</title>
+    <script crossorigin="anonymous"
+            integrity="sha512-eV9ExyTa3b+YHr99IBTYpwk4wbgDMDlfW8uTxhywO8dWb810fGUSKDgHhEv1fAqmJT4jyYnt1iWWMW4FRxeQOQ=="
+            src="https://lib.baomitu.com/gl-matrix/3.4.2/gl-matrix-min.js"></script>
+    <style>
+      body {
+        position: relative;
+        background-color: black;
+        min-height: 1000px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
 
-    #app {
-      border: 1px solid white;
-    }
-  </style>
+      #app {
+        margin-left: 20px;
+        border: 1px solid white;
+      }
+    </style>
 </head>
-
 <body>
-  <canvas id="app" width="640" height="340"></canvas>
+<canvas id="app" width="640" height="340"></canvas>
 </body>
 <script>
-  console.log('glMatrix',glMatrix.mat4)
-  // index.js
-  document.addEventListener("DOMContentLoaded", () => {
-    const $app = document.querySelector(`#app`);
-    const { width, height } = $app.getBoundingClientRect();
-    const ctx = $app.getContext("2d");
-    const $img = document.createElement("img");
-    $img.onload = () => {
-      console.log(1)
-      ctx.drawImage($img, 0, 0);
-    };
-    $img.src = "../assets/bg1.jpg";
-    let isDrag = false;
-    let ov = new Float32Array([
-      1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1,
+    const out = new Float32Array([
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
     ]);
+    // index.js
+    document.addEventListener("DOMContentLoaded", () => {
+        const $app = document.querySelector(`#app`);
+        const {width, height} = $app.getBoundingClientRect();
+        const ctx = $app.getContext("2d");
+        const $img = document.createElement("img");
+        $img.onload = () => {
+            console.log('$img', $img.width)
+            ctx.drawImage($img, 0, 0);
+        };
+        $img.src = "../assets/bg1.jpg";
+        let isDrag = false;
+        $app.addEventListener("mousedown", (e) => {
+            isDrag = true;
+        });
 
-    function reDraw(ctx, o, t) {
-      const out = new Float32Array([
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-      ]);
-      const nv = glMatrix.mat4.multiply(out, t, o);
-      ctx.save();
-      ctx.clearRect(0, 0, width, height);
-      ctx.transform(nv[0], nv[4], nv[1], nv[5], nv[12], nv[13]);
-      ctx.drawImage($img, 0, 0);
-      ctx.restore();
-      return nv;
-    }
+        let ov = new Float32Array([
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        ]);
 
-    $app.addEventListener("mousedown", (e) => {
-      isDrag = true;
+        function reDraw(ctx, o, t) {
+            const nv = glMatrix.mat4.multiply(out, t, o);
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+            console.log('nv', nv[0],nv[4],nv[1],nv[5],nv[12],nv[13])
+
+            ctx.transform(nv[0], nv[4], nv[1], nv[5], nv[12], nv[13]);
+            ctx.drawImage($img, 0, 0);
+            ctx.restore();
+            return nv;
+        }
+
+        document.addEventListener("mousemove", (e) => {
+            if (!isDrag) return
+            const {movementX, movementY} = e;
+            const t = new Float32Array([
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                movementX, movementY, 0, 1,
+            ]);
+            ov = reDraw(ctx, ov, t);
+        });
+        $app.addEventListener("wheel", (e) => {
+            let {clientX, clientY, deltaY} = e;
+            clientX -= 20
+            // clientY -= 20
+            const currSacle = 1 + (deltaY < 0 ? 0.1 : -0.1);
+            const zoom = Math.max(currSacle > 0 ? currSacle : 1, 0.1);
+            console.log(zoom)
+            const x = clientX * (1 - zoom);
+            const y = clientY * (1 - zoom);
+            const t = new Float32Array([
+                zoom, 0, 0, 0,
+                0, zoom, 0, 0,
+                0, 0, 1, 0,
+                x, y, 0, 1,
+            ]);
+            ov = reDraw(ctx, ov, t);
+        });
+        document.addEventListener("mouseup", (e) => {
+            isDrag = false;
+        });
     });
-
-    document.addEventListener("mousemove", (e) => {
-      if (!isDrag) {
-        return;
-      }
-      const { movementX, movementY } = e;
-      const t = new Float32Array([
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        movementX, movementY, 0, 1,
-      ]);
-      ov = reDraw(ctx, ov, t);
-    });
-
-    document.addEventListener("mouseup", (e) => {
-      isDrag = false;
-    });
-
-    $app.addEventListener("wheel", (e) => {
-      const { clientX, clientY, deltaY } = e;
-      const currSacle = 1 + (deltaY < 0 ? 0.1 : -0.1);
-      const zoom = Math.max(currSacle > 0 ? currSacle : 1, 0.1);
-      const x = clientX * (1 - zoom);
-      const y = clientY * (1 - zoom);
-      const t = new Float32Array([
-        zoom, 0, 0, 0,
-        0, zoom, 0, 0,
-        0, 0, 1, 0,
-        x, y, 0, 1,
-      ]);
-      ov = reDraw(ctx, ov, t);
-    });
-  });
 </script>
 
 </html>

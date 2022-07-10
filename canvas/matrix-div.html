@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>div缩放和拖拽</title>
+    <script crossorigin="anonymous"
+            integrity="sha512-eV9ExyTa3b+YHr99IBTYpwk4wbgDMDlfW8uTxhywO8dWb810fGUSKDgHhEv1fAqmJT4jyYnt1iWWMW4FRxeQOQ=="
+            src="https://lib.baomitu.com/gl-matrix/3.4.2/gl-matrix-min.js"></script>
+    <style>
+      html, body {
+        position: relative;
+        background-color: #eee;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      #app {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 200px;
+        height: 200px;
+        transform: translate(-50%, -50%);
+        border: 1px dashed black;
+      }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const $app = document.querySelector(`#app`);
+        let isDrag = false;
+        let x; // 鼠标拖拽时鼠标的横坐标值
+        let y; // 鼠标拖拽时鼠标的纵坐标值
+        let left; // 元素距离页面左上角顶点的横坐标偏移值
+        let top; // 元素距离页面左上角顶点的纵坐标偏移值
+
+
+        function reDraw(el, t, move=false) {
+            const bcr = el.getBoundingClientRect();
+            const {width, height} = bcr;
+            const o = new Float32Array([
+                bcr.left, bcr.top, 1, 1,
+                bcr.right, bcr.top, 1, 1,
+                bcr.right, bcr.bottom, 1, 1,
+                bcr.left, bcr.bottom, 1, 1,
+            ]);
+            const out = new Float32Array([
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+            ]);
+            const res = glMatrix.mat4.multiply(out,  t, o);
+            const left = parseInt(res[0]);
+            const top = parseInt(res[1]);
+            // 如果是移动，那么不需要调整宽高
+            const w = move ?  width : res[4] - left;
+            const h = move ? height : res[9] - top;
+            el.setAttribute("style", `left: ${left}px;top:${top}px;width:${w}px;height:${h}px;transform: none;`);
+        }
+
+        $app.addEventListener("mousedown", (e) => {
+            const bcr = $app.getBoundingClientRect();
+            isDrag = true;
+            x = e.clientX;
+            y = e.clientY;
+            left = bcr.left + window.scrollX;
+            top = bcr.top + window.scrollY;
+        });
+        document.addEventListener("mousemove", (e) => {
+            if (!isDrag) {
+                return;
+            }
+            const {clientX, clientY} = e;
+            const movementX = clientX - (x - left); // 计算出X轴的偏移量
+            const movementY = clientY - (y - top); // 计算出Y轴的偏移量
+            // 4x4平移矩阵
+            const t = new Float32Array([
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                movementX, movementY, 0, 1
+            ]);
+            reDraw($app, t, true);
+        })
+        document.addEventListener("mouseup", () => {
+            isDrag = false;
+        });
+        $app.addEventListener("wheel", (e) => {
+            const {clientX, clientY, deltaY } = e;
+            const currSacle = 1 + (deltaY < 0 ? 0.1 : -0.1);
+            const zoom = Math.max(currSacle > 0 ? currSacle : 1, 0.1);
+            const x = (clientX + window.scrollX) * (1 - zoom);
+            const y = (clientY + window.scrollY) * (1 - zoom);
+            const t = new Float32Array([
+                zoom, 0, 0, 0,
+                0, zoom, 0, 0,
+                0, 0, 1, 0,
+                x, y, 0, 1,
+            ]);
+            reDraw($app, t);
+        });
+    });
+</script>
+
+</html>

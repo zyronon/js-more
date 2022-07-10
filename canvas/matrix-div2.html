@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>div缩放和拖拽</title>
+    <script crossorigin="anonymous"
+            integrity="sha512-eV9ExyTa3b+YHr99IBTYpwk4wbgDMDlfW8uTxhywO8dWb810fGUSKDgHhEv1fAqmJT4jyYnt1iWWMW4FRxeQOQ=="
+            src="https://lib.baomitu.com/gl-matrix/3.4.2/gl-matrix-min.js"></script>
+    <style>
+      html, body {
+        position: relative;
+        background-color: #eee;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      #app {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 200px;
+        height: 200px;
+        transform: translate(-50%, -50%);
+        border: 1px dashed black;
+      }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script>
+    let out = new Float32Array([
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+    ])
+
+    let scale = 1
+    let old = null
+    document.addEventListener("DOMContentLoaded", () => {
+        const $app = document.querySelector(`#app`);
+
+        $app.addEventListener("wheel", (e) => {
+            const {clientX, clientY, deltaY} = e;
+            // let scale = 1 + (deltaY < 0 ? 0.1 : -0.1);
+            // scale = Math.max(scale > 0 ? scale : 1, 0.1);
+            scale = scale + (deltaY < 0 ? 0.1 : -0.1)
+            if (!old) {
+                old = $app.getBoundingClientRect();
+            }
+            const {top, right, bottom, left} = old
+            const o = new Float32Array([
+                left, top, 1, 1,
+                right, top, 1, 1,
+                right, bottom, 1, 1,
+                left, bottom, 1, 1
+            ]);
+            const x = clientX * (1 - scale);
+            const y = clientY * (1 - scale);
+
+            const t = new Float32Array([
+                scale, 0, 0, 0,
+                0, scale, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            ]);
+            const m = new Float32Array([
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                x, y, 0, 1
+            ]);
+            // 在XY轴上进行缩放
+            let res = glMatrix.mat4.multiply(out, t, o);
+            // 在XY轴上进行平移
+            const res2 = glMatrix.mat4.multiply(out, m, res);
+            $app.setAttribute("style", `left: ${res2[0]}px; top: ${res2[1]}px; width: ${res2[4] - res2[0]}px; height: ${res2[9] - res2[1]}px; transform: none;`);
+        });
+    });
+</script>
+
+</html>
