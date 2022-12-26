@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+  <script src="https://lib.baomitu.com/gl-matrix/3.4.2/gl-matrix-min.js"></script>
+  <style>
+      body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          margin: 0;
+          height: 100vh;
+          width: 100vw;
+          overflow: hidden;
+      }
+
+      .wrapper {
+          background: black;
+          overflow: hidden;
+      }
+
+      img {
+          transform-origin: 0 0;
+          max-width: 1040px;
+          max-height: 600px;
+      }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <img src="./a.jpg" alt="" id="app">
+</div>
+</body>
+<script>
+  let x = 0
+  let y = 0
+  let scale = 1
+
+  let out = new Float32Array([
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0
+  ])
+  let ov = new Float32Array([
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1,
+  ]);
+  let isDrag = false  // 按下标识
+  let rect = {x: 0, y: 0}
+  const image = document.querySelector(`#app`);
+  image.onload = () => {
+    rect = image.getBoundingClientRect()
+  }
+  image.addEventListener('wheel', e => {
+    let {clientX, clientY, deltaY} = e;
+    clientX -= rect.x
+    clientY -= rect.y
+    const zoom = 1 + (deltaY < 0 ? 0.1 : -0.1);
+    const x = clientX * (1 - zoom);
+    const y = clientY * (1 - zoom);
+    const t = new Float32Array([zoom, 0, 0, 0, 0, zoom, 0, 0, 0, 0, 1, 0, x, y, 0, 1,]);
+    ov = glMatrix.mat4.multiply(out, t, ov);
+    image.setAttribute("style", `transform:matrix3d(${ov.toString()});`);
+  })
+  image.addEventListener('mousedown', () => isDrag = true);
+  image.addEventListener('mousemove', function (e) {
+    if (isDrag) {
+      const {movementX, movementY} = e;
+      const t = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, movementX, movementY, 0, 1,]);
+      ov = glMatrix.mat4.multiply(out, t, ov);
+      image.setAttribute("style", `transform:matrix3d(${ov.toString()});`);
+    }
+    e.preventDefault();
+  });
+  image.addEventListener('mouseup', () => isDrag = false);
+</script>
+</html>
