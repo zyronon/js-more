@@ -29,7 +29,8 @@
     </style>
 </head>
 <body>
-<div id="app"></div>
+    <div id="app"></div>
+<!-- <img src="./a.jpg" id="app" draggable="true"></img> -->
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -73,7 +74,8 @@
             left = bcr.left + window.scrollX;
             top = bcr.top + window.scrollY;
         });
-        document.addEventListener("mousemove", (e) => {
+        $app.addEventListener("mousemove", (e) => {
+            console.log(isDrag)
             if (!isDrag) {
                 return;
             }
@@ -89,7 +91,7 @@
             ]);
             reDraw($app, t, true);
         })
-        document.addEventListener("mouseup", () => {
+        $app.addEventListener("mouseup", () => {
             isDrag = false;
         });
         $app.addEventListener("wheel", (e) => {
