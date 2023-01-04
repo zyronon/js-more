@@ -9,83 +9,29 @@
 </head>
 
 <body>
+  <button>点击下载</button>
 
 </body>
 
 </html>
 <script>
-  let rect = {
-    x: 100,
-    y: 100,
-    w: 100,
-    h: 100
-  }
 
-  function hudu2juedu(v) {
-    return v * 180 / Math.PI
-  }
+  let btn = document.querySelector('button')
+  btn.addEventListener('click', () => {
+    console.log(123)
 
-  function jiaodu2hudu(v) {
-    return (v * Math.PI) / 180
-  }
-
-  function getHypotenuse(one, two) {
-    let [oneX, oneY] = one
-    let [twoX, twoY] = two
-    let dx = twoX - oneX
-    let dy = twoY - oneY
-    if (dx === 0 || dy === 0) return Math.max(Math.abs(dx), Math.abs(dy))
-    return Math.sqrt(dx * dx + dy * dy)
-  }
-
-
-  let { x, y, w, h } = rect
-  // let p = { x: x + w / 2, y }
-  let p = { x: 185, y: 114 }
-  // let p = { x: x + w / 2, y:114 }
-  console.log('p', p)
-  let c = { x: x + w / 2, y: y + h / 2 }
-  console.log('c', c)
-  let angle = 1
-
-  function getRoundOtherPoint3(p1, c, angle) {
-    let { x, y } = p1
-    let { x: cx, y: cy } = c
-    let hypotenuse = getHypotenuse([cx, cy], [x, y])
-    console.log('hypotenuse', hypotenuse)
-    let s = Math.abs(y - cy) / Math.abs(hypotenuse)
-    console.log('s', s)
-    let a = Math.acos(s)
-    console.log('a', a)
-    // console.log('atan2', Math.atan2(36, 35))
-    // console.log('atan2-hudu2juedu', hudu2juedu(Math.atan2(36, 35)))
-    console.log('old-angle', hudu2juedu(a))
-    let b = hudu2juedu(a) + angle
-    // b = angle
-    console.log(b)
-    let x1 = cx + Math.sin(jiaodu2hudu(b)) * Math.abs(hypotenuse)
-    let y1 = cy - Math.cos(jiaodu2hudu(b)) * Math.abs(hypotenuse)
-    return [x1, y1]
-  }
-
-
-  function getRotatedPoint(point, center, rotate) {
-    /**
-     * 旋转公式：
-     *  点a(x, y)
-     *  旋转中心c(x, y)
-     *  旋转后点n(x, y)
-     *  旋转角度θ
-     * nx = cosθ * (ax - cx) - sinθ * (ay - cy) + cx
-     * ny = sinθ * (ax - cx) + cosθ * (ay - cy) + cy
-     */
-    return {
-      x: (point.x - center.x) * Math.cos(jiaodu2hudu(rotate)) - (point.y - center.y) * Math.sin(jiaodu2hudu(rotate)) + center.x,
-      y: (point.x - center.x) * Math.sin(jiaodu2hudu(rotate)) + (point.y - center.y) * Math.cos(jiaodu2hudu(rotate)) + center.y
-    }
-  }
-  // console.log(getRoundOtherPoint3(p, c, angle))
-  console.log(getRotatedPoint(p, c, angle))
-
-
+    let link = 'https://cdn.beta.utown.io/i/20221227/2/f/1/2f1d9fca7ce2424c96689f9b145dac68.png'
+    let xhr = new XMLHttpRequest();
+    xhr.open('get', link, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function () {
+      let url = window.URL.createObjectURL(xhr.response);
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = '';
+      a.click()
+      window.URL.revokeObjectURL(url);
+    };
+    xhr.send();
+  })
 </script>
