@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="c" width="300" height="300"></canvas>
+</body>
+<script>
+    let w = 300
+    let h = 300
+    function hudu2juedu(v) {
+        if (!v) return 0
+        return v * 180 / Math.PI
+    }
+
+    function jiaodu2hudu(v) {
+        if (!v) return 0
+        return (v * Math.PI) / 180
+    }
+    //计算圆环上点的坐标
+    function calcRingPoint(x, y, radius, angle) {
+        let res = {}
+        res.x = x + radius * Math.cos(angle * Math.PI / 180)
+        res.y = y + radius * Math.sin(angle * Math.PI / 180)
+        return res
+    }
+
+
+    let c = document.querySelector('#c')
+    let ctx = c.getContext('2d')
+
+    ctx.translate(w / 2, h / 2)
+    ctx.rotate(-jiaodu2hudu(120))
+    // ctx.arc(w / 2, h / 2, w / 2, jiaodu2hudu(0), jiaodu2hudu(360));
+    // ctx.arc(w / 2, h / 2, w / 2 - 20, jiaodu2hudu(60), jiaodu2hudu(0), true);
+    ctx.arc(0, 0, w / 2, jiaodu2hudu(0), jiaodu2hudu(60));
+    ctx.arc(0, 0, w / 2 - 20, jiaodu2hudu(60), jiaodu2hudu(0), true);
+    ctx.closePath()
+    // ctx.fillStyle = 'red'
+    // ctx.fill()
+    ctx.stroke();
+
+
+</script>
+
+</html>
