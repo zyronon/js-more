@@ -7,10 +7,10 @@
 	spanning 30px, and a 10px margin between columns.
 	
 	If you need fewer or more columns, namespaces or semantic
-	element names, use the compressor script (lib/compress.rb)
+	element names, use the compressor script (build/compress.rb)
 	
 	Note: Changes made in this file will not be applied when
-	using the compressor: make changes in lib/blueprint/grid.css.rb
+	using the compressor: make changes in build/blueprint/grid.css.rb
 	
 -------------------------------------------------------------- */
 
