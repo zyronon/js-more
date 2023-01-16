@@ -1,52 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: flex-end;
+        }
+        canvas {
+            background: rgb(128, 219, 212);
+        }
+    </style>
 </head>
-
 <body>
-    <canvas id="c" width="300" height="300"></canvas>
+<canvas id="c" width="300" height="150"></canvas>
 </body>
 <script>
-    let w = 300
-    let h = 300
-    function hudu2juedu(v) {
-        if (!v) return 0
-        return v * 180 / Math.PI
+  let w = 300
+  let h = 150
+  let w2 = w / 2
+  let h2 = h
+
+  function jiaodu2hudu(v) {
+    if (!v) return 0
+    return (v * Math.PI) / 180
+  }
+
+  //点绕坐标点旋转一定角度后点的坐标
+  function getRotatedPoint(point, center, rotate) {
+    return {
+      x: (point.x - center.x) * Math.cos(jiaodu2hudu(rotate)) - (point.y - center.y) * Math.sin(jiaodu2hudu(rotate)) + center.x,
+      y: (point.x - center.x) * Math.sin(jiaodu2hudu(rotate)) + (point.y - center.y) * Math.cos(jiaodu2hudu(rotate)) + center.y
     }
+  }
 
-    function jiaodu2hudu(v) {
-        if (!v) return 0
-        return (v * Math.PI) / 180
-    }
-    //计算圆环上点的坐标
-    function calcRingPoint(x, y, radius, angle) {
-        let res = {}
-        res.x = x + radius * Math.cos(angle * Math.PI / 180)
-        res.y = y + radius * Math.sin(angle * Math.PI / 180)
-        return res
-    }
+  let c = document.querySelector('#c')
+  let ctx = c.getContext('2d')
 
+  let totalLength = 120 //总长度
+  let startDegree = 0 - 30 // 开始角度
+  let endDegree = startDegree - totalLength//结束角度
+  let centerDegree = startDegree - totalLength / 2 //中间角度
+  let center = {x: w2, y: h2}
+  let length = 20
+  let outer = h2 - length //外径
+  let inner = outer - length //内径
+  let zeroPoint = {x: w2 + inner + length / 2, y: h2} //大环的0点
+  let zeroPoint2 = {x: w2 + outer + length / 2, y: h2}
+  let startPoint = getRotatedPoint(zeroPoint, center, startDegree)
+  let endPoint = getRotatedPoint(zeroPoint, center, endDegree)
+  let centerPoint = getRotatedPoint(zeroPoint, center, centerDegree)
+  /*大环的4个颜色*/
+  let color1Fill0 = 'rgba(255, 255, 255, 0.5)' //填充色起点
+  let color1Fill1 = 'rgba(255, 255, 255, 0)'//填充色结束
+  let color1Stroke0 = 'rgba(255, 255, 255, 1)'//描边色起点
+  let color1Stroke1 = 'rgba(255, 255, 255, 0)'//描边色结束
+  /*小圆的*/
+  let color2Fill0 = color1Stroke0 //小圆的
+  let color2Fill1 = color1Stroke1
 
-    let c = document.querySelector('#c')
-    let ctx = c.getContext('2d')
+  ctx.arc2 = (point, radius, startAngle, endAngle, anticlockwise) => {
+    ctx.moveTo(point.x, point.y)
+    ctx.arc(point.x, point.y, radius, startAngle, endAngle, anticlockwise);
+  }
 
-    ctx.translate(w / 2, h / 2)
-    ctx.rotate(-jiaodu2hudu(120))
-    // ctx.arc(w / 2, h / 2, w / 2, jiaodu2hudu(0), jiaodu2hudu(360));
-    // ctx.arc(w / 2, h / 2, w / 2 - 20, jiaodu2hudu(60), jiaodu2hudu(0), true);
-    ctx.arc(0, 0, w / 2, jiaodu2hudu(0), jiaodu2hudu(60));
-    ctx.arc(0, 0, w / 2 - 20, jiaodu2hudu(60), jiaodu2hudu(0), true);
+  let test = false
+  if (test) {
+    ctx.save()
+    ctx.beginPath()
+    ctx.moveTo(w2, 0)
+    ctx.lineTo(w2, h)
+    ctx.moveTo(0, h2)
+    ctx.lineTo(w, h2)
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 1
+    ctx.stroke()
+    ctx.strokeRect(0, 0, w, h)
     ctx.closePath()
-    // ctx.fillStyle = 'red'
-    // ctx.fill()
-    ctx.stroke();
+    ctx.restore()
+
+    ctx.beginPath()
+    let radius = 3
+    ctx.arc2(zeroPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    ctx.arc2(startPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    ctx.arc2(endPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    ctx.arc2(centerPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    ctx.arc2(zeroPoint2, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    ctx.fillStyle = 'gray'
+    ctx.fill()
+    ctx.closePath()
+  }
 
 
+  /*
+  * 把大的环分成两半来画，用两个渐变
+  * */
+  /* 大环的右边那一半*/
+  ctx.beginPath()
+  ctx.lineWidth = 2
+  ctx.arc(w2, h2, inner, jiaodu2hudu(startDegree - totalLength / 2), jiaodu2hudu(startDegree));
+  ctx.arc(w2, h2, outer, jiaodu2hudu(startDegree), jiaodu2hudu(startDegree - totalLength / 2), true);
+  let gradient = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
+  gradient.addColorStop(0, color1Fill0);
+  gradient.addColorStop(1, color1Fill1);
+  ctx.fillStyle = gradient
+  ctx.fill()
+  let gradient2 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
+  gradient2.addColorStop(0, color1Stroke0);
+  gradient2.addColorStop(1, color1Stroke1);
+  ctx.strokeStyle = gradient2
+  ctx.stroke()
+  ctx.closePath()
+
+  /* 大环的左边那一半*/
+  ctx.beginPath()
+  ctx.arc(w2, h2, inner, jiaodu2hudu(centerDegree), jiaodu2hudu(endDegree), true);
+  ctx.arc(w2, h2, outer, jiaodu2hudu(endDegree), jiaodu2hudu(centerDegree),);
+  let gradient3 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
+  gradient3.addColorStop(0, color1Fill0);
+  gradient3.addColorStop(1, color1Fill1);
+  ctx.fillStyle = gradient3
+  ctx.fill()
+  let gradient4 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
+  gradient4.addColorStop(0, color1Stroke0);
+  gradient4.addColorStop(1, color1Stroke1);
+  ctx.strokeStyle = gradient4
+  ctx.stroke()
+  ctx.closePath()
+
+  /* 大环外面 右边一半的4个小圆*/
+  ctx.beginPath()
+  let radius = 5
+  for (let i = 0; i < 4; i++) {
+    let point = getRotatedPoint(zeroPoint2, center, startDegree - 12 - i * (110 / 8))
+    ctx.arc2(point, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+  }
+  let gradient5 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
+  gradient5.addColorStop(0, color2Fill0);
+  gradient5.addColorStop(1, color2Fill1);
+  ctx.fillStyle = gradient5
+  ctx.fill()
+  ctx.closePath()
+
+  /* 大环外面 左边一半的4个小圆*/
+  ctx.beginPath()
+  for (let i = 4; i < 8; i++) {
+    let point = getRotatedPoint(zeroPoint2, center, startDegree - 12 - i * (110 / 8))
+    ctx.arc2(point, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+  }
+  let gradient6 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
+  gradient6.addColorStop(0, color2Fill0);
+  gradient6.addColorStop(1, color2Fill1);
+  ctx.fillStyle = gradient6
+  ctx.fill()
+  ctx.closePath()
+
+  /* 黄色*/
+  // ctx.beginPath()
+  // startDegree = centerDegree + 15
+  // endDegree = centerDegree - 15
+  // ctx.arc(w2, h2, inner + 2, jiaodu2hudu(startDegree), jiaodu2hudu(endDegree), true);
+  // ctx.arc(w2, h2, outer - 2, jiaodu2hudu(endDegree), jiaodu2hudu(startDegree),);
+  // ctx.fillStyle = 'yellow'
+  // ctx.fill()
 </script>
 
 </html>
