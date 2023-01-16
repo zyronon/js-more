@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+
+  class Base {
+    common() {
+      console.log('Base-common')
+      this.aFunc2()
+    }
+  }
+
+  class A extends Base {
+    aFunc() {
+      console.log('aFunc1')
+      super.common()
+    }
+
+    aFunc2() {
+      console.log('aFunc2')
+    }
+  }
+
+  let a = new A()
+  a.aFunc()
+</script>
+</html>
