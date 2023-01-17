@@ -59,6 +59,13 @@
 
 
 
+
+
+
+
+
+
+
     </script>
     <script type="module">
       import * as THREE from 'three';
@@ -82,8 +89,8 @@
 
       function initCamera() {
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 100, 50);
-        camera.lookAt(new THREE.Vector3(0, 0, 0));
+        camera.position.set(0, 0, 0.01);
+        // camera.lookAt(new THREE.Vector3(0, 0, 0));
       }
 
       var scene;
@@ -137,138 +144,92 @@
       var sphere, cube1;
 
       function initModel() {
-        //上面的球
-        var sphereGeometry = new THREE.SphereGeometry(5, 20, 20);
-        var sphereMaterial = new THREE.MeshStandardMaterial({color: 0x7777ff});
-        sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.position.y = 5;
-        //告诉球需要投射阴影
-        sphere.castShadow = true;
-        // scene.add(sphere);
-        //辅助工具
-        var helper = new THREE.AxesHelper(10);
-        // scene.add(helper);
+        var materials = [];
+//根据左右上下前后的顺序构建六个面的材质集
+        var texture_left = new THREE.TextureLoader().load('./build/images/left.png');
+        materials.push(new THREE.MeshBasicMaterial({map: texture_left}));
 
-        // 创建一个立方体
-        //一个面，分两个三角形，一个三角形，三个坐标
-        //总的6个面，12个三角形，36个坐标，108个值
-        //    v6----- v5
-        //   /|      /|
-        //  v1------v0|
-        //  | |     | |
-        //  | |v7---|-|v4
-        //  |/      |/
-        //  v2------v3
-        let cubeGeometry = new THREE.BufferGeometry();
-        //自已注：每一个点的数组的顺序不同，如果材质里面未设置 side: THREE.DoubleSide//两面可见
-        //会导致看不见
-        let vertices = new Float32Array([
-          0, 0, 0,//0
-          0, 10, 0,//1
+        var texture_right = new THREE.TextureLoader().load('./build/images/right.png');
+        materials.push(new THREE.MeshBasicMaterial({map: texture_right}));
 
-          10, 0, 0,//2
-          10, 10, 0,//3
+        var texture_top = new THREE.TextureLoader().load('./build/images/top.png');
+        materials.push(new THREE.MeshBasicMaterial({map: texture_top}));
 
-          10, 0, 10,//4
-          10, 10, 10,//5
+        var texture_bottom = new THREE.TextureLoader().load('./build/images/bottom.png');
+        materials.push(new THREE.MeshBasicMaterial({map: texture_bottom}));
 
-          0, 0, 10,//6
-          0, 10, 10,//7
-        ]);
-        // itemSize = 3 因为每个顶点都是一个三元组。
-        cubeGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        var texture_front = new THREE.TextureLoader().load('./build/images/front.png');
+        materials.push(new THREE.MeshBasicMaterial({map: texture_front}));
 
-        let normals = new Float32Array([
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
+        var texture_back = new THREE.TextureLoader().load('./build/images/back.png');
+        materials.push(new THREE.MeshBasicMaterial({map: texture_back}));
 
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
+        var box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), materials);
+        box.geometry.scale(1, 1, -1);
+        // scene.add(box);
 
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
+        var sphereGeometry = new THREE.SphereGeometry(/*半径*/1, /*垂直节点数量*/50, /*水平节点数量*/50);//节点数量越大，需要计算的三角形就越多，影响性能
+        // sphere.material.wireframe  = true;
+        var texture = new THREE.TextureLoader().load('./build/images/scene.png');
+        var sphereMaterial = new THREE.MeshBasicMaterial({map: texture});
 
-          -1, 0, 0,
-          -1, 0, 0,
-          -1, 0, 0,
+        var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        // sphere.position.x = 10
+        sphere.geometry.scale(1, 1, -1);
+        scene.add(sphere);
 
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
+        var hotPoints = [
+          {
+            position: {
+              x: 0,
+              y: 0,
+              z: -0.2
+            },
+            detail: {
+              "title": "信息点1"
+            }
+          },
+          {
+            position: {
+              x: -0.2,
+              y: -0.05,
+              z: 0.2
+            },
+            detail: {
+              "title": "信息点2"
+            }
+          }
+        ];
 
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-        ])
-        cubeGeometry.attributes.normal = new THREE.BufferAttribute(normals, 3);
+        var pointTexture = new THREE.TextureLoader().load('./build/images/hot.png');
+        var material = new THREE.SpriteMaterial({map: pointTexture});
 
-        // Uint16Array类型数组创建顶点索引数据
-        //这里注意，正反面。面弄反了，法向量不会正确的生效
-        let indexes = new Uint16Array([
-          /*背面*/
-          0, 1, 2,
-          3, 2, 1,
+        let poiObjects = []
+        for (var i = 0; i < hotPoints.length; i++) {
+          var sprite = new THREE.Sprite(material);
+          sprite.scale.set(0.1, 0.1, 0.1);
+          sprite.detail = hotPoints[i].detail;
+          sprite.position.set(hotPoints[i].position.x, hotPoints[i].position.y, hotPoints[i].position.z);
+          scene.add(sprite);
+          poiObjects.push(sprite);
+        }
 
-          /*左*/
-          2, 3, 4,
-          5, 4, 3,
+        document.body.addEventListener("click",function(event){
+          event.preventDefault();
 
-          /*前面*/
-          4, 5, 6,
-          7, 6, 5,
-          //
-          // /*右*/
-          6, 7, 0,
-          1, 0, 7,
+          var raycaster = new THREE.Raycaster();
+          var mouse = new THREE.Vector2();
 
-          // /*底*/
-          0, 2, 6,
-          4, 6, 2,
+          mouse.x = ( event.clientX / document.body.clientWidth ) * 2 - 1;
+          mouse.y = - ( event.clientY / document.body.clientHeight ) * 2 + 1;
 
-          // /*顶*/
-          3, 1, 7,
-          5, 3, 7,
-        ])
-        // 索引数据赋值给几何体的index属性
-        cubeGeometry.index = new THREE.BufferAttribute(indexes, 1); //1个为一组
+          raycaster.setFromCamera( mouse, camera );
 
-        let cubeMaterial = new THREE.MeshLambertMaterial({
-          // var cubeMaterial = new THREE.MeshBasicMaterial({
-          color: 0x7777ff,
-          // vertexColors: THREE.VertexColors, //以顶点颜色为准
-          // side: THREE.DoubleSide//两面可见
+          var intersects = raycaster.intersectObjects( poiObjects );
+          if(intersects.length>0){
+            alert("点击了热点"+intersects[0].object.detail.title);
+          }
         });
-        cube1 = new THREE.Mesh(cubeGeometry, cubeMaterial);
-        cube1.position.x = 25;
-        cube1.position.y = 5;
-        cube1.position.z = -5;
-        //告诉立方体需要投射阴影
-        cube1.castShadow = true;
-        scene.add(cube1);
-
-        //立方体
-        var cubeGeometry2 = new THREE.BoxGeometry(10, 10, 8);
-        var cubeMaterial2 = new THREE.MeshLambertMaterial({color: 0x7777ff,});
-        let cube2 = new THREE.Mesh(cubeGeometry2, cubeMaterial2);
-        cube2.position.x = 25;
-        cube2.position.y = 10;
-        cube2.position.z = 25;
-        //告诉立方体需要投射阴影
-        cube2.castShadow = true;
-        scene.add(cube2);
-
-        //底部平面
-        var planeGeometry = new THREE.PlaneGeometry(100, 100);
-        var planeMaterial = new THREE.MeshStandardMaterial({color: 0xaaaaaa});
-        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = -0.5 * Math.PI;
-        plane.position.y = -0;
-        //告诉底部平面需要接收阴影
-        plane.receiveShadow = true;
-        scene.add(plane);
       }
 
       //初始化性能插件
@@ -325,10 +286,10 @@
         light.position.x = gui.lightX;
         light.position.y = gui.lightY;
         light.position.z = gui.lightZ;
-        sphere.position.x = gui.sphereX;
-        sphere.position.z = gui.sphereZ;
-        cube1.position.x = gui.cubeX;
-        cube1.position.z = gui.cubeZ;
+        // sphere.position.x = gui.sphereX;
+        // sphere.position.z = gui.sphereZ;
+        // cube1.position.x = gui.cubeX;
+        // cube1.position.z = gui.cubeZ;
 
         controls.update();
         requestAnimationFrame(animate);

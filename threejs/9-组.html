@@ -59,6 +59,8 @@
 
 
 
+
+
     </script>
     <script type="module">
       import * as THREE from 'three';
@@ -137,138 +139,77 @@
       var sphere, cube1;
 
       function initModel() {
-        //上面的球
-        var sphereGeometry = new THREE.SphereGeometry(5, 20, 20);
-        var sphereMaterial = new THREE.MeshStandardMaterial({color: 0x7777ff});
-        sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.position.y = 5;
-        //告诉球需要投射阴影
-        sphere.castShadow = true;
-        // scene.add(sphere);
-        //辅助工具
-        var helper = new THREE.AxesHelper(10);
-        // scene.add(helper);
+// 头部网格模型和组
+        var headMesh = sphereMesh(10, 0, 0, 0);
+        headMesh.name = "脑壳"
+        var leftEyeMesh = sphereMesh(1, 8, 5, 4);
+        leftEyeMesh.name = "左眼"
+        var rightEyeMesh = sphereMesh(1, 8, 5, -4);
+        rightEyeMesh.name = "右眼"
+        var headGroup = new THREE.Group();
+        headGroup.name = "头部"
+        headGroup.add(headMesh, leftEyeMesh, rightEyeMesh);
+// 身体网格模型和组
+        var neckMesh = cylinderMesh(3, 10, 0, -15, 0);
+        neckMesh.name = "脖子"
+        var bodyMesh = cylinderMesh(14, 30, 0, -35, 0);
+        bodyMesh.name = "腹部"
+        var leftLegMesh = cylinderMesh(4, 60, 0, -80, -7);
+        leftLegMesh.name = "左腿"
+        var rightLegMesh = cylinderMesh(4, 60, 0, -80, 7);
+        rightLegMesh.name = "右腿"
+        var legGroup = new THREE.Group();
+        legGroup.name = "腿"
+        legGroup.add(leftLegMesh, rightLegMesh);
+        var bodyGroup = new THREE.Group();
+        bodyGroup.name = "身体"
+        bodyGroup.add(neckMesh, bodyMesh, legGroup);
+// 人Group
+        var personGroup = new THREE.Group();
+        personGroup.name = "人"
+        personGroup.add(headGroup, bodyGroup)
+        personGroup.translateY(50)
+        scene.add(personGroup);
 
-        // 创建一个立方体
-        //一个面，分两个三角形，一个三角形，三个坐标
-        //总的6个面，12个三角形，36个坐标，108个值
-        //    v6----- v5
-        //   /|      /|
-        //  v1------v0|
-        //  | |     | |
-        //  | |v7---|-|v4
-        //  |/      |/
-        //  v2------v3
-        let cubeGeometry = new THREE.BufferGeometry();
-        //自已注：每一个点的数组的顺序不同，如果材质里面未设置 side: THREE.DoubleSide//两面可见
-        //会导致看不见
-        let vertices = new Float32Array([
-          0, 0, 0,//0
-          0, 10, 0,//1
+// 球体网格模型创建函数
+        function sphereMesh(R, x, y, z) {
+          var geometry = new THREE.SphereGeometry(R, 25, 25); //球体几何体
+          var material = new THREE.MeshPhongMaterial({
+            color: 0x0000ff
+          }); //材质对象Material
+          var mesh = new THREE.Mesh(geometry, material); // 创建网格模型对象
+          mesh.position.set(x, y, z);
+          return mesh;
+        }
 
-          10, 0, 0,//2
-          10, 10, 0,//3
-
-          10, 0, 10,//4
-          10, 10, 10,//5
-
-          0, 0, 10,//6
-          0, 10, 10,//7
-        ]);
-        // itemSize = 3 因为每个顶点都是一个三元组。
-        cubeGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-
-        let normals = new Float32Array([
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-
-          -1, 0, 0,
-          -1, 0, 0,
-          -1, 0, 0,
-
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-        ])
-        cubeGeometry.attributes.normal = new THREE.BufferAttribute(normals, 3);
-
-        // Uint16Array类型数组创建顶点索引数据
-        //这里注意，正反面。面弄反了，法向量不会正确的生效
-        let indexes = new Uint16Array([
-          /*背面*/
-          0, 1, 2,
-          3, 2, 1,
-
-          /*左*/
-          2, 3, 4,
-          5, 4, 3,
-
-          /*前面*/
-          4, 5, 6,
-          7, 6, 5,
-          //
-          // /*右*/
-          6, 7, 0,
-          1, 0, 7,
-
-          // /*底*/
-          0, 2, 6,
-          4, 6, 2,
-
-          // /*顶*/
-          3, 1, 7,
-          5, 3, 7,
-        ])
-        // 索引数据赋值给几何体的index属性
-        cubeGeometry.index = new THREE.BufferAttribute(indexes, 1); //1个为一组
-
-        let cubeMaterial = new THREE.MeshLambertMaterial({
-          // var cubeMaterial = new THREE.MeshBasicMaterial({
-          color: 0x7777ff,
-          // vertexColors: THREE.VertexColors, //以顶点颜色为准
-          // side: THREE.DoubleSide//两面可见
-        });
-        cube1 = new THREE.Mesh(cubeGeometry, cubeMaterial);
-        cube1.position.x = 25;
-        cube1.position.y = 5;
-        cube1.position.z = -5;
-        //告诉立方体需要投射阴影
-        cube1.castShadow = true;
-        scene.add(cube1);
-
-        //立方体
-        var cubeGeometry2 = new THREE.BoxGeometry(10, 10, 8);
-        var cubeMaterial2 = new THREE.MeshLambertMaterial({color: 0x7777ff,});
-        let cube2 = new THREE.Mesh(cubeGeometry2, cubeMaterial2);
-        cube2.position.x = 25;
-        cube2.position.y = 10;
-        cube2.position.z = 25;
-        //告诉立方体需要投射阴影
-        cube2.castShadow = true;
-        scene.add(cube2);
-
-        //底部平面
-        var planeGeometry = new THREE.PlaneGeometry(100, 100);
-        var planeMaterial = new THREE.MeshStandardMaterial({color: 0xaaaaaa});
-        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = -0.5 * Math.PI;
-        plane.position.y = -0;
-        //告诉底部平面需要接收阴影
-        plane.receiveShadow = true;
-        scene.add(plane);
+// 圆柱体网格模型创建函数
+        function cylinderMesh(R, h, x, y, z) {
+          var geometry = new THREE.CylinderGeometry(R, R, h, 25, 25); //球体几何体
+          var material = new THREE.MeshPhongMaterial({
+            color: 0x0000ff
+          }); //材质对象Material
+          var mesh = new THREE.Mesh(geometry, material); // 创建网格模型对象
+          mesh.position.set(x, y, z);
+          return mesh;
+        }
+        scene.traverse(function(obj) {
+          if (obj.type === "Group") {
+            console.log(obj.name);
+          }
+          if (obj.type === "Mesh") {
+            console.log('  ' + obj.name);
+            obj.material.color.set(0xffff00);
+          }
+          if (obj.name === "左眼" | obj.name === "右眼") {
+            obj.material.color.set(0x000000)
+          }
+          // 打印id属性
+          console.log(obj.id);
+          // 打印该对象的父对象
+          console.log(obj.parent);
+          // 打印该对象的子对象
+          console.log(obj.children);
+        })
       }
 
       //初始化性能插件
@@ -325,10 +266,10 @@
         light.position.x = gui.lightX;
         light.position.y = gui.lightY;
         light.position.z = gui.lightZ;
-        sphere.position.x = gui.sphereX;
-        sphere.position.z = gui.sphereZ;
-        cube1.position.x = gui.cubeX;
-        cube1.position.z = gui.cubeZ;
+        // sphere.position.x = gui.sphereX;
+        // sphere.position.z = gui.sphereZ;
+        // cube1.position.x = gui.cubeX;
+        // cube1.position.z = gui.cubeZ;
 
         controls.update();
         requestAnimationFrame(animate);

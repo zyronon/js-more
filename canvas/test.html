@@ -10,19 +10,22 @@
             display: flex;
             justify-content: flex-end;
         }
+
         canvas {
             background: rgb(128, 219, 212);
+            margin-right: 200px;
         }
     </style>
 </head>
 <body>
-<canvas id="c" width="300" height="150"></canvas>
+<button>点击</button>
+<canvas id="c" width="415" height="150"></canvas>
 </body>
 <script>
-  let w = 300
+  let w = 415
   let h = 150
   let w2 = w / 2
-  let h2 = h
+  let h2 = w / 2
 
   function jiaodu2hudu(v) {
     if (!v) return 0
@@ -37,24 +40,59 @@
     }
   }
 
-  let c = document.querySelector('#c')
-  let ctx = c.getContext('2d')
+  let canvas = document.querySelector('#c')
+  let ctx = canvas.getContext('2d')
 
-  let totalLength = 120 //总长度
-  let startDegree = 0 - 30 // 开始角度
-  let endDegree = startDegree - totalLength//结束角度
-  let centerDegree = startDegree - totalLength / 2 //中间角度
+  let canvasRect = canvas.getBoundingClientRect()
+  let {width, height} = canvasRect
+  let dpr = window.devicePixelRatio
+  if (dpr) {
+    canvas.style.width = width + "px"
+    canvas.style.height = height + "px"
+    canvas.height = height * dpr
+    canvas.width = width * dpr
+    ctx.scale(dpr, dpr)
+  }
+
+  let bigBarTotalLength = 120 //大环总长度
+  let bigBarStartDegree = 0 - 30 // 开始角度
+  let bigBarEndDegree = bigBarStartDegree - bigBarTotalLength//结束角度
+  let bigBarCenterDegree = bigBarStartDegree - bigBarTotalLength / 2 //中间角度
+
+  let yellowBarWidth = 20 //黄环总长度
+  let yellowStartDegree = bigBarCenterDegree
+  let yellowEndDegree = yellowStartDegree - yellowBarWidth
+  let yellowCenterDegree = yellowStartDegree - yellowBarWidth / 2
+
+  let config = {
+    barNum: 10,
+    greenBar: [6, 3]
+  }
+  let yellowBars = []
+
+  for (let i = 0; i < config.barNum; i++) {
+    let yellowBar = {
+      width: bigBarTotalLength / config.barNum,
+    }
+  }
+
+  let redBarWidth = 10 //红环总长度
+  let redStartDegree = yellowCenterDegree + (redBarWidth / 2)
+  let redEndDegree = redStartDegree - redBarWidth
+
+  let ropeBarStartDegree = -40 //套索的开始角度
+
   let center = {x: w2, y: h2}
-  let length = 20
+  let length = 25
   let outer = h2 - length //外径
   let inner = outer - length //内径
   let zeroPoint = {x: w2 + inner + length / 2, y: h2} //大环的0点
   let zeroPoint2 = {x: w2 + outer + length / 2, y: h2}
-  let startPoint = getRotatedPoint(zeroPoint, center, startDegree)
-  let endPoint = getRotatedPoint(zeroPoint, center, endDegree)
-  let centerPoint = getRotatedPoint(zeroPoint, center, centerDegree)
+  let startPoint = getRotatedPoint(zeroPoint, center, bigBarStartDegree)
+  let endPoint = getRotatedPoint(zeroPoint, center, bigBarEndDegree)
+  let centerPoint = getRotatedPoint(zeroPoint, center, bigBarCenterDegree)
   /*大环的4个颜色*/
-  let color1Fill0 = 'rgba(255, 255, 255, 0.5)' //填充色起点
+  let color1Fill0 = 'rgba(255, 255, 255, 1)' //填充色起点
   let color1Fill1 = 'rgba(255, 255, 255, 0)'//填充色结束
   let color1Stroke0 = 'rgba(255, 255, 255, 1)'//描边色起点
   let color1Stroke1 = 'rgba(255, 255, 255, 0)'//描边色结束
@@ -62,110 +100,179 @@
   let color2Fill0 = color1Stroke0 //小圆的
   let color2Fill1 = color1Stroke1
 
+  let redBarImg
+  let whiteBarImg
+
+  const DesignRatio = 3;
+  const BarWidth = 38 / DesignRatio;
+  const BarHeight = 142 / DesignRatio;
+
   ctx.arc2 = (point, radius, startAngle, endAngle, anticlockwise) => {
     ctx.moveTo(point.x, point.y)
     ctx.arc(point.x, point.y, radius, startAngle, endAngle, anticlockwise);
   }
 
-  let test = false
-  if (test) {
+  function render() {
     ctx.save()
-    ctx.beginPath()
-    ctx.moveTo(w2, 0)
-    ctx.lineTo(w2, h)
-    ctx.moveTo(0, h2)
-    ctx.lineTo(w, h2)
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 1
-    ctx.stroke()
-    ctx.strokeRect(0, 0, w, h)
-    ctx.closePath()
-    ctx.restore()
+    ctx.clearRect(0, 0, w, h)
 
-    ctx.beginPath()
-    let radius = 3
-    ctx.arc2(zeroPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
-    ctx.arc2(startPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
-    ctx.arc2(endPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
-    ctx.arc2(centerPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
-    ctx.arc2(zeroPoint2, radius, jiaodu2hudu(0), jiaodu2hudu(360));
-    ctx.fillStyle = 'gray'
-    ctx.fill()
-    ctx.closePath()
-  }
+    let test = false
+    if (test) {
+      ctx.save()
+      ctx.beginPath()
+      ctx.moveTo(w2, 0)
+      ctx.lineTo(w2, h)
+      ctx.moveTo(0, h2)
+      ctx.lineTo(w, h2)
+      ctx.strokeStyle = 'black'
+      ctx.lineWidth = 1
+      ctx.stroke()
+      ctx.strokeRect(0, 0, w, h)
+      ctx.closePath()
+      ctx.restore()
 
-
-  /*
+      ctx.beginPath()
+      let radius = 3
+      ctx.arc2(zeroPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+      ctx.arc2(startPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+      ctx.arc2(endPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+      ctx.arc2(centerPoint, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+      ctx.arc2(zeroPoint2, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+      ctx.fillStyle = 'gray'
+      ctx.fill()
+      ctx.closePath()
+    }
+    /*
   * 把大的环分成两半来画，用两个渐变
   * */
-  /* 大环的右边那一半*/
-  ctx.beginPath()
-  ctx.lineWidth = 2
-  ctx.arc(w2, h2, inner, jiaodu2hudu(startDegree - totalLength / 2), jiaodu2hudu(startDegree));
-  ctx.arc(w2, h2, outer, jiaodu2hudu(startDegree), jiaodu2hudu(startDegree - totalLength / 2), true);
-  let gradient = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
-  gradient.addColorStop(0, color1Fill0);
-  gradient.addColorStop(1, color1Fill1);
-  ctx.fillStyle = gradient
-  ctx.fill()
-  let gradient2 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
-  gradient2.addColorStop(0, color1Stroke0);
-  gradient2.addColorStop(1, color1Stroke1);
-  ctx.strokeStyle = gradient2
-  ctx.stroke()
-  ctx.closePath()
+    /* 大环的右边那一半*/
+    ctx.beginPath()
+    ctx.lineWidth = 2
+    ctx.arc(w2, h2, inner, jiaodu2hudu(bigBarStartDegree - bigBarTotalLength / 2), jiaodu2hudu(bigBarStartDegree));
+    ctx.arc(w2, h2, outer, jiaodu2hudu(bigBarStartDegree), jiaodu2hudu(bigBarStartDegree - bigBarTotalLength / 2), true);
+    let gradient = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
+    gradient.addColorStop(0, color1Fill0);
+    gradient.addColorStop(1, color1Fill1);
+    ctx.fillStyle = gradient
+    ctx.fill()
+    let gradient2 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
+    gradient2.addColorStop(0, color1Stroke0);
+    gradient2.addColorStop(1, color1Stroke1);
+    ctx.strokeStyle = gradient2
+    ctx.stroke()
+    ctx.closePath()
 
-  /* 大环的左边那一半*/
-  ctx.beginPath()
-  ctx.arc(w2, h2, inner, jiaodu2hudu(centerDegree), jiaodu2hudu(endDegree), true);
-  ctx.arc(w2, h2, outer, jiaodu2hudu(endDegree), jiaodu2hudu(centerDegree),);
-  let gradient3 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
-  gradient3.addColorStop(0, color1Fill0);
-  gradient3.addColorStop(1, color1Fill1);
-  ctx.fillStyle = gradient3
-  ctx.fill()
-  let gradient4 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
-  gradient4.addColorStop(0, color1Stroke0);
-  gradient4.addColorStop(1, color1Stroke1);
-  ctx.strokeStyle = gradient4
-  ctx.stroke()
-  ctx.closePath()
+    /* 大环的左边那一半*/
+    ctx.beginPath()
+    ctx.arc(w2, h2, inner, jiaodu2hudu(bigBarCenterDegree), jiaodu2hudu(bigBarEndDegree), true);
+    ctx.arc(w2, h2, outer, jiaodu2hudu(bigBarEndDegree), jiaodu2hudu(bigBarCenterDegree),);
+    let gradient3 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
+    gradient3.addColorStop(0, color1Fill0);
+    gradient3.addColorStop(1, color1Fill1);
+    ctx.fillStyle = gradient3
+    ctx.fill()
+    let gradient4 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
+    gradient4.addColorStop(0, color1Stroke0);
+    gradient4.addColorStop(1, color1Stroke1);
+    ctx.strokeStyle = gradient4
+    ctx.stroke()
+    ctx.closePath()
 
-  /* 大环外面 右边一半的4个小圆*/
-  ctx.beginPath()
-  let radius = 5
-  for (let i = 0; i < 4; i++) {
-    let point = getRotatedPoint(zeroPoint2, center, startDegree - 12 - i * (110 / 8))
-    ctx.arc2(point, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    /* 大环外面 右边一半的4个小圆*/
+    ctx.beginPath()
+    let radius = 5
+    for (let i = 0; i < 4; i++) {
+      let point = getRotatedPoint(zeroPoint2, center, bigBarStartDegree - 12 - i * (110 / 8))
+      ctx.arc2(point, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    }
+    let gradient5 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
+    gradient5.addColorStop(0, color2Fill0);
+    gradient5.addColorStop(1, color2Fill1);
+    ctx.fillStyle = gradient5
+    ctx.fill()
+    ctx.closePath()
+
+    /* 大环外面 左边一半的4个小圆*/
+    ctx.beginPath()
+    for (let i = 4; i < 8; i++) {
+      let point = getRotatedPoint(zeroPoint2, center, bigBarStartDegree - 12 - i * (110 / 8))
+      ctx.arc2(point, radius, jiaodu2hudu(0), jiaodu2hudu(360));
+    }
+    let gradient6 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
+    gradient6.addColorStop(0, color2Fill0);
+    gradient6.addColorStop(1, color2Fill1);
+    ctx.fillStyle = gradient6
+    ctx.fill()
+    ctx.closePath()
+
+    /* 黄色*/
+    ctx.beginPath()
+    ctx.arc(w2, h2, inner + 2, jiaodu2hudu(yellowStartDegree), jiaodu2hudu(yellowEndDegree), true);
+    ctx.arc(w2, h2, outer - 2, jiaodu2hudu(yellowEndDegree), jiaodu2hudu(yellowStartDegree),);
+    ctx.fillStyle = 'rgb(255,231,72)'
+    ctx.fill()
+    ctx.closePath()
+
+    /* 红色*/
+    ctx.beginPath()
+    ctx.arc(w2, h2, inner + 2, jiaodu2hudu(redStartDegree), jiaodu2hudu(redEndDegree), true);
+    ctx.arc(w2, h2, outer - 2, jiaodu2hudu(redEndDegree), jiaodu2hudu(redStartDegree),);
+    ctx.fillStyle = 'rgb(254,129,129)'
+    ctx.fill()
+    ctx.closePath()
+
+    function renderBar() {
+      ctx.save()
+      ctx.translate(w2, h2)
+      ctx.rotate(jiaodu2hudu(90 + ropeBarStartDegree))
+      // ctx.rotate(jiaodu2hudu(0))
+      let h = -(h2 - ((length + length / 2) - BarHeight / 2))
+      if (redStartDegree > ropeBarStartDegree && ropeBarStartDegree > redEndDegree) {
+        ctx.drawImage(redBarImg, 0, h, BarWidth, BarHeight)
+      } else {
+        ctx.drawImage(whiteBarImg, 0, h, BarWidth, BarHeight)
+      }
+      ctx.restore()
+    }
+
+    if (redBarImg) {
+      renderBar()
+    } else {
+      redBarImg = new Image()
+      redBarImg.src = 'bar_red.png'
+      whiteBarImg = new Image()
+      whiteBarImg.src = 'bar_def.png'
+      whiteBarImg.onload = renderBar
+    }
+    ctx.restore()
   }
-  let gradient5 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, startPoint.x, startPoint.y)
-  gradient5.addColorStop(0, color2Fill0);
-  gradient5.addColorStop(1, color2Fill1);
-  ctx.fillStyle = gradient5
-  ctx.fill()
-  ctx.closePath()
 
-  /* 大环外面 左边一半的4个小圆*/
-  ctx.beginPath()
-  for (let i = 4; i < 8; i++) {
-    let point = getRotatedPoint(zeroPoint2, center, startDegree - 12 - i * (110 / 8))
-    ctx.arc2(point, radius, jiaodu2hudu(0), jiaodu2hudu(360));
-  }
-  let gradient6 = ctx.createLinearGradient(centerPoint.x, centerPoint.y, endPoint.x, endPoint.y)
-  gradient6.addColorStop(0, color2Fill0);
-  gradient6.addColorStop(1, color2Fill1);
-  ctx.fillStyle = gradient6
-  ctx.fill()
-  ctx.closePath()
+  render()
 
-  /* 黄色*/
-  // ctx.beginPath()
-  // startDegree = centerDegree + 15
-  // endDegree = centerDegree - 15
-  // ctx.arc(w2, h2, inner + 2, jiaodu2hudu(startDegree), jiaodu2hudu(endDegree), true);
-  // ctx.arc(w2, h2, outer - 2, jiaodu2hudu(endDegree), jiaodu2hudu(startDegree),);
-  // ctx.fillStyle = 'yellow'
-  // ctx.fill()
+  let timer
+  let btn = document.querySelector('button')
+  let left = true
+  btn.addEventListener('click', () => {
+    if (timer) {
+      timer = clearInterval(timer)
+    } else {
+      timer = setInterval(() => {
+        render()
+        if (ropeBarStartDegree === -140) {
+          left = false
+        }
+        if (ropeBarStartDegree === -40) {
+          left = true
+        }
+        if (left) {
+          ropeBarStartDegree = ropeBarStartDegree - .5
+        } else {
+          ropeBarStartDegree = ropeBarStartDegree + .5
+        }
+      }, 16.6)
+    }
+  })
+
 </script>
 
 </html>
