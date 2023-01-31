@@ -1,33 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://unpkg.com/json5@2/dist/index.min.js"></script>
+
 </head>
+
 <body>
 
 </body>
 <script>
+  let old = {
+    "data": {
+      "clientMsgId": "4d85462257d84efda3a7a35840ab18c8",
+      "content": { "text": "1" },
+      "contentType": 1001,
+      "conversationId": "c3b37fa3294549f380f517338f3db58b",
+      "msgSeq": 524,
+      "operation": 0,
+      "platform": 0,
+      "receiverId": 1000058,
+      "senderAvatar": "https://cdn.dev.utown.io/i/20220915/b/8/9/b89a790dbe6e4738a58680bc558ed010.png",
+      "senderId": 1000067,
+      "senderNickname": "brian12",
+      "sessionType": 0,
+      "showBothSide": false,
+      "timestamp": 1675137198458
+    },
+    "msgType": 201,
+    "platform": 0
+  }
+  old.data.content = JSON.stringify(old.data.content)
+  old.data = JSON.stringify(old.data)
 
-  class Base {
-    common() {
-      console.log('Base-common')
-      this.aFunc2()
+  // let new1 = JSON.stringify(old)
+  // console.log('原来的O', new1);
+
+  let a = `{"data":"{\"clientMsgId\":\"4d3750031d814799a05331a103eb31e6\",\"content\":\"{\\\"text\\\":\\\"123\\\"}\",\"contentType\":1001,\"conversationId\":\"0ac6e21864844698af65f1f0bdf7bdc5\",\"msgSeq\":512,\"operation\":0,\"platform\":0,\"receiverId\":1000058,\"senderAvatar\":\"https://cdn.dev.utown.io/i/20220915/b/8/9/b89a790dbe6e4738a58680bc558ed010.png\",\"senderId\":1000067,\"senderNickname\":\"brian12\",\"sessionType\":1,\"showBothSide\":false,\"timestamp\":1675132910670}","msgType":201,"platform":0}`
+  console.log('原来的A', a);
+
+  // a = new1
+  // a = '{"data":"{\"clientMsgId\":\"4d85462257d84efda3a7a35840ab18c8\",\"content\":\"{\\\"text\\\":\\\"1\\\"}\",\"contentType\":1001,\"conversationId\":\"c3b37fa3294549f380f517338f3db58b\",\"msgSeq\":524,\"operation\":0,\"platform\":0,\"receiverId\":1000058,\"senderAvatar\":\"https://cdn.dev.utown.io/i/20220915/b/8/9/b89a790dbe6e4738a58680bc558ed010.png\",\"senderId\":1000067,\"senderNickname\":\"brian12\",\"sessionType\":0,\"showBothSide\":false,\"timestamp\":1675137198458}","msgType":201,"platform":0}'
+
+  // console.log(a.search(/"{"/));
+
+
+  // a = a.replace(/\\/g,'\\\\')
+  // a = a.replace(/"{"/g,'{\"')
+  // a = a.replace(/"}"/g,'\""}')
+  // a = a.replace(/}}"/g,'}}')
+  // a = a.replace(/{\\"/g, '{\\\\"')
+  // a = a.replace(/"{"/g, '"{\"')
+
+  // a = a.replace(/"/g, '&#39')
+
+  // console.log('修正的A', a);
+
+  function format() {
+    this.errorMsg = '';
+    this.placeHolder = '';
+    this.jfCallbackName_start = '';
+    this.jfCallbackName_end = '';
+
+    // JSONP形式下的callback name
+    let funcName = null;
+    // json对象
+    let jsonObj = null;
+
+    let source = a.replace(/\n/gm, ' ');
+
+    // 下面校验给定字符串是否为一个合法的json
+    try {
+      // 再看看是不是jsonp的格式
+      let reg = /^([\w\.]+)\(\s*([\s\S]*)\s*\)$/igm;
+      let matches = reg.exec(source);
+      if (matches != null) {
+        funcName = matches[1];
+        source = matches[2];
+      }
+      // 这里可能会throw exception
+      jsonObj = JSON.parse(source);
+    } catch (ex) {
+      // new Function的方式，能自动给key补全双引号，但是不支持bigint，所以是下下策，放在try-catch里搞
+      try {
+        jsonObj = new Function("return " + source)();
+      } catch (exx) {
+        try {
+          // 再给你一次机会，是不是下面这种情况：  "{\"ret\":\"0\", \"msg\":\"ok\"}"
+          jsonObj = new Function("return '" + source + "'")();
+          if (typeof jsonObj === 'string') {
+            try {
+              // 确保bigint不会失真
+              jsonObj = JSON.parse(jsonObj);
+            } catch (ie) {
+              // 最后给你一次机会，是个字符串，老夫给你再转一次
+              jsonObj = new Function("return " + jsonObj)();
+            }
+          }
+        } catch (exxx) {
+          this.errorMsg = exxx.message;
+        }
+      }
     }
+
+    // 是json格式，可以进行JSON自动格式化
+    if (jsonObj != null && typeof jsonObj === "object" && !this.errorMsg.length) {
+      try {
+        let sortType = document.querySelectorAll('[name=jsonsort]:checked')[0].value;
+        if (sortType !== '0') {
+          jsonObj = JsonABC.sortObj(jsonObj, parseInt(sortType), true);
+        }
+        source = JSON.stringify(jsonObj);
+      } catch (ex) {
+        // 通过JSON反解不出来的，一定有问题
+        this.errorMsg = ex.message;
+      }
+
+      if (!this.errorMsg.length) {
+
+        if (this.autoDecode) {
+          (async () => {
+            let txt = await JsonEnDecode.urlDecodeByFetch(source);
+            source = JsonEnDecode.uniDecode(txt);
+            Formatter.format(source);
+          })();
+        } else {
+          Formatter.format(source);
+        }
+
+        this.placeHolder = '';
+        this.jsonFormattedSource = source;
+
+        // 如果是JSONP格式的，需要把方法名也显示出来
+        if (funcName != null) {
+          this.jfCallbackName_start = funcName + '(';
+          this.jfCallbackName_end = ')';
+        } else {
+          this.jfCallbackName_start = '';
+          this.jfCallbackName_end = '';
+        }
+
+        this.$nextTick(() => {
+          this.updateWrapperHeight();
+        })
+      }
+    }
+
+    if (this.errorMsg.length) {
+      if (this.jsonLintSwitch) {
+        return this.lintOn();
+      } else {
+        this.placeHolder = '<span class="x-error">' + this.errorMsg + '</span>';
+        return false;
+      }
+    }
+
+    return true;
+
   }
 
-  class A extends Base {
-    aFunc() {
-      console.log('aFunc1')
-      super.common()
-    }
 
-    aFunc2() {
-      console.log('aFunc2')
-    }
-  }
+  // format()
 
-  let a = new A()
-  a.aFunc()
+
+  let b = JSON.parse(a);
+  // let b = eval("(" + a + ")")
+  // console.log(b);
 </script>
+
 </html>
