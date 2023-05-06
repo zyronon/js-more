@@ -9,48 +9,60 @@
   <style></style>
 </head>
 
-<body></body>
+<body>
+
+
+</body>
 
 </html>
 <script>
 
-  var strs = "http://test.com?foo=active&key=123@wang&key=78@li&key=3";
-  var strs1 = "http://test.com?too=last&key=555@wangtao&value=test";
-  function changes(str) {
-    let r = str.split('?')
-    let r2 = r[1].split('&')
-    let obj = {}
-    console.log(r2);
+  let str = `
+<div class="header"><div class="fr"><a href="/member/LLLLLLyw"><img src="https://cdn.v2ex.com/avatar/3044/1144/337959_xlarge.png?m=1683168933" class="avatar" border="0" align="default" width="73" style="width: 73px; max-height: 73px;" alt="LLLLLLyw"></a></div>
+<a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/go/create">分享创造</a>
+<div class="sep10"></div>
+<h1>搞了一个非常小众的软件，欢迎大家体验！</h1>
+<div id="topic_937161_votes" class="votes">
+<a href="javascript:" onclick="upVoteTopic(937161);" class="vote"><li class="fa fa-chevron-up"></li></a> &nbsp;<a href="javascript:" onclick="downVoteTopic(937161);" class="vote"><li class="fa fa-chevron-down"></li></a></div> &nbsp; <small class="gray"><a href="/member/LLLLLLyw">LLLLLLyw</a> · <span title="2023-05-04 10:53:13 +08:00">1 天前</span> · 3746 次点击 &nbsp; </small>
+</div>
+<div class="cell">
+<div class="topic_content">《 Anti 》一款为敏宝开发，帮助排敏的工具。<a target="_blank" href="https://apps.apple.com/us/app/anti-%E6%95%8F%E5%AE%9D%E5%BF%85%E5%A4%87%E6%8E%92%E6%95%8F%E5%8A%A9%E6%89%8B/id6447150977" rel="nofollow noopener">https://apps.apple.com/us/app/anti-%E6%95%8F%E5%AE%9D%E5%BF%85%E5%A4%87%E6%8E%92%E6%95%8F%E5%8A%A9%E6%89%8B/id6447150977</a><br><br>功能包含：<br>- 根据周期，对过敏源进行排敏<br>- 每日记录身体状态，观察过敏源带来的反应<br>- 通过热力图观察变化<br>- 给过敏源进行评分，归纳。方便再次排敏和回顾<br>- 记录辅食和日常护理<br>- 支持标签系统<br>- 无广告、云同步<br><br>有需要的家长可以联系我，我发兑换码给你。 邮箱：cmFpbHdheWFudGlAZ21haWwuY29t<br>
+  <br>预览：<br><br><a target="_blank" href="https://imgur.com/Qu7Nv5b" rel="nofollow noopener">https://imgur.com/Qu7Nv5b</a><br><a target="_blank" href="https://imgur.com/a6O8t8v" rel="nofollow noopener">https://imgur.com/a6O8t8v</a><br><a target="_blank" href="https://imgur.com/R4MHrlQ" rel="nofollow noopener">https://imgur.com/R4MHrlQ</a><br>
+  <a target="_blank" href="https://imgur.com/jglTuGf" rel="nofollow noopener">https://imgur.com/jglTuGf</a></div>
+</div>
+<div class="cell">
+<div class="topic_content">很久没有登录阿里云盘, 今天在网页端通过验证短信登录显示如下页面.<br><br>网盘中没有存任何不和谐的内容, 大约是 10TB 左右的文件, 少部分是完全合法合规的文件, 大部分是经过 AES-256 加密的随机文件块, 从来没有主动分享文件给他人.<br><br><a target="_blank" href="https://i.imgur.com/H9olE6x.png" rel="nofollow noopener"><img src="https://i.imgur.com/H9olE6x.png" class="embedded_image" rel="noreferrer"></a></div>
+</div>
 
-    r2.map(v => {
-      let vSplit = v.split('=')
+ `
 
-      if (vSplit[1].split('@').length === 2) {
-        vSplit[1] = vSplit[1].split('@')[0]
-      }
+  str = `
+ <br>预览：<br><br><a target="_blank" href="https://imgur.com/Qu7Nv5b" rel="nofollow noopener">https://imgur.com/Qu7Nv5b</a><br><a target="_blank" href="https://imgur.com/a6O8t8v" rel="nofollow noopener">https://imgur.com/a6O8t8v</a><br><a target="_blank" href="https://imgur.com/R4MHrlQ" rel="nofollow noopener">https://imgur.com/R4MHrlQ</a><br>
+  <a href="https://imgur.com/jglTuGf">https://imgur.com/jglTuGf</a></div>
+  <br><a target="_blank" href="https://i.imgur.com/H9olE6x.png" rel="nofollow noopener"><img src="https://i.imgur.com/H9olE6x.png" class="embedded_image" rel="noreferrer"></a></div>
+</div>
+ `
 
-      console.log(vSplit);
-      if (obj[vSplit[0]]) {
-        let oldValue = obj[vSplit[0]]
-        console.log('老值', oldValue);
-        console.log('新值', vSplit[1]);
-
-        // obj[vSplit[0]] = [oldValue, vSplit[1]]
-        if (oldValue instanceof Array) {
-          obj[vSplit[0]].push(vSplit[1])
-        } else {
-          obj[vSplit[0]] = [oldValue, vSplit[1]]
+  function photoLink2Img(str) {
+    let imgWebs = [
+      /<a((?!<a).)*href="https?:\/\/((?!<a).)*imgur.com((?!<a).)*>(((?!<a).)*)<\/a>/g,
+    ]
+    imgWebs.map(v => {
+      let has = str.matchAll(v)
+      let res2 = [...has]
+      // console.log('总匹配', res2)
+      res2.map(r => {
+        if (r[4]) {
+          str = str.replace(r[0], `<img src="${r[4]}.png" alt="">`)
         }
-      } else {
-        obj[vSplit[0]] = vSplit[1]
-      }
+      })
+      // str = str.replace(v, '<img src="$4.png" alt="">')
     })
-
-    console.log('obj', obj);
-
+    return str
   }
-  changes(strs);  //返回结果  {foo:'active',key:[123,78]}
-  changes(strs1); //返回结果 {too:'last',key:555,value:'test'}
 
+
+
+  console.log(photoLink2Img(str));
 
 </script>
