@@ -39,25 +39,54 @@
   str = `
  <br>预览：<br><br><a target="_blank" href="https://imgur.com/Qu7Nv5b" rel="nofollow noopener">https://imgur.com/Qu7Nv5b</a><br><a target="_blank" href="https://imgur.com/a6O8t8v" rel="nofollow noopener">https://imgur.com/a6O8t8v</a><br><a target="_blank" href="https://imgur.com/R4MHrlQ" rel="nofollow noopener">https://imgur.com/R4MHrlQ</a><br>
   <a href="https://imgur.com/jglTuGf">https://imgur.com/jglTuGf</a></div>
+<div class="markdown_body"><p><a href="http://www.cmd5.com" rel="nofollow">www.cmd5.com</a></p>
+</div>
+  <a target="_blank" href="https://imgur.com/Qu7Nv5b.png" rel="nofollow noopener">https://imgur.com/Qu7Nv5b.gif</a>
+  <a target="_blank" href="https://s3.bmp.ovh/imgs/2023/03/29/2c51632c2b11b77c.gif" rel="nofollow noopener">https://s3.bmp.ovh/imgs/2023/03/29/2c51632c2b11b77c.gif</a>
+  <a target="_blank" href="https://s3.bmp.ovh/imgs/2023/03/29/2c51632c2b11b77c.png" rel="nofollow noopener">https://s3.bmp.ovh/imgs/2023/03/29/2c51632c2b11b77c.gif</a>
   <br><a target="_blank" href="https://i.imgur.com/H9olE6x.png" rel="nofollow noopener"><img src="https://i.imgur.com/H9olE6x.png" class="embedded_image" rel="noreferrer"></a></div>
+
+  <a target="_blank" href="https://foresightnews.pro/article" rel="nofollow noopener">https://foresightnews.pro/article</a>
 </div>
  `
+  window.OnImageError = function () {
+    let img = event.srcElement;
+    img.onerror = null;
+    img.outerHTML = img.src;
+  }
 
   function photoLink2Img(str) {
-    let imgWebs = [
-      /<a((?!<a).)*href="https?:\/\/((?!<a).)*imgur.com((?!<a).)*>(((?!<a).)*)<\/a>/g,
-    ]
-    imgWebs.map(v => {
-      let has = str.matchAll(v)
-      let res2 = [...has]
-      // console.log('总匹配', res2)
-      res2.map(r => {
-        if (r[4]) {
-          str = str.replace(r[0], `<img src="${r[4]}.png" alt="">`)
-        }
+    if (!str) return
+    try {
+      let imgWebs = [
+        /<a((?!<a).)*href="https?:\/\/((?!<a).)*imgur.com((?!<a).)*>(((?!<a).)*)<\/a>/g,
+        /<a((?!<a).)*href="https?:\/\/((?!<a).)*\.(gif|png|jpg|jpeg|GIF|PNG|JPG|JPEG)((?!<a).)*>(((?!<a).)*)<\/a>/g,
+      ]
+      imgWebs.map((v, i) => {
+        let has = str.matchAll(v)
+        let res2 = [...has]
+        console.log('总匹配', res2)
+        res2.map(r => {
+          let p = i === 0 ? r[4] : r[5]
+          if (p) {
+            let link = p.toLowerCase()
+            let src = p
+            if (
+              link.includes('.png') ||
+              link.includes('.jpg') ||
+              link.includes('.jpeg') ||
+              link.includes('.gif')
+            ) {
+            } else {
+              src = p + '.png'
+            }
+            str = str.replace(r[0], `<img src="${src}" data-originUrl="${p}" data-notice="这个img标签由v2ex-超级增强脚本解析" style="max-width: 100%">`)
+          }
+        })
       })
-      // str = str.replace(v, '<img src="$4.png" alt="">')
-    })
+    } catch (e) {
+      console.log('正则解析html里面的a标签的图片链接出错了')
+    }
     return str
   }
 
