@@ -9,48 +9,44 @@
   <style></style>
 </head>
 
-<body></body>
+<body>
+  <img src="$1" alt="">
+
+</body>
 
 </html>
 <script>
 
-  var strs = "http://test.com?foo=active&key=123@wang&key=78@li&key=3";
-  var strs1 = "http://test.com?too=last&key=555@wangtao&value=test";
-  function changes(str) {
-    let r = str.split('?')
-    let r2 = r[1].split('&')
-    let obj = {}
-    console.log(r2);
+  let str = `
+   <div class="header"><div class="fr"><a href="/member/JuicyJ"><img src="https://cdn.v2ex.com/avatar/c9d5/46db/231352_large.png?m=1667049076" class="avatar" border="0" align="default" alt="JuicyJ"></a></div>
+<a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/go/qna">问与答</a>
+<div class="sep10"></div>
+<h1>刮别人车了，要赔多少钱？</h1>
+<div id="topic_937152_votes" class="votes">
+<a href="javascript:" onclick="upVoteTopic(937152);" class="vote"><li class="fa fa-chevron-up"></li></a> &nbsp;<a href="javascript:" onclick="downVoteTopic(937152);" class="vote"><li class="fa fa-chevron-down"></li></a></div> &nbsp; <small class="gray"><a href="/member/JuicyJ">JuicyJ</a> · <span title="2023-05-04 10:45:27 +08:00">6 小时 53 分钟前</span> · 3477 次点击 &nbsp; </small>
+</div>
+<div class="cell">
+<a href="https://imgse.com/i/p9tv8oj" rel="nofollow">https://imgse.com/i/p9tv8oj</a></p>
 
-    r2.map(v => {
-      let vSplit = v.split('=')
+<div class="topic_content"><div class="markdown_body"><p>马 3 两厢。<br>
+图：<br>
 
-      if (vSplit[1].split('@').length === 2) {
-        vSplit[1] = vSplit[1].split('@')[0]
-      }
+<a href="https://imgloc.com/i/iPWhJN" rel="nofollow">https://imgloc.com/i/iPWhJN</a></p>
+<a href="https://i.imgur.com/D6WX7Pn" rel="nofollow">https://i.imgur.com/D6WX7Pn</a></p>
+</div></div>
+</div>
 
-      console.log(vSplit);
-      if (obj[vSplit[0]]) {
-        let oldValue = obj[vSplit[0]]
-        console.log('老值', oldValue);
-        console.log('新值', vSplit[1]);
+`
+  let imgWebs = [
+    /<a href="https?:\/\/[^<a]*imgur.com[^<a]*>([\s\S]*?)<\/a>/g,
+  ]
 
-        // obj[vSplit[0]] = [oldValue, vSplit[1]]
-        if (oldValue instanceof Array) {
-          obj[vSplit[0]].push(vSplit[1])
-        } else {
-          obj[vSplit[0]] = [oldValue, vSplit[1]]
-        }
-      } else {
-        obj[vSplit[0]] = vSplit[1]
-      }
-    })
-
-    console.log('obj', obj);
-
-  }
-  changes(strs);  //返回结果  {foo:'active',key:[123,78]}
-  changes(strs1); //返回结果 {too:'last',key:555,value:'test'}
-
-
+  imgWebs.map(v => {
+    let has = str.matchAll(v)
+    let res2 = [...has]
+    if (res2.length) {
+      str = str.replace(v, '<img src="$1.png" alt="">')
+    }
+  })
+  console.log(str);
 </script>
