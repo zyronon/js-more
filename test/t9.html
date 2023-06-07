@@ -14,26 +14,50 @@
 <script>
     let canvas = document.querySelector('canvas')
     let ctx = canvas.getContext('2d')
-    let blueX = 290;
+    let p1 = {
+        x: 250,
+        y: 50,
+        w: 10,
+        h: 10
+    }
+    let p2 = {
+        x: 400,
+        y: 300,
+        w: 10,
+        h: 10
+    }
+    let p3 = {
+        x: 100,
+        y: 300,
+        w: 10,
+        h: 10
+    }
+    function fillRect2(rect) {
+        ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+    }
+
+    function arcTo2(p1, p2, r) {
+        ctx.arcTo(p1.x, p1.y, p2.x, p2.y, r);
+    }
 
     ctx.beginPath();
     ctx.moveTo(250, 50);
-    ctx.arcTo(400, 300, 100, 300, 120);
-    ctx.arcTo(100, 300, 250, 50, 50);
-    ctx.arcTo(250, 50, 400, 300, 50);
+    arcTo2(p2,p3,120)
+    arcTo2(p3,p1,50)
+    arcTo2(p1,p2,50)
     ctx.stroke();
 
     ctx.fillStyle = 'blue';
     // base point
-    ctx.fillRect(250, 50, 10, 10);
+    fillRect2(p1)
 
     ctx.fillStyle = 'red';
     // control point one
-    ctx.fillRect(400, 300, 10, 10);
+    fillRect2(p2)
+
     ctx.fillStyle = 'green';
     // control point two
-    ctx.fillRect(100, 300, 10, 10);
-
+    fillRect2(p3) 
 </script>
 
 </html>
