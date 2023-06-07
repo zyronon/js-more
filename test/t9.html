@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas width="500" height="500"></canvas>
+</body>
+<script>
+    let canvas = document.querySelector('canvas')
+    let ctx = canvas.getContext('2d')
+    let blueX = 290;
+
+    ctx.beginPath();
+    ctx.moveTo(250, 50);
+    ctx.arcTo(400, 300, 100, 300, 120);
+    ctx.arcTo(100, 300, 250, 50, 50);
+    ctx.arcTo(250, 50, 400, 300, 50);
+    ctx.stroke();
+
+    ctx.fillStyle = 'blue';
+    // base point
+    ctx.fillRect(250, 50, 10, 10);
+
+    ctx.fillStyle = 'red';
+    // control point one
+    ctx.fillRect(400, 300, 10, 10);
+    ctx.fillStyle = 'green';
+    // control point two
+    ctx.fillRect(100, 300, 10, 10);
+
+</script>
+
+</html>
