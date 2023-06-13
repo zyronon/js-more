@@ -19,7 +19,7 @@
 
         .wrapper {
             width: 50vw;
-            height: 100vh;
+            height: 70vh;
         }
 
         #panorama {
@@ -270,11 +270,6 @@
     }
   }
 
-  function toXiaochengxu() {
-    wx.miniProgram.navigateTo({
-      url: "/pages/index/index",
-    });
-  }
 
   const viewer = pannellum.viewer("panorama", {
     default: {
@@ -336,15 +331,6 @@
             pitch: -26,
             cssClass: "test",
             clickHandlerFunc: clickTestBtn,
-            scale: true,
-            // image: "./images/hot.png",
-          },
-          {
-            yaw: 10,
-            pitch: 15,
-            roll: -10,
-            cssClass: "xiaochengxu",
-            clickHandlerFunc: toXiaochengxu,
             scale: true,
             // image: "./images/hot.png",
           },
