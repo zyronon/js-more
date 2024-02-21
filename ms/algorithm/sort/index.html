@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body></body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+</head>
+<body></body>
 </html>
-<script>
+<script type="module">
+  import randomList from '../data.js'
+
   function cc(v) {
     return console.log(JSON.stringify(v));
   }
-  let originList = Array.from({ length: 20 });
-  originList.map((item, index) => {
-    originList[index] = Math.floor(Math.random() * 100);
-  });
 
-  cc(originList);
+  cc(randomList);
 
   function swap(array, left, right) {
     let rightValue = array[right];
@@ -26,19 +24,17 @@
   }
 
   function bubble() {
-    for (let i = 0; i < originList.length - 1; i++) {
-      for (let j = 0; j < originList.length - 1 - i; j++) {
-        if (originList[j] > originList[j + 1]) {
-          swap(originList, j, j + 1);
+    for (let i = 0; i < randomList.length - 1; i++) {
+      for (let j = 0; j < randomList.length - 1 - i; j++) {
+        if (randomList[j] > randomList[j + 1]) {
+          swap(randomList, j, j + 1);
         }
       }
     }
   }
+
   // bubble();
 
-  function a() {
-      
-  }
 
-  cc(originList);
+  cc(randomList);
 </script>
