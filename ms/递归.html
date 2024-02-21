@@ -233,10 +233,10 @@
 
   // con(r)
 
-  let randomList = [23, 2, 5, 45, 73, 3, 224, 22, 48, 10, 1, 9, 444, 2, 3451, 6723]
+  let list = [23, 2, 5, 45, 73, 3, 224, 22, 48, 10, 1, 9, 444, 2, 3451, 6723]
 
   //简写排序
-  // randomList.sort((a, b) => a - b)
+  // list.sort((a, b) => a - b)
   //不简写排序
   let compareFunction = function (a, b) {
     if (a > b) {
@@ -247,8 +247,8 @@
     }
     return 0
   }
-  // randomList.sort(compareFunction)
-  // randomList.sort()
+  // list.sort(compareFunction)
+  // list.sort()
 
   let count = 0
 
@@ -257,7 +257,7 @@
     //这里减去i,是因为每次循环都会把最大的值落到后面,所以没有必要再比较后面的值
     for (let j = 0; j < randomList.length - i; j++) {
       //这里不减去i,那么就会完整循环(length的平方)次
-      // for (let j = 0; j < randomList.length ; j++) {
+      // for (let j = 0; j < list.length ; j++) {
       count++
       console.log(count)
       if (randomList[j] > randomList[j + 1]) {
