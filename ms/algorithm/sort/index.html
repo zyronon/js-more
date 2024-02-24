@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script type="module">
+  import { list } from "../data.js";
+
+  function cc(v) {
+    return console.log(JSON.stringify(v));
+  }
+
+  cc(list);
+
+  function swap(array, left, right) {
+    let rightValue = array[right];
+    array[right] = array[left];
+    array[left] = rightValue;
+  }
+
+  function bubble() {
+    for (let i = 0; i < list.length - 1; i++) {
+      for (let j = 0; j < list.length - 1 - i; j++) {
+        if (list[j] > list[j + 1]) {
+          swap(list, j, j + 1);
+        }
+      }
+    }
+  }
+
+  function insertSort(arr) {
+    // 默认第一项已排序，从第二项开始遍历
+    for (let i = 1; i < arr.length; i++) {
+      let preIdx = i - 1; // 指针，从有序列表最后一项开始
+      const current = arr[i]; // 当前插入项
+      while (preIdx >= 0 && current < arr[preIdx]) {
+        // 边界限定，最多查找到第一项（preIdx === 0），条件 当前插入项 小于 当前比较到的有序列表项
+        arr[preIdx + 1] = arr[preIdx]; // 当前比较项后移
+        preIdx--; // 指针前移，继续比较
+      }
+      // 插入项大于比较项，current插入到指针后
+      arr[preIdx + 1] = current;
+    }
+    return arr;
+  }
+
+  function selectionSort(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+      let minIdx = i;
+      // 循环查找最小元素
+      for (let j = i + 1; j < arr.length; j++) {
+        if (arr[minIdx] > arr[j]) {
+          minIdx = j; // 记录最小元素下标
+        }
+      }
+      // 若下标不等于i，则找到更小的元素，交换值
+      if (minIdx !== i) {
+        const temp = arr[minIdx];
+        arr[minIdx] = arr[i];
+        arr[i] = temp;
+      }
+    }
+    return arr;
+  }
+
+  function shellSort(arr) {
+    // 设置增量默认为 arr.length / 2, 依次除2
+    for (
+      let gap = Math.floor(arr.length / 2);
+      gap > 0;
+      gap = Math.floor(gap / 2)
+    ) {
+      // 注意此处与示意图有所区别，示意图是按照分组逐项对比，而此处则未明确体现分组，直接逐项对比
+      for (let i = gap; i < arr.length; i += 1) {
+        let preIdx = i - gap; // 初始上一组对应值
+        while (preIdx >= 0 && arr[preIdx + 1] < arr[preIdx]) {
+          // 若当前项小于前一项（同组），则交换值
+          // const temp = arr[preIdx];
+          // arr[preIdx] = arr[preIdx + 1];
+          // arr[preIdx + 1] = temp;
+          [arr[preIdx], arr[preIdx + 1]] = [arr[preIdx + 1], arr[preIdx]];
+          // 每次对比结束将上一项前移（一个增量长度【同组】）
+          preIdx -= gap;
+        }
+      }
+    }
+    return arr;
+  }
+
+  function bubble2() {
+    for (let i = 0; i < list.length - 1; i++) {
+      for (let j = 0; j < list.length - 1 - i; j++) {
+        if (list[j] > list[j + 1]) {
+          let temp = list[j + 1];
+          list[j + 1] = list[j];
+          list[j] = temp;
+        }
+      }
+    }
+  }
+
+  function selectionSort2(list) {
+    for (let i = 0; i < list.length - 1; i++) {
+      let minIndex = i;
+      for (let j = i + 1; j < list.length; j++) {
+        if (list[j] < list[minIndex]) {
+          minIndex = j;
+        }
+      }
+
+      if (minIndex != i) {
+        let temp = list[minIndex];
+        list[minIndex] = list[i];
+        list[i] = temp;
+      }
+    }
+    return list;
+  }
+
+  // selectionSort2(list);
+  // insertSort(list);
+
+  // shellSort(list)
+
+  function quickSort(arr) {
+    if (arr.length < 2) return arr;
+    // 选取中间元素为基准值
+    // const pivotIdx = Math.floor(arr.length / 2);
+    // 基准值其实没有固定规则，这里选择数组第一项
+    const pivotIdx = 0;
+    const pivot = arr.splice(pivotIdx, 1)[0];
+    const left = [],
+      right = [];
+    // 遍历序列，小于基准插入left，否则插入right
+    for (let i = 0; i < arr.length; i++) {
+      const current = arr[i];
+      if (current <= pivot) {
+        left.push(current);
+      } else {
+        right.push(current);
+      }
+    }
+    return [...quickSort(left), pivot, ...quickSort(right)];
+  }
+
+  let s = quickSort(list);
+  cc(s);
+</script>

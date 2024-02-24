@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+      }
+      .imgCanvas {
+        display: none;
+      }
+
+      .content {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* justify-content: center; */
+        /* pointer-events: none; */
+      }
+
+      @keyframes test {
+        0% {
+          transform: scaleX(1) scaleY(1);
+        }
+
+        20% {
+          transform: scaleX(0.9) scaleY(1.1);
+        }
+
+        40% {
+          transform: scaleX(1.1) scaleY(0.9);
+        }
+
+        60% {
+          transform: scaleX(0.9) scaleY(1.1);
+        }
+
+        80% {
+          transform: scaleX(1.1) scaleY(0.9);
+        }
+
+        100% {
+          transform: scaleX(1) scaleY(1);
+        }
+      }
+
+      .try {
+        position: relative;
+        width: 148px;
+        height: 44.03px;
+        border-radius: 12px;
+        background: linear-gradient(
+          266deg,
+          #ff19ba 0%,
+          #ff5035 33%,
+          #e3ff12 72%,
+          #66ff00 97%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        /* Body/B2/Regular */
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 21px;
+        letter-spacing: 0px;
+
+        /* 透明度/Dark/100% */
+        color: #000000;
+      }
+
+      .try::before {
+        content: " ";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-top: 8px solid rgb(242, 157, 37);
+        bottom: -15px;
+      }
+
+      .photos {
+        margin-top: 200px;
+        background: white;
+        border-radius: 20px;
+        padding: 5px;
+        padding-top: 10px;
+        padding-left: 10px;
+        animation: test 0.8s ease-in-out;
+      }
+
+      .photos img {
+        width: 80px;
+        border-radius: 20px;
+      }
+
+      .photos img:first-child {
+        transform: translateY(-40px);
+      }
+
+      .photos img:last-child {
+        position: relative;
+        z-index: 9;
+        background: white;
+        padding: 5px;
+        box-sizing: border-box;
+        margin-left: -40px;
+        margin-top: 40px;
+      }
+
+      .button {
+        position: fixed;
+        width: 295px;
+        height: 48px;
+        border-radius: 16px;
+        opacity: 1;
+
+        /* 自动布局 */
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 0px;
+
+        background: rgb(91, 212, 222);
+      }
+
+      .desc {
+        width: 247px;
+        height: 36px;
+        opacity: 1;
+
+        /* Body/B3/Regular */
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 18px;
+        text-align: center;
+        letter-spacing: 0px;
+
+        /* 透明度/Light/40% */
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .name {
+        font-family: Poppins;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 30px;
+        letter-spacing: 0px;
+
+        /* 透明度/Light/100% */
+        color: #ffffff;
+      }
+
+      .num {
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 18px;
+        letter-spacing: 0px;
+
+        /* 透明度/Light/60% */
+        color: rgba(255, 255, 255, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="button">asdfasd</div>
+    <div id="main"></div>
+  </body>
+  <script>
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    function clone(val) {
+      return JSON.parse(JSON.stringify(val));
+    }
+
+    // console.log(height);
+
+    // 起别名方便后面使用
+    var Engine = Matter.Engine,
+      Render = Matter.Render,
+      Runner = Matter.Runner,
+      Composites = Matter.Composites,
+      Common = Matter.Common,
+      MouseConstraint = Matter.MouseConstraint,
+      Mouse = Matter.Mouse,
+      Composite = Matter.Composite,
+      Bodies = Matter.Bodies;
+
+    let mainCanvas = document.querySelector("#main");
+    // 创建一个物理引擎
+    let engine = Engine.create(),
+      world = engine.world;
+
+    // engine.gravity.y = 9.8; // 设置重力
+    // engine.gravity.y = 0;
+    // engine.gravity.x = -9.8;
+
+    // 创建一个渲染器
+    let render = Render.create({
+      element: mainCanvas,
+      engine: engine,
+      options: {
+        // wireframes: false, // required for images
+        // wireframes: true, // 线框模式
+        width: width,
+        height: height,
+        pixelRatio: 1, // 设置像素比
+        background: "black", // 全局渲染模式时背景色
+        wireframeBackground: "#222", // 线框模式时背景色
+        hasBounds: false,
+        showSleeping: false, // 刚体睡眠状态
+        showDebug: false, // Debug 信息
+        showBroadphase: false, // 粗测阶段
+        showBounds: false, // 刚体的界限
+        showVelocity: false, // 移动刚体时速度
+        showCollisions: false, // 刚体碰撞点
+        showSeparations: false, // 刚体分离
+        showAxes: false, // 刚体轴线
+        showPositions: false, // 刚体位置
+        showAngleIndicator: false, // 刚体转角指示
+        showIds: false, // 显示每个刚体的 ID
+        showVertexNumbers: false, // 刚体顶点数
+        showConvexHulls: false, // 刚体凸包点
+        showInternalEdges: false, // 刚体内部边界
+        showMousePosition: false, // 鼠标约束线
+      },
+    });
+
+    // 运行这个渲染器
+    Render.run(render);
+
+    // 创建一个运行环境，类似于U3D的Update函数
+    var runner = Runner.create();
+
+    // 开始渲染运行
+    Runner.run(runner, engine);
+
+    let rect = {
+      x: width / 2,
+      y: 100,
+      w: 600,
+      h: 500,
+    };
+    rect = {
+      x: 0,
+      y: 0,
+      w: width,
+      h: height,
+    };
+
+    let d = 550;
+
+    var groundBottom = Bodies.rectangle(
+      rect.x,
+      rect.y + rect.h + d / 2,
+      rect.w * 2,
+      d,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: "#cccccc",
+        },
+      }
+    );
+    var groundLeft = Bodies.rectangle(
+      rect.x - d / 2,
+      rect.y + rect.h / 2,
+      d,
+      rect.h,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: "#cccccc",
+        },
+      }
+    );
+    var groundRight = Bodies.rectangle(
+      rect.x + rect.w + d / 2,
+      rect.y + rect.h / 2,
+      d,
+      rect.h,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: "#cccccc",
+        },
+      }
+    );
+    var groundUp = Bodies.rectangle(rect.x, rect.y - d / 2, rect.w * 2, d, {
+      isStatic: true,
+      render: {
+        fillStyle: "#cccccc",
+      },
+    });
+    // 将他们加入到这个物理引擎中
+    Composite.add(engine.world, [
+      groundBottom,
+      groundLeft,
+      groundRight,
+      groundUp,
+    ]);
+
+    // add mouse control
+    var mouse = Mouse.create(render.canvas),
+      mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: 0.2,
+          render: {
+            visible: false,
+          },
+        },
+      });
+
+    Composite.add(engine.world, mouseConstraint);
+
+    // keep the mouse in sync with rendering
+    render.mouse = mouse;
+
+    let count = 11;
+    let face = { x: -1.2, y: 0.9 };
+    let conf = {
+      restitution: 0.8,
+      mass: 4,
+      render: {
+        sprite: {
+          texture: `http://placekitten.com/100/100`,
+        },
+      },
+      chamfer: {
+        radius: 20,
+      },
+    };
+
+    let imgList = [];
+    let r = 190;
+
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        // conf.render.sprite.texture = v.value;
+        let box = Bodies.rectangle(width / 2, 250, r, r, clone(conf));
+
+        // // let box = Bodies.rectangle(width / 2, 200, r, r, conf);
+        face.x = face.x + 0.2;
+        // console.log(face.x);
+        Matter.Body.applyForce(box, box.position, face);
+        Composite.add(engine.world, [box]);
+      }, i * 100);
+      imgList.push(
+        `https://placeholder.smart-tools.cn/${r}x${r}/ff0000%2C128/000%2C255/?text=${i}${i}${i}`
+      );
+    }
+
+    r = 90;
+    let promiseList = [];
+    imgList.map((v) => {
+      let promise = new Promise((resolve) => {
+        let canvas = document.createElement("canvas");
+        canvas.classList = "imgCanvas";
+        document.body.append(canvas);
+        let ctx = canvas.getContext("2d");
+        let img = new Image();
+        img.src = v;
+        img.onload = () => {
+          canvas.width = canvas.height = r;
+          ctx.roundRect(0, 0, r, r, 20);
+          ctx.clip();
+          ctx.drawImage(img, 0, 0, r, r);
+          resolve(canvas.toDataURL());
+          canvas.remove();
+        };
+      });
+      promiseList.push(promise);
+    });
+
+    Promise.allSettled(promiseList).then((res) => {
+      res.map((v, i) => {
+        if (v.status === "fulfilled") {
+        }
+      });
+    });
+
+    function getIos() {
+      let u = window.navigator.userAgent;
+      return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    }
+
+    // engine.gravity.y = 9.8; // 设置重力
+    // engine.gravity.y = -9.8;
+    // engine.gravity.x = -9.8;
+
+    /*
+            setDeviceMotion 添加陀螺仪监控
+                cb devicemotion的事件处理函数
+                errCb 不支持 devicemotion 时的处理回调
+        */
+    function setDeviceMotion(cb, errCb) {
+      if (!window.DeviceMotionEvent) {
+        errCb("设备不支持DeviceMotion");
+        return;
+      }
+      if (typeof DeviceMotionEvent.requestPermission === "function") {
+        // IOS 13
+        DeviceMotionEvent.requestPermission()
+          .then((permissionState) => {
+            if (permissionState === "granted") {
+              window.addEventListener("devicemotion", cb);
+            }
+          })
+          .catch((err) => {
+            errCb("用户未允许权限", err);
+          });
+      } else {
+        // 其他支持加速度检测的系统
+        let timer = setTimeout(function () {
+          errCb("用户未开启权限");
+        }, 1000);
+        window.addEventListener(
+          "devicemotion",
+          (e) => {
+            clearTimeout(timer);
+          },
+          { once: true }
+        );
+        window.addEventListener("devicemotion", cb);
+      }
+    }
+
+    /*
+        throttle 节流函数
+            参数：
+                fn 要节流的函数
+                interval 节流间隔时间
+                start 是否在节流开始时执行 (true在开始时执行，false在结束时执行)
+            返回值：
+                经过节流处理的函数
+    */
+    function throttle(fn, interval = 200, start = true) {
+      if (typeof fn !== "function") {
+        return console.error("请传入一个函数");
+      }
+      let timer = 0;
+      return function (...arg) {
+        let _this = this;
+        if (timer) {
+          return;
+        }
+        start && fn.apply(_this, arg);
+        timer = setTimeout(() => {
+          !start && fn.apply(_this, arg);
+          timer = 0;
+        }, interval);
+      };
+    }
+
+    // engine.gravity.y = y ?? 9.8;
+    let button = document.querySelector(".button");
+    button.addEventListener("click", () => {
+      const maxRange = 60; //当用户的两次加速度差值大于这个幅度，判定用户进行了摇一摇功能
+      const minRange = 10; //当用户的两次加速度差值小于这个幅度，判定用户停止摇动手机
+      let isShake = false; //记录用户是否摇动手机
+      let lastX = 0,
+        lastY = 0,
+        lastZ = 0;
+      function toShake(e) {
+        let motion = e.acceleration;
+        let { x, y, z } = motion;
+        let range =
+          Math.abs(x - lastX) + Math.abs(y - lastY) + Math.abs(z - lastZ);
+        if (range > maxRange) {
+          //用户进行了摇一摇
+          isShake = true;
+        }
+        if (range < minRange && isShake) {
+          // 停止摇一摇
+          alert("摇一摇");
+          isShake = false;
+        }
+        lastX = x;
+        lastY = y;
+        lastZ = z;
+      }
+
+      toShake = throttle(toShake);
+      setDeviceMotion(
+        (e) => {
+          let { x, y } = e.accelerationIncludingGravity;
+          // console.log(e.accelerationIncludingGravity);
+          if (getIos()) {
+            y = -y;
+          } else {
+            x = -x;
+          }
+          engine.gravity.x = x ?? 0;
+          engine.gravity.y = y ?? 9.8;
+          toShake(e)
+        },
+        (errMessage) => {
+          alert(errMessage);
+        }
+      ); // 最后这里一定要注意，在IOS 13.3中必须通过用户操作去获取该权限
+    });
+  </script>
+</html>
