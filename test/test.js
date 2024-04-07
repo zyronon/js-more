@@ -1,20 +1,25 @@
-function findErrorNums(nums) {
-  const n = nums.length;
-  for (const num of nums) {
-    const x = (num - 1) % n;
-    console.log(x);
-    nums[x] += n;
-    console.log(nums);
-  }
-  console.log(nums);
-  const ret = [];
-  for (const [i, num] of nums.entries()) {
-    if (num <= n) {
-      ret.push(i + 1);
-    }
-  }
-  return ret;
+function cc(val) {
+  console.log(JSON.stringify(val));
 }
 
-console.log(findErrorNums([4, 3, 2, 7, 8, 2, 3, 1]));
+var checkPossibility = function (nums) {
+  const n = nums.length;
+  let cnt = 0;
+  for (let i = 0; i < n - 1; ++i) {
+    const x = nums[i],
+      y = nums[i + 1];
+    if (x > y) {
+      cnt++;
+      if (cnt > 1) {
+        return false;
+      }
+      if (i > 0 && y < nums[i - 1]) {
+        nums[i + 1] = x;
+      }
+    }
+  }
+  return true;
+};
+
+console.log(checkPossibility([2, 2, 1, 3, 3]));
 // console.log(findErrorNums([1, 1]));
