@@ -156,11 +156,9 @@
       // 滚轮缩放
       function wheelZoom() {
         container.addEventListener("wheel", function (e) {
-          let ratio = 1.1;
-          // 缩小
-          if (e.deltaY > 0) {
-            ratio = 0.9;
-          }
+          let d = e.deltaY < 0 ? 0.1 : -0.1;
+          const ratio = 1 + d;
+
           const _scale = scale * ratio;
           if (_scale > maxScale) {
             ratio = maxScale / scale;
@@ -175,12 +173,12 @@
           // 目标元素是img说明鼠标在img上，以鼠标位置为缩放中心，否则默认以图片中心点为缩放中心
           if (e.target.tagName === "IMG") {
             const origin = {
-              x: (ratio - 1) * result.width * 0.5,
-              y: (ratio - 1) * result.height * 0.5,
+              x: d * result.width * 0.5,
+              y: d * result.height * 0.5,
             };
             // 计算偏移量
-            x -= (ratio - 1) * (e.clientX - x) - origin.x;
-            y -= (ratio - 1) * (e.clientY - y) - origin.y;
+            x -= d * (e.clientX - x) - origin.x;
+            y -= d * (e.clientY - y) - origin.y;
           }
           image.style.transform =
             "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";

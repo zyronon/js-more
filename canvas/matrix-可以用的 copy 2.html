@@ -26,6 +26,7 @@
       }
 
       img {
+        /* transform-origin: 0 0; */
         max-height: 80vh;
         touch-action: none;
       }
@@ -61,6 +62,8 @@
       let result,
         x,
         y,
+        x1,
+        y1,
         scale = 1,
         minScale = 0.5,
         maxScale = 4,
@@ -74,15 +77,22 @@
           image.naturalWidth,
           image.naturalHeight,
           window.innerWidth,
-          window.innerHeight
+          window.innerHeight * 0.8
         );
-        // image.style.width = result.width + "px";
-        // image.style.height = result.height + "px";
-        // x = (window.innerWidth - result.width) * 0.5;
-        // y = (window.innerHeight - result.height) * 0.5;
+        image.style.width = result.width + "px";
+        image.style.height = result.height + "px";
+        x1 = (window.innerWidth - result.width) * 0.5;
+        y1 = (window.innerHeight - result.height) * 0.5;
         x = 0;
         y = 0;
-        // image.style.transform ="translate3d(" + x + "px, " + y + "px, 0) scale(1)";
+        console.log(
+          "result",
+          result,
+          x1,
+          y1
+        );
+        image.style.transform =
+          "translate3d(" + x + "px, " + y + "px, 0) scale(1)";
         // 拖拽查看
         drag();
         // 滚轮缩放
@@ -161,8 +171,13 @@
       }
       // 滚轮缩放
       function wheelZoom() {
+        let c = 0;
         container.addEventListener("wheel", function (e) {
-          const ratio = 1 + (e.deltaY < 0 ? 0.1 : -0.1);
+          // if (c === 1) return;
+          c++;
+          console.log(e);
+          let d = e.deltaY < 0 ? 0.1 : -0.1;
+          const ratio = 1 + d;
 
           const _scale = scale * ratio;
           if (_scale > maxScale) {
@@ -174,16 +189,29 @@
           } else {
             scale = _scale;
           }
-          console.log("r", ratio, "s", scale);
           // 目标元素是img说明鼠标在img上，以鼠标位置为缩放中心，否则默认以图片中心点为缩放中心
           if (e.target.tagName === "IMG") {
             const origin = {
-              x: (ratio - 1) * result.width * 0.5,
-              y: (ratio - 1) * result.height * 0.5,
+              x: (d * result.width) / 2,
+              y: (d * result.height) / 2,
             };
+            console.log(
+              "r",
+              ratio,
+              "s",
+              scale,
+              "o",
+              origin,
+              e.clientX,
+              e.clientY
+            );
+            e.clientX = 846;
+            e.clientY = 209;
             // 计算偏移量
-            x -= (ratio - 1) * (e.clientX - x) - origin.x;
-            y -= (ratio - 1) * (e.clientY - y) - origin.y;
+            x -= d * (e.clientX - x1) - origin.x;
+            y -= d * (e.clientY - y1) - origin.y;
+            // x1 += x;
+            // y1 += y;
           }
           image.style.transform =
             "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
