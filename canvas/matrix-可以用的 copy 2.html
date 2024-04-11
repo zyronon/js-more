@@ -160,9 +160,8 @@
 
       function wheel(e) {
         let d = e.deltaY < 0 ? 0.1 : -0.1;
-        let ratio = 1 + d;
 
-        let temp_scale = state.scale * ratio;
+        let temp_scale = state.scale * 1 + d;
         if (temp_scale > state.maxScale) return
         if (temp_scale < state.minScale) return
         state.scale = temp_scale
