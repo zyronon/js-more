@@ -7,22 +7,21 @@
       name="viewport"
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
   />
-  <title>wheelZoom</title>
-  <link rel="icon" type="image/x-icon" href="../images/favicon.ico"/>
+  <title>放大图片</title>
   <style>
-      * {
+      html, body {
           margin: 0;
           padding: 0;
+          overflow: hidden;
       }
 
-      .container {
+      .wrapper {
           width: 100vw;
           height: 100vh;
           display: flex;
           justify-content: center;
           align-items: center;
           background: #000;
-          overflow: hidden;
       }
 
       img {
@@ -31,7 +30,7 @@
           touch-action: none;
       }
 
-      .log {
+      .stats {
           position: fixed;
           top: 0;
           left: 0;
@@ -48,171 +47,174 @@
 </head>
 
 <body>
-<div class="container">
-  <img id="image" alt=""/>
+<div id="app">
+  <div class="wrapper" @wheel="wheel">
+    <img id="image" ref="imgEl"
+         @load="load"
+         @pointerdown="pointerdown"
+         @pointermove="pointermove"
+         @pointerup="pointerup"
+         alt=""
+         src="https://images.pexels.com/photos/459203/pexels-photo-459203.jpeg"/>
+  </div>
+  <div class="stats"></div>
 </div>
+</body>
+<script type="module">
+  import {createApp, ref, reactive, onMounted} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 
-<script>
-  // 获取dom
-  const container = document.querySelector(".container");
-  const image = document.getElementById("image");
-  // 全局变量
-  let result,
-    x,
-    y,
-    x1,
-    y1,
-    scale = 1,
-    minScale = 0.2,
-    maxScale = 16,
-    isPointerdown = false, // 按下标识
-    diff = {x: 0, y: 0}, // 相对于上一次pointermove移动差值
-    lastPointermove = {x: 0, y: 0}; // 用于计算diff
-  let center = {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2
-  }
+  createApp({
+    setup() {
+      onMounted(() => {
+        return
+        // 获取dom
+        const container = document.querySelector(".container");
+        const image = document.getElementById("image");
+        // 全局变量
+        let result,
+          x = 0,
+          y = 0,
+          scale = 1,
+          minScale = 0.2,
+          maxScale = 16,
+          isPointerdown = false, // 按下标识
+          lastPointermove = {x: 0, y: 0}; // 用于计算diff
 
-  // 图片加载完成后再绑定事件
-  image.addEventListener("load", function () {
-    result = getImgSize(
-      image.naturalWidth,
-      image.naturalHeight,
-      window.innerWidth,
-      window.innerHeight * 0.8
-    );
-    image.style.width = result.width + "px";
-    image.style.height = result.height + "px";
-    x1 = (window.innerWidth - result.width) * 0.5;
-    y1 = (window.innerHeight - result.height) * 0.5;
-    x = 0;
-    y = 0;
+        // 图片加载完成后再绑定事件
+        image.addEventListener("load", function () {
+          result = image.getBoundingClientRect()
+          // 拖拽查看
+          drag();
+          // 滚轮缩放
+          wheelZoom();
+        });
 
-    console.log('center', center, 'scale', scale)
-    image.style.transform =
-      "translate3d(" + x + "px, " + y + "px, 0) scale(1)";
-    // 拖拽查看
-    drag();
-    // 滚轮缩放
-    wheelZoom();
-  });
-  image.src = "./a.jpg";
+        // 拖拽查看
+        function drag() {
+          // 绑定 pointerdown
+          image.addEventListener("pointerdown", function (e) {
+            isPointerdown = true;
+            lastPointermove = {x: e.clientX, y: e.clientY};
+          });
+          // 绑定 pointermove
+          image.addEventListener("pointermove", function (e) {
+            if (isPointerdown) {
+              const current = {x: e.clientX, y: e.clientY};
+              x += current.x - lastPointermove.x;
+              y += current.y - lastPointermove.y;
+              lastPointermove = current;
+              image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
+            }
+            e.preventDefault();
+          });
+          // 绑定 pointerup
+          image.addEventListener("pointerup", function (e) {
+            if (isPointerdown) {
+              isPointerdown = false;
+            }
+          });
+        }
 
-  /**
-   * 获取图片缩放尺寸
-   * @param {number} naturalWidth
-   * @param {number} naturalHeight
-   * @param {number} maxWidth
-   * @param {number} maxHeight
-   * @returns
-   */
-  function getImgSize(naturalWidth, naturalHeight, maxWidth, maxHeight) {
-    const imgRatio = naturalWidth / naturalHeight;
-    const maxRatio = maxWidth / maxHeight;
-    let width, height;
-    // 如果图片实际宽高比例 >= 显示宽高比例
-    if (imgRatio >= maxRatio) {
-      if (naturalWidth > maxWidth) {
-        width = maxWidth;
-        height = (maxWidth / naturalWidth) * naturalHeight;
-      } else {
-        width = naturalWidth;
-        height = naturalHeight;
+        // 滚轮缩放
+        function wheelZoom() {
+          container.addEventListener("wheel", function (e) {
+            let d = e.deltaY < 0 ? 0.1 : -0.1;
+            let ratio = 1 + d;
+
+            let temp_scale = scale * ratio;
+            if (temp_scale > maxScale) return
+            if (temp_scale < minScale) return
+            scale = temp_scale
+
+            if (e.target.tagName === "IMG") {
+              const origin = {
+                x: (d * result.width) / 2,
+                y: (d * result.height) / 2,
+              };
+              // 计算偏移量
+              x -= d * (e.clientX - result.x - x) - origin.x;
+              y -= d * (e.clientY - result.y - y) - origin.y;
+            }
+            image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
+            e.preventDefault();
+          });
+        }
+      })
+
+      let imgEl = ref()
+      let state = reactive({
+        x: 0,
+        y: 0,
+        scale: 1,
+        minScale: 0.2,
+        maxScale: 16,
+        isPointerdown: false, // 按下标识
+        lastPointermove: {x: 0, y: 0} // 用于计算diff
+      })
+      let imgRect = reactive({
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0
+      })
+
+      function wheel(e) {
+        let d = e.deltaY < 0 ? 0.1 : -0.1;
+        let ratio = 1 + d;
+
+        let temp_scale = state.scale * ratio;
+        if (temp_scale > state.maxScale) return
+        if (temp_scale < state.minScale) return
+        state.scale = temp_scale
+
+        if (e.target.tagName === "IMG") {
+          const origin = {
+            x: (d * imgRect.width) / 2,
+            y: (d * imgRect.height) / 2,
+          };
+          // 计算偏移量
+          state.x -= d * (e.clientX - imgRect.x - state.x) - origin.x;
+          state.y -= d * (e.clientY - imgRect.y - state.y) - origin.y;
+        }
+        imgEl.value.style.transform = "translate3d(" + state.x + "px, " + state.y + "px, 0) scale(" + state.scale + ")";
       }
-    } else {
-      if (naturalHeight > maxHeight) {
-        width = (maxHeight / naturalHeight) * naturalWidth;
-        height = maxHeight;
-      } else {
-        width = naturalWidth;
-        height = naturalHeight;
+
+      function pointerdown(e) {
+        state.isPointerdown = true;
+        state.lastPointermove = {x: e.clientX, y: e.clientY};
+      }
+
+      function pointermove(e) {
+        if (state.isPointerdown) {
+          const current = {x: e.clientX, y: e.clientY};
+          state.x += current.x - state.lastPointermove.x;
+          state.y += current.y - state.lastPointermove.y;
+          state.lastPointermove = current;
+          imgEl.value.style.transform = "translate3d(" + state.x + "px, " + state.y + "px, 0) scale(" + state.scale + ")";
+        }
+        e.preventDefault();
+      }
+
+      function pointerup() {
+        if (state.isPointerdown) {
+          state.isPointerdown = false;
+        }
+      }
+
+      function load() {
+        imgRect = imgEl.value.getBoundingClientRect()
+      }
+
+      return {
+        imgEl,
+        load,
+        pointerdown,
+        pointermove,
+        pointerup,
+        wheel,
       }
     }
-    return {width: width, height: height};
-  }
-
-  // 拖拽查看
-  function drag() {
-    // 绑定 pointerdown
-    image.addEventListener("pointerdown", function (e) {
-      isPointerdown = true;
-      image.setPointerCapture(e.pointerId);
-      lastPointermove = {x: e.clientX, y: e.clientY};
-    });
-    // 绑定 pointermove
-    image.addEventListener("pointermove", function (e) {
-      if (isPointerdown) {
-        const current = {x: e.clientX, y: e.clientY};
-        diff.x = current.x - lastPointermove.x;
-        diff.y = current.y - lastPointermove.y;
-        lastPointermove = {x: current.x, y: current.y};
-        x += diff.x;
-        y += diff.y;
-        image.style.transform =
-          "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
-      }
-      e.preventDefault();
-    });
-    // 绑定 pointerup
-    image.addEventListener("pointerup", function (e) {
-      if (isPointerdown) {
-        isPointerdown = false;
-      }
-    });
-    // 绑定 pointercancel
-    image.addEventListener("pointercancel", function (e) {
-      if (isPointerdown) {
-        isPointerdown = false;
-      }
-    });
-  }
-
-  // 滚轮缩放
-  function wheelZoom() {
-    let c = 0;
-    container.addEventListener("wheel", function (e) {
-      // if (c === 1) return;
-      c++;
-      let d = e.deltaY < 0 ? 0.1 : -0.1;
-      let ratio = 1 + d;
-
-      scale = scale * ratio;
-      if (scale > maxScale) {
-        scale = maxScale;
-      } else if (scale < minScale) {
-        scale = minScale;
-      }
-      if (e.target.tagName === "IMG") {
-        let {clientX, clientY} = e;
-        // console.log('clientX',clientX)
-        // console.log('clientY',clientY)
-        clientX = window.innerWidth / 2;
-        // clientY = window.innerHeight / 2;
-        clientY = 222
-
-        const origin = {
-          x: (d * result.width) / 2,
-          y: (d * result.height) / 2,
-        };
-
-        console.log('origin', origin)
-        // x -= d * (clientX - center.x) - origin.x;
-        // y -= d * (clientY - center.y) - origin.y;
-        x -= d * (clientX - center.x);
-        y -= d * (clientY - center.y);
-
-        let origin2 = `${e.offsetX}px ${e.offsetY}px`
-
-        console.log('x', x, 'y', y,);
-        console.log('center', center, 'scale', scale)
-        // changeStyle(cloneEl, ['transition: all .15s', `transform-origin: ${origin2}`, `transform: translate(${offset.left + 'px'}, ${offset.top + 'px'}) scale(${scale})`])
-        image.style['transform-origin'] = origin2
-        image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
-      }
-      // image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
-      e.preventDefault();
-    });
-  }
+  }).mount('#app')
 </script>
-</body>
+
 </html>
