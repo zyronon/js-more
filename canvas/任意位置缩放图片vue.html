@@ -61,86 +61,10 @@
 </div>
 </body>
 <script type="module">
-  import {createApp, ref, reactive, onMounted} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+  import {createApp, ref, reactive, onMounted} from 'https://lib.baomitu.com/vue/3.4.21/vue.esm-browser.js';
 
   createApp({
     setup() {
-      onMounted(() => {
-        return
-        // 获取dom
-        const container = document.querySelector(".container");
-        const image = document.getElementById("image");
-        // 全局变量
-        let result,
-          x = 0,
-          y = 0,
-          scale = 1,
-          minScale = 0.2,
-          maxScale = 16,
-          isPointerdown = false, // 按下标识
-          lastPointermove = {x: 0, y: 0}; // 用于计算diff
-
-        // 图片加载完成后再绑定事件
-        image.addEventListener("load", function () {
-          result = image.getBoundingClientRect()
-          // 拖拽查看
-          drag();
-          // 滚轮缩放
-          wheelZoom();
-        });
-
-        // 拖拽查看
-        function drag() {
-          // 绑定 pointerdown
-          image.addEventListener("pointerdown", function (e) {
-            isPointerdown = true;
-            lastPointermove = {x: e.clientX, y: e.clientY};
-          });
-          // 绑定 pointermove
-          image.addEventListener("pointermove", function (e) {
-            if (isPointerdown) {
-              const current = {x: e.clientX, y: e.clientY};
-              x += current.x - lastPointermove.x;
-              y += current.y - lastPointermove.y;
-              lastPointermove = current;
-              image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
-            }
-            e.preventDefault();
-          });
-          // 绑定 pointerup
-          image.addEventListener("pointerup", function (e) {
-            if (isPointerdown) {
-              isPointerdown = false;
-            }
-          });
-        }
-
-        // 滚轮缩放
-        function wheelZoom() {
-          container.addEventListener("wheel", function (e) {
-            let d = e.deltaY < 0 ? 0.1 : -0.1;
-            let ratio = 1 + d;
-
-            let temp_scale = scale * ratio;
-            if (temp_scale > maxScale) return
-            if (temp_scale < minScale) return
-            scale = temp_scale
-
-            if (e.target.tagName === "IMG") {
-              const origin = {
-                x: (d * result.width) / 2,
-                y: (d * result.height) / 2,
-              };
-              // 计算偏移量
-              x -= d * (e.clientX - result.x - x) - origin.x;
-              y -= d * (e.clientY - result.y - y) - origin.y;
-            }
-            image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
-            e.preventDefault();
-          });
-        }
-      })
-
       let imgEl = ref()
       let state = reactive({
         x: 0,
@@ -174,6 +98,8 @@
           // 计算偏移量
           state.x -= d * (e.clientX - imgRect.x - state.x) - origin.x;
           state.y -= d * (e.clientY - imgRect.y - state.y) - origin.y;
+          // x -= d * ((e.clientX - rect.x) / 2 - x);
+          // y -= d * ((e.clientY - rect.y) / 2 - y);
         }
         imgEl.value.style.transform = "translate3d(" + state.x + "px, " + state.y + "px, 0) scale(" + state.scale + ")";
       }

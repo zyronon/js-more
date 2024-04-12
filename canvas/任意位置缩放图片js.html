@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+  />
+  <title>放大图片</title>
+  <style>
+      html, body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+      }
+
+      .wrapper {
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #000;
+      }
+
+      img {
+          /*transform-origin: 0 0;*/
+          max-height: 80vh;
+          touch-action: none;
+      }
+
+      .stats {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 99;
+          padding: 5px;
+          color: #fff;
+          font-size: 12px;
+          line-height: 18px;
+          pointer-events: none;
+      }
+  </style>
+</head>
+
+<body>
+<div class="wrapper">
+  <img id="image"
+       src="https://images.pexels.com/photos/459203/pexels-photo-459203.jpeg"/>
+</div>
+</body>
+<script>
+
+  // 获取dom
+  const wrapper = document.querySelector(".wrapper");
+  const image = document.getElementById("image");
+  // 全局变量
+  let rect,
+    x = 0,
+    y = 0,
+    scale = 1,
+    minScale = 0.2,
+    maxScale = 16,
+    isPointerdown = false, // 按下标识
+    lastPointermove = {x: 0, y: 0}; // 用于计算diff
+
+  // 图片加载完成后再绑定事件
+  image.addEventListener("load", function () {
+    rect = image.getBoundingClientRect()
+    // 拖拽查看
+    drag();
+    // 滚轮缩放
+    wheelZoom();
+  });
+
+  // 拖拽查看
+  function drag() {
+    // 绑定 pointerdown
+    image.addEventListener("pointerdown", function (e) {
+      isPointerdown = true;
+      lastPointermove = {x: e.clientX, y: e.clientY};
+    });
+    // 绑定 pointermove
+    image.addEventListener("pointermove", function (e) {
+      if (isPointerdown) {
+        const current = {x: e.clientX, y: e.clientY};
+        x += current.x - lastPointermove.x;
+        y += current.y - lastPointermove.y;
+        lastPointermove = current;
+        image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
+      }
+      e.preventDefault();
+    });
+    // 绑定 pointerup
+    image.addEventListener("pointerup", function (e) {
+      if (isPointerdown) {
+        isPointerdown = false;
+      }
+    });
+  }
+
+  // 滚轮缩放
+  function wheelZoom() {
+    wrapper.addEventListener("wheel", function (e) {
+      let d = e.deltaY < 0 ? 0.1 : -0.1;
+      let ratio = 1 + d;
+
+      let temp_scale = scale * ratio;
+      if (temp_scale > maxScale) return
+      if (temp_scale < minScale) return
+      scale = temp_scale
+
+      if (e.target.tagName === "IMG") {
+        const max = {
+          x: (d * rect.width) / 2,
+          y: (d * rect.height) / 2,
+        };
+        const mouseOffset = {
+          x: e.clientX - rect.x,
+          y: e.clientY - rect.y
+        }
+        // 计算每次的偏移量
+        x -= d * (mouseOffset.x - x) - max.x;
+        y -= d * (mouseOffset.y - y) - max.y;
+        image.style.transform = "translate3d(" + x + "px, " + y + "px, 0) scale(" + scale + ")";
+      }
+      e.preventDefault();
+    });
+  }
+</script>
+
+</html>
