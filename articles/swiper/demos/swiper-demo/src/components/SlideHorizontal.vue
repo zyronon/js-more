@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import {onMounted, onUnmounted, reactive, ref, watch} from 'vue'
 import GM from '../utils/util.js'
 import {
@@ -77,11 +77,11 @@ onUnmounted(() => {
   ob.disconnect()
 })
 
-function touchStart(e: PointerEvent) {
+function touchStart(e) {
   slideTouchStart(e, wrapperEl.value, state)
 }
 
-function touchMove(e: PointerEvent) {
+function touchMove(e) {
   slideTouchMove(
       e,
       wrapperEl.value,
@@ -95,13 +95,13 @@ function touchMove(e: PointerEvent) {
   )
 }
 
-function touchEnd(e: PointerEvent) {
+function touchEnd(e) {
   slideTouchEnd(e, state, canNext, () => {
   })
   slideReset(wrapperEl.value, state, SlideType.HORIZONTAL, emit)
 }
 
-function canNext(isNext: boolean) {
+function canNext(isNext) {
   return !(
       (state.localIndex === 0 && !isNext) ||
       (state.localIndex === state.wrapper.childrenLength - 1 && isNext)
