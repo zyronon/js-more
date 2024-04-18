@@ -2,7 +2,7 @@
 import {onMounted, onUnmounted, reactive, ref, watch} from 'vue'
 import GM from '../utils/util.js'
 import {
-  getSlideDistance,
+  getSlideOffset,
   slideInit,
   slideReset,
   slidePointerUp,
@@ -37,13 +37,18 @@ let ob = null
 const judgeValue = 20
 const wrapperEl = ref(null)
 const state = reactive({
+  judgeValue:20,
   name: props.name,
   localIndex: props.index,
   needCheck: true,
   next: false,
   start: {x: 0, y: 0, time: 0},
   move: {x: 0, y: 0},
-  wrapper: {width: 0, height: 0, childrenLength: 0},
+  wrapper: {
+    width: 0,
+    height: 0,
+    childrenLength: 0
+  },
   isDown: false
 })
 
@@ -58,7 +63,7 @@ watch(
         GM.$setCss(
             wrapperEl.value,
             'transform',
-            `translate3d(${getSlideDistance(state, SlideType.HORIZONTAL, wrapperEl.value)}px, 0, 0)`
+            `translate3d(${getSlideOffset(state, SlideType.HORIZONTAL, wrapperEl.value)}px, 0, 0)`
         )
       }
     }
@@ -67,6 +72,8 @@ watch(
 onMounted(() => {
   slideInit(wrapperEl.value, state, SlideType.HORIZONTAL)
 
+  //观察子元素数量变动，获取最新数量
+  //childrenLength用于canNext方法判断当前页是否是最后一页，是则不能滑动，不捕获事件
   ob = new MutationObserver(() => {
     state.wrapper.childrenLength = wrapperEl.value.children.length
   })
@@ -107,6 +114,10 @@ function canNext(isNext) {
       (state.localIndex === state.wrapper.childrenLength - 1 && isNext)
   )
 }
+
+function pointerLeave(e) {
+  pointerUp(e)
+}
 </script>
 
 <template>
@@ -117,6 +128,7 @@ function canNext(isNext) {
         @pointerdown="pointerDown"
         @pointermove="pointerMove"
         @pointerup="pointerUp"
+        @pointerleave="pointerLeave"
     >
       <slot></slot>
     </div>

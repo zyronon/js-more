@@ -5,39 +5,50 @@ import SlideItem from "./components/SlideItem.vue";
 
 <template>
   <div class="app-page">
-    <SlideHorizontal class="content">
-      <SlideItem>
-        <div class="page" style="background: red">
-          <div v-for="i in 10">slide1</div>
+    <SlideHorizontal
+        name="父"
+        class="content">
+      <SlideItem style="width: 70%;">
+        <div class="page" style="background: gainsboro">
+          <div v-for="i in 5">父slide</div>
+          <div v-for="i in 5">第一页</div>
+          <div v-for="i in 5">宽度只有70%</div>
         </div>
       </SlideItem>
       <SlideItem>
-        <SlideHorizontal class="content">
+        <SlideHorizontal
+            name="子"
+            class="content">
           <SlideItem>
             <div class="page" style="background: red">
-              <div v-for="i in 10">子slide-1</div>
+              <div v-for="i in 5">子slide</div>
+              <div v-for="i in 5">第一页</div>
             </div>
           </SlideItem>
           <SlideItem>
             <div class="page" style="background: orange">
-              <div v-for="i in 10">子slide-2</div>
+              <div v-for="i in 5">子slide</div>
+              <div v-for="i in 5">第二页</div>
             </div>
           </SlideItem>
           <SlideItem>
             <div class="page" style="background: yellow">
-              <div v-for="i in 10">子slide-3</div>
+              <div v-for="i in 5">子slide</div>
+              <div v-for="i in 5">第三页</div>
             </div>
           </SlideItem>
           <SlideItem>
             <div class="page" style="background: green">
-              <div v-for="i in 10">子slide-4</div>
+              <div v-for="i in 5">子slide</div>
+              <div v-for="i in 5">第四页</div>
             </div>
           </SlideItem>
         </SlideHorizontal>
       </SlideItem>
       <SlideItem>
         <div class="page" style="background: yellow">
-          <div v-for="i in 10">slide2</div>
+          <div v-for="i in 5">父slide</div>
+          <div v-for="i in 5">第三页</div>
         </div>
       </SlideItem>
     </SlideHorizontal>
@@ -47,6 +58,7 @@ import SlideItem from "./components/SlideItem.vue";
 
 <style scoped>
 .app-page {
+  background: black;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -63,5 +75,6 @@ import SlideItem from "./components/SlideItem.vue";
   width: 100%;
   height: 100%;
   background: #f1f1f1;
+  font-size: 20px;
 }
 </style>
