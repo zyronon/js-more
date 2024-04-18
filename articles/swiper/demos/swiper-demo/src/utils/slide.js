@@ -21,7 +21,7 @@ export function slideInit(el, state, type) {
   Utils.$setCss(el, 'transform', `translate3d(${dx1}px, ${dx2}px, 0)`)
 }
 
-export function slideTouchStart(e, el, state) {
+export function slidePointerDown(e, el, state) {
   Utils.$setCss(el, 'transition-duration', `0ms`)
   state.isDown = true
   state.start.x = e.pageX
@@ -47,7 +47,7 @@ export function canSlide(state, judgeValue, type = SlideType.HORIZONTAL) {
 /**
  * @param slideOtherDirectionCb 滑动其他方向时的回调，目前用于图集进于放大模式后，上下滑动推出放大模式
  * */
-export function slideTouchMove(e, el, state, judgeValue, canNextCb, nextCb, type = SlideType.HORIZONTAL, notNextCb, slideOtherDirectionCb = null) {
+export function slidePointerMove(e, el, state, judgeValue, canNextCb, nextCb, type = SlideType.HORIZONTAL, notNextCb, slideOtherDirectionCb = null) {
   if (!state.isDown) {
     return
   }
@@ -87,7 +87,7 @@ export function slideTouchMove(e, el, state, judgeValue, canNextCb, nextCb, type
   }
 }
 
-export function slideTouchEnd(e, state, canNextCb, nextCb, doNotNextCb, type = SlideType.HORIZONTAL) {
+export function slidePointerUp(e, state, canNextCb, nextCb, doNotNextCb, type = SlideType.HORIZONTAL) {
   state.isDown = false
 
   let isHorizontal = type === SlideType.HORIZONTAL

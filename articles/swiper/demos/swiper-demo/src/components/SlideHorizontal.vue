@@ -5,9 +5,9 @@ import {
   getSlideDistance,
   slideInit,
   slideReset,
-  slideTouchEnd,
-  slideTouchMove,
-  slideTouchStart
+  slidePointerUp,
+  slidePointerMove,
+  slidePointerDown
 } from '../utils/slide.js'
 
 const SlideType = {
@@ -77,12 +77,12 @@ onUnmounted(() => {
   ob.disconnect()
 })
 
-function touchStart(e) {
-  slideTouchStart(e, wrapperEl.value, state)
+function pointerDown(e) {
+  slidePointerDown(e, wrapperEl.value, state)
 }
 
-function touchMove(e) {
-  slideTouchMove(
+function pointerMove(e) {
+  slidePointerMove(
       e,
       wrapperEl.value,
       state,
@@ -95,8 +95,8 @@ function touchMove(e) {
   )
 }
 
-function touchEnd(e) {
-  slideTouchEnd(e, state, canNext, () => {
+function pointerUp(e) {
+  slidePointerUp(e, state, canNext, () => {
   })
   slideReset(wrapperEl.value, state, SlideType.HORIZONTAL, emit)
 }
@@ -114,9 +114,9 @@ function canNext(isNext) {
     <div
         class="slide-list"
         ref="wrapperEl"
-        @pointerdown="touchStart"
-        @pointermove="touchMove"
-        @pointerup="touchEnd"
+        @pointerdown="pointerDown"
+        @pointermove="pointerMove"
+        @pointerup="pointerUp"
     >
       <slot></slot>
     </div>

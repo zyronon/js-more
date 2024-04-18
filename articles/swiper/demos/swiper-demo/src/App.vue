@@ -7,24 +7,41 @@ import SlideItem from "./components/SlideItem.vue";
   <div class="app-page">
     <SlideHorizontal class="content">
       <SlideItem>
-        <div class="page" style="background: red"></div>
+        <div class="page" style="background: red">
+          <div v-for="i in 10">slide1</div>
+        </div>
       </SlideItem>
       <SlideItem>
-        <div class="page" style="background: orange"></div>
+        <SlideHorizontal class="content">
+          <SlideItem>
+            <div class="page" style="background: red">
+              <div v-for="i in 10">子slide-1</div>
+            </div>
+          </SlideItem>
+          <SlideItem>
+            <div class="page" style="background: orange">
+              <div v-for="i in 10">子slide-2</div>
+            </div>
+          </SlideItem>
+          <SlideItem>
+            <div class="page" style="background: yellow">
+              <div v-for="i in 10">子slide-3</div>
+            </div>
+          </SlideItem>
+          <SlideItem>
+            <div class="page" style="background: green">
+              <div v-for="i in 10">子slide-4</div>
+            </div>
+          </SlideItem>
+        </SlideHorizontal>
       </SlideItem>
       <SlideItem>
-        <div class="page" style="background: yellow"></div>
-      </SlideItem>
-      <SlideItem>
-        <div class="page" style="background: green"></div>
-      </SlideItem>
-      <SlideItem>
-        <div class="page" style="background: blue"></div>
-      </SlideItem>
-      <SlideItem>
-        <div class="page" style="background: pink"></div>
+        <div class="page" style="background: yellow">
+          <div v-for="i in 10">slide2</div>
+        </div>
       </SlideItem>
     </SlideHorizontal>
+
   </div>
 </template>
 
