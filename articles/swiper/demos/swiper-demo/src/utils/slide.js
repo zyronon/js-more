@@ -1,5 +1,4 @@
 import Utils from './util.js'
-import GM from './util.js'
 import {nextTick} from 'vue'
 
 export const SlideType = {
@@ -9,8 +8,8 @@ export const SlideType = {
 
 //初始化信息，获取slide dom的长宽、子元素数量，用于move事件判断能否滑动
 export function slideInit(el, state) {
-  state.wrapper.width = GM.$getCss(el, 'width')
-  state.wrapper.height = GM.$getCss(el, 'height')
+  state.wrapper.width = Utils.$getCss(el, 'width')
+  state.wrapper.height = Utils.$getCss(el, 'height')
   nextTick(() => {
     state.wrapper.childrenLength = el.children.length
   })

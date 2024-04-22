@@ -13,12 +13,6 @@ html, body {
     overflow: hidden;
 }
 
-.slide-infinite {
-    z-index: 1;
-    margin-top: 0;
-    transition: all 0.3s;
-}
-
 .slide-list {
     height: 100%;
     width: 100%;
