@@ -3,6 +3,7 @@ const Utils = {
     e.stopImmediatePropagation()
     e.stopPropagation()
     e.preventDefault()
+    e.cancelBubble = true
   },
   $getCss(curEle, attr) {
     let val = null,

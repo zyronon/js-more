@@ -1,14 +1,13 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from 'vue'
-import GM from '../utils/util'
+import GM from '../utils/util.js'
 import {
   getSlideOffset,
   slideInit,
   slideReset,
   slidePointerUp,
   slidePointerMove,
-  slidePointerDown,
-  SlideType
+  slidePointerDown, SlideType
 } from '../utils/slide'
 
 const props = defineProps({
@@ -18,23 +17,19 @@ const props = defineProps({
       return 0
     }
   },
+  //改变index，是否使用动画
+  changeActiveIndexUseAnim: {
+    type: Boolean,
+    default: true
+  },
   name: {
     type: String,
-    default: () => 'SlideHorizontal'
-  },
-  autoplay: {
-    type: Boolean,
-    default: () => false
+    default: () => 'SlideVertical'
   },
   indicator: {
     type: Boolean,
     default: () => false
   },
-  //改变index，是否使用动画
-  changeActiveIndexUseAnim: {
-    type: Boolean,
-    default: true
-  }
 })
 const emit = defineEmits(['update:index'])
 
@@ -43,7 +38,7 @@ const wrapperEl = ref(null)
 
 const state = reactive({
   judgeValue: 20,//一个用于判断滑动朝向的固定值
-  type: SlideType.HORIZONTAL,//组件类型
+  type: SlideType.VERTICAL,//组件类型
   name: props.name,
   localIndex: props.index,//当前下标
   needCheck: true,//是否需要检测，每次按下都需要检测，up事件会重置为true
@@ -65,7 +60,7 @@ watch(
         GM.$setCss(
             wrapperEl.value,
             'transform',
-            `translate3d(${getSlideOffset(state, wrapperEl.value)}px, 0, 0)`
+            `translate3d(0,${getSlideOffset(state, wrapperEl.value)}px, 0)`
         )
       }
     }
@@ -73,16 +68,6 @@ watch(
 
 onMounted(() => {
   slideInit(wrapperEl.value, state)
-
-  if (props.autoplay) {
-    setInterval(() => {
-      if (state.localIndex === state.wrapper.childrenLength - 1) {
-        emit('update:index', 0)
-      } else {
-        emit('update:index', state.localIndex + 1)
-      }
-    }, 3000)
-  }
 })
 
 function onPointerDown(e) {
@@ -100,7 +85,7 @@ function onPointerUp(e) {
 </script>
 
 <template>
-  <div class="slide horizontal">
+  <div class="slide vertical">
     <div class="indicator-bullets" v-if="indicator && state.wrapper.childrenLength">
       <div
           class="bullet"
@@ -109,8 +94,10 @@ function onPointerUp(e) {
           v-for="(item, i) in state.wrapper.childrenLength"
       ></div>
     </div>
+
     <div
         class="slide-list"
+        style="flex-direction: column;"
         ref="wrapperEl"
         @pointerdown="onPointerDown"
         @pointermove="onPointerMove"
@@ -121,15 +108,18 @@ function onPointerUp(e) {
   </div>
 </template>
 
+
 <style scoped>
 .indicator-bullets {
   position: absolute;
-  bottom: 10px;
+  right: 10px;
   z-index: 2;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
+  display: inline-flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  top: 50%;
+  transform: translateY(-50%);
   gap: 10px;
 }
 
@@ -144,3 +134,4 @@ function onPointerUp(e) {
   }
 }
 </style>
+
