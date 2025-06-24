@@ -1,206 +1,127 @@
-// ES6 ES2015
-// https://promisesaplus.com/
-const PROMISE_STATUS_PENDING = 'pending'
-const PROMISE_STATUS_FULFILLED = 'fulfilled'
-const PROMISE_STATUS_REJECTED = 'rejected'
-
-// 工具函数
-function execFunctionWithCatchError(execFn, value, resolve, reject) {
-  try {
-    const result = execFn(value)
-    resolve(result)
-  } catch (err) {
-    reject(err)
-  }
+class LinkNode {
+    constructor(val, next) {
+        this.val = val;
+        this.next = next;
+    }
 }
+var MyLinkedList = function () {
+    this.size = 0
+    this.node = null
+};
 
-class MyPromise {
-  constructor(executor) {
-    this.status = PROMISE_STATUS_PENDING
-    this.value = undefined
-    this.reason = undefined
-    this.onFulfilledFns = []
-    this.onRejectedFns = []
 
-    const resolve = (value) => {
-      if (this.status === PROMISE_STATUS_PENDING) {
-        // 添加微任务
-        queueMicrotask(() => {
-          if (this.status !== PROMISE_STATUS_PENDING) return
-          this.status = PROMISE_STATUS_FULFILLED
-          this.value = value
-          this.onFulfilledFns.forEach(fn => {
-            fn(this.value)
-          })
-        });
-      }
+MyLinkedList.prototype.getNode = function (index) {
+    if (index < 0 || index > this.size) return null
+    let cur = new LinkNode(0, this.node);
+    // 0 -> head
+    while (index-- >= 0) {
+        cur = cur.next;
     }
+    return cur;
+};
+/** 
+ * @param {number} index
+ * @return {number}
+ */
+MyLinkedList.prototype.get = function (index) {
+    if (index < 0 || index >= this.size) return -1;
+    return this.getNode(index)?.val
+};
 
-    const reject = (reason) => {
-      if (this.status === PROMISE_STATUS_PENDING) {
-        // 添加微任务
-        queueMicrotask(() => {
-          if (this.status !== PROMISE_STATUS_PENDING) return
-          this.status = PROMISE_STATUS_REJECTED
-          this.reason = reason
-          this.onRejectedFns.forEach(fn => {
-            fn(this.reason)
-          })
-        })
-      }
+/** 
+ * @param {number} val
+ * @return {void}
+ */
+MyLinkedList.prototype.addAtHead = function (val) {
+    this.size++
+    if (this.node) {
+        this.node = { val, next: this.node }
+    } else {
+        this.node = { val, next: null }
     }
+};
 
-    try {
-      executor(resolve, reject)
-    } catch (err) {
-      reject(err)
+/** 
+ * @param {number} val
+ * @return {void}
+ */
+MyLinkedList.prototype.addAtTail = function (val) {
+    if (this.size) {
+        this.size++
+        let cur = this.node
+        while (cur.next) {
+            cur = cur.next
+        }
+        cur.next = new LinkNode(val, null);
+    } else {
+        this.addAtHead(val)
     }
-  }
+};
 
-  then(onFulfilled, onRejected) {
-    const defaultOnRejected = err => {
-      throw err
+/** 
+ * @param {number} index 
+ * @param {number} val
+ * @return {void}
+ */
+MyLinkedList.prototype.addAtIndex = function (index, val) {
+    if (index < 0 || index > this.size) return
+    if (index === 0) {
+        this.addAtHead(val)
+        return
     }
-    onRejected = onRejected || defaultOnRejected
-
-    const defaultOnFulfilled = value => {
-      return value
+    if (index === this.size) {
+        this.addAtTail(val)
+        return
     }
-    onFulfilled = onFulfilled || defaultOnFulfilled
+    const node = this.getNode(index - 1);
+    node.next = new LinkNode(val, node.next);
+    this.size++;
+};
 
-    return new MyPromise((resolve, reject) => {
-      // 1.如果在then调用的时候, 状态已经确定下来
-      if (this.status === PROMISE_STATUS_FULFILLED && onFulfilled) {
-        execFunctionWithCatchError(onFulfilled, this.value, resolve, reject)
-      }
-      if (this.status === PROMISE_STATUS_REJECTED && onRejected) {
-        execFunctionWithCatchError(onRejected, this.reason, resolve, reject)
-      }
-
-      // 2.将成功回调和失败的回调放到数组中
-      if (this.status === PROMISE_STATUS_PENDING) {
-        if (onFulfilled) this.onFulfilledFns.push(() => {
-          execFunctionWithCatchError(onFulfilled, this.value, resolve, reject)
-        })
-        if (onRejected) this.onRejectedFns.push(() => {
-          execFunctionWithCatchError(onRejected, this.reason, resolve, reject)
-        })
-      }
-    })
-  }
-
-  catch(onRejected) {
-    return this.then(undefined, onRejected)
-  }
-
-  finally(onFinally) {
-    this.then(() => {
-      onFinally()
-    }, () => {
-      onFinally()
-    })
-  }
-
-  static resolve(value) {
-    return new MyPromise((resolve) => resolve(value))
-  }
-
-  static reject(reason) {
-    return new MyPromise((resolve, reject) => reject(reason))
-  }
-
-  static all(promises) {
-    // 问题关键: 什么时候要执行resolve, 什么时候要执行reject
-    return new MyPromise((resolve, reject) => {
-      const values = []
-      promises.forEach(promise => {
-        promise.then(res => {
-          values.push(res)
-          if (values.length === promises.length) {
-            resolve(values)
-          }
-        }, err => {
-          reject(err)
-        })
-      })
-    })
-  }
-
-  static allSettled(promises) {
-    return new MyPromise((resolve) => {
-      const results = []
-      promises.forEach(promise => {
-        promise.then(res => {
-          results.push({status: PROMISE_STATUS_FULFILLED, value: res})
-          if (results.length === promises.length) {
-            resolve(results)
-          }
-        }, err => {
-          results.push({status: PROMISE_STATUS_REJECTED, value: err})
-          if (results.length === promises.length) {
-            resolve(results)
-          }
-        })
-      })
-    })
-  }
-
-  static race(promises) {
-    return new MyPromise((resolve, reject) => {
-      promises.forEach(promise => {
-        promise.then(resolve, reject)
-      })
-    })
-  }
-
-  static any(promises) {
-    // resolve必须等到有一个成功的结果
-    // reject所有的都失败才执行reject
-    const reasons = []
-    return new MyPromise((resolve, reject) => {
-      promises.forEach(promise => {
-        promise.then(resolve, err => {
-          reasons.push(err)
-          if (reasons.length === promises.length) {
-            reject(new AggregateError(reasons))
-          }
-        })
-      })
-    })
-  }
-}
+/** 
+ * @param {number} index
+ * @return {void}
+ */
+MyLinkedList.prototype.deleteAtIndex = function (index) {
+    if (index < 0 || index >= this.size || this.size === 0) return
+    if (index === 0) {
+        this.node = this.node.next
+        this.size--;
+        return
+    }
+    const node = this.getNode(index - 1);
+    node.next = node.next.next
+    this.size--;
+};
 
 
-//module.exports = MyPromise 导出模块用于后续测试
 
-// Promise.resolve().then(() => {
-//   console.log(0);
-//   return Promise.resolve(4);
-// }).then((res) => {
-//   console.log(res)
-// })
+/** 
+ * Your MyLinkedList object will be instantiated and called as such:
+ * var obj = new MyLinkedList()
+ * var param_1 = obj.get(index)
+ * obj.addAtHead(val)
+ * obj.addAtTail(val)
+ * obj.addAtIndex(index,val)
+ * obj.deleteAtIndex(index)
+ */
 
-let promise = new MyPromise((resolve, reject) => {
-  resolve(0)
-})
-promise.then(() => {
-  console.log(1);
-  // return 22
-  throw new Error("err message")
+let obj = new MyLinkedList()
+obj.addAtHead(2)
+obj.deleteAtIndex(1)
+obj.addAtHead(2)
+obj.addAtHead(7)
+obj.addAtHead(3)
+obj.addAtHead(2)
+obj.addAtHead(5)
+obj.addAtTail(5)
+obj.get(5)
+obj.deleteAtIndex(6) 
+obj.deleteAtIndex(4)  
 
-}, err => {
-  console.log('err1 message', err)
-}).then((r) => {
-  console.log(2, r);
-}, err => {
-  console.log('err2 message', err)
-}).then(() => {
-  console.log(3);
-}).then(() => {
-  console.log(5);
-}).then(() => {
-  console.log(6);
-})
-// .catch(err => {
-// console.log('catch1', err);
-// })
+
+console.time()
+console.timeEnd()
+
+
+
