@@ -1,15 +1,14 @@
-let arr = [3, 4, 5, 1, 2]
-
-function sort(arr) {
-  let cen = 0
-  let left = 0, right = arr.length
-  while (left < right) {
-    cen = Math.ceil(right - left)
-
-
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+var reverseString = function (s) {
+  let i = 0, j = s.length - 1;
+  while (i < j) {
+    [s[j], s[i]] = [s[i], s[j]];
+    i++
+    j--
   }
-
-}
-
-console.log(Math.)
-console.log(sort(arr))
+  return s
+};
+console.log(reverseString(["h", "e", "l", "l", "o"]))
